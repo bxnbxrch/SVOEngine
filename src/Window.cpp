@@ -1,4 +1,5 @@
 #include "vox/Window.h"
+#include "imgui_impl_sdl2.h"
 #include <iostream>
 
 namespace vox {
@@ -37,16 +38,37 @@ void Window::pollEvents(bool &running) {
 
     SDL_Event ev;
     while (SDL_PollEvent(&ev)) {
+        ImGui_ImplSDL2_ProcessEvent(&ev);
         if (ev.type == SDL_QUIT) running = false;
         if (ev.type == SDL_KEYDOWN && ev.key.keysym.sym == SDLK_ESCAPE) running = false;
 
         if (ev.type == SDL_KEYDOWN) {
             if (ev.key.keysym.sym == SDLK_g) m_gridTogglePressed = true;
+            else if (ev.key.keysym.sym == SDLK_l) m_debugLightingPressed = true;
             else if (ev.key.keysym.sym == SDLK_EQUALS) m_zoomInPressed = true;
             else if (ev.key.keysym.sym == SDLK_MINUS) m_zoomOutPressed = true;
             else if (ev.key.keysym.sym == SDLK_UP) m_heightUpPressed = true;
             else if (ev.key.keysym.sym == SDLK_DOWN) m_heightDownPressed = true;
             else if (ev.key.keysym.sym == SDLK_SPACE) m_pausePressed = true;
+            else if (ev.key.keysym.sym == SDLK_v) m_cameraTogglePressed = true;
+            else if (ev.key.keysym.sym == SDLK_INSERT) m_guiTogglePressed = true;
+            else if (ev.key.keysym.sym == SDLK_w) m_keyW = true;
+            else if (ev.key.keysym.sym == SDLK_a) m_keyA = true;
+            else if (ev.key.keysym.sym == SDLK_s) m_keyS = true;
+            else if (ev.key.keysym.sym == SDLK_d) m_keyD = true;
+            else if (ev.key.keysym.sym == SDLK_q) m_keyQ = true;
+            else if (ev.key.keysym.sym == SDLK_e) m_keyE = true;
+            else if (ev.key.keysym.sym == SDLK_LSHIFT || ev.key.keysym.sym == SDLK_RSHIFT) m_keyShift = true;
+        }
+        
+        if (ev.type == SDL_KEYUP) {
+            if (ev.key.keysym.sym == SDLK_w) m_keyW = false;
+            else if (ev.key.keysym.sym == SDLK_a) m_keyA = false;
+            else if (ev.key.keysym.sym == SDLK_s) m_keyS = false;
+            else if (ev.key.keysym.sym == SDLK_d) m_keyD = false;
+            else if (ev.key.keysym.sym == SDLK_q) m_keyQ = false;
+            else if (ev.key.keysym.sym == SDLK_e) m_keyE = false;
+            else if (ev.key.keysym.sym == SDLK_LSHIFT || ev.key.keysym.sym == SDLK_RSHIFT) m_keyShift = false;
         }
 
         if (ev.type == SDL_MOUSEWHEEL) {
@@ -65,6 +87,12 @@ void Window::pollEvents(bool &running) {
             // accumulate relative movement while dragging
             m_mouseDx += ev.motion.xrel;
             m_mouseDy += ev.motion.yrel;
+        }
+        
+        if (ev.type == SDL_MOUSEMOTION) {
+            // accumulate relative motion for FPS-style controls
+            m_relativeMouseDx += ev.motion.xrel;
+            m_relativeMouseDy += ev.motion.yrel;
         }
 
         if (ev.type == SDL_WINDOWEVENT && ev.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
@@ -85,6 +113,9 @@ bool Window::consumeZoomOut() { bool v = m_zoomOutPressed; m_zoomOutPressed = fa
 bool Window::consumeHeightUp() { bool v = m_heightUpPressed; m_heightUpPressed = false; return v; }
 bool Window::consumeHeightDown() { bool v = m_heightDownPressed; m_heightDownPressed = false; return v; }
 bool Window::consumePauseToggle() { bool v = m_pausePressed; m_pausePressed = false; return v; }
+bool Window::consumeDebugLightingToggle() { bool v = m_debugLightingPressed; m_debugLightingPressed = false; return v; }
+bool Window::consumeCameraToggle() { bool v = m_cameraTogglePressed; m_cameraTogglePressed = false; return v; }
+bool Window::consumeGUIToggle() { bool v = m_guiTogglePressed; m_guiTogglePressed = false; return v; }
 
 bool Window::consumeMouseDrag(int &outDx, int &outDy) {
     outDx = m_mouseDx;
@@ -93,6 +124,19 @@ bool Window::consumeMouseDrag(int &outDx, int &outDy) {
     m_mouseDx = 0;
     m_mouseDy = 0;
     return had;
+}
+
+bool Window::consumeMouseMotion(int &outDx, int &outDy) {
+    outDx = m_relativeMouseDx;
+    outDy = m_relativeMouseDy;
+    bool had = (m_relativeMouseDx != 0 || m_relativeMouseDy != 0);
+    m_relativeMouseDx = 0;
+    m_relativeMouseDy = 0;
+    return had;
+}
+
+void Window::setRelativeMouseMode(bool enabled) {
+    SDL_SetRelativeMouseMode(enabled ? SDL_TRUE : SDL_FALSE);
 }
 
 void Window::getSize(int &w, int &h) const {

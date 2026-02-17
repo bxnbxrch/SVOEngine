@@ -1,5 +1,8 @@
 #include "vox/VulkanRenderer.h"
 #include "vox/SparseVoxelOctree.h"
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_vulkan.h"
 
 namespace vox {
 
@@ -10,21 +13,44 @@ VulkanRenderer::~VulkanRenderer() {
 
     vkDeviceWaitIdle(m_device);
 
+    if (m_imguiInitialized) {
+        ImGui_ImplVulkan_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
+        m_imguiInitialized = false;
+    }
+
     // Compute shader resources
     if (m_rtPipeline != VK_NULL_HANDLE) vkDestroyPipeline(m_device, m_rtPipeline, nullptr);
     if (m_rtPipelineLayout != VK_NULL_HANDLE) vkDestroyPipelineLayout(m_device, m_rtPipelineLayout, nullptr);
     if (m_rtDescPool != VK_NULL_HANDLE) vkDestroyDescriptorPool(m_device, m_rtDescPool, nullptr);
     if (m_rtDescSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(m_device, m_rtDescSetLayout, nullptr);
 
+    if (m_postPipeline != VK_NULL_HANDLE) vkDestroyPipeline(m_device, m_postPipeline, nullptr);
+    if (m_postPipelineLayout != VK_NULL_HANDLE) vkDestroyPipelineLayout(m_device, m_postPipelineLayout, nullptr);
+    if (m_postDescPool != VK_NULL_HANDLE) vkDestroyDescriptorPool(m_device, m_postDescPool, nullptr);
+    if (m_postDescSetLayout != VK_NULL_HANDLE) vkDestroyDescriptorSetLayout(m_device, m_postDescSetLayout, nullptr);
+    if (m_imguiPool != VK_NULL_HANDLE) vkDestroyDescriptorPool(m_device, m_imguiPool, nullptr);
+
     if (m_rtImageView != VK_NULL_HANDLE) vkDestroyImageView(m_device, m_rtImageView, nullptr);
     if (m_rtImage != VK_NULL_HANDLE) vkDestroyImage(m_device, m_rtImage, nullptr);
     if (m_rtImageMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_rtImageMemory, nullptr);
+
+    if (m_postImageView != VK_NULL_HANDLE) vkDestroyImageView(m_device, m_postImageView, nullptr);
+    if (m_postImage != VK_NULL_HANDLE) vkDestroyImage(m_device, m_postImage, nullptr);
+    if (m_postImageMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_postImageMemory, nullptr);
 
     // Octree buffers
     if (m_octreeNodesBuffer != VK_NULL_HANDLE) vkDestroyBuffer(m_device, m_octreeNodesBuffer, nullptr);
     if (m_octreeNodesMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_octreeNodesMemory, nullptr);
     if (m_octreeColorsBuffer != VK_NULL_HANDLE) vkDestroyBuffer(m_device, m_octreeColorsBuffer, nullptr);
     if (m_octreeColorsMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_octreeColorsMemory, nullptr);
+    if (m_emissiveBuffer != VK_NULL_HANDLE) vkDestroyBuffer(m_device, m_emissiveBuffer, nullptr);
+    if (m_emissiveMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_emissiveMemory, nullptr);
+    if (m_spatialGridBuffer != VK_NULL_HANDLE) vkDestroyBuffer(m_device, m_spatialGridBuffer, nullptr);
+    if (m_spatialGridMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_spatialGridMemory, nullptr);
+    if (m_shaderParamsBuffer != VK_NULL_HANDLE) vkDestroyBuffer(m_device, m_shaderParamsBuffer, nullptr);
+    if (m_shaderParamsMemory != VK_NULL_HANDLE) vkFreeMemory(m_device, m_shaderParamsMemory, nullptr);
 
     // RTX resources
     if (m_useRTX) {

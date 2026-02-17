@@ -1,5 +1,6 @@
 #include "vox/VulkanRenderer.h"
 #include "VulkanRendererCommon.h"
+#include "imgui_impl_vulkan.h"
 #include <SDL.h>
 #include <algorithm>
 #include <iostream>
@@ -32,6 +33,21 @@ void VulkanRenderer::recreateSwapchain() {
     if (m_rtImageMemory != VK_NULL_HANDLE) {
         vkFreeMemory(m_device, m_rtImageMemory, nullptr);
         m_rtImageMemory = VK_NULL_HANDLE;
+    }
+
+    if (m_postImageView != VK_NULL_HANDLE) {
+        vkDestroyImageView(m_device, m_postImageView, nullptr);
+        m_postImageView = VK_NULL_HANDLE;
+    }
+
+    if (m_postImage != VK_NULL_HANDLE) {
+        vkDestroyImage(m_device, m_postImage, nullptr);
+        m_postImage = VK_NULL_HANDLE;
+    }
+
+    if (m_postImageMemory != VK_NULL_HANDLE) {
+        vkFreeMemory(m_device, m_postImageMemory, nullptr);
+        m_postImageMemory = VK_NULL_HANDLE;
     }
 
     if (m_swapchain != VK_NULL_HANDLE) {
@@ -125,6 +141,10 @@ void VulkanRenderer::recreateSwapchain() {
     vkAllocateCommandBuffers(m_device, &cbai, m_cmdBuffers.data());
     m_cmdBufferValues.assign(m_cmdBuffers.size(), 0);
 
+    if (m_imguiInitialized) {
+        ImGui_ImplVulkan_SetMinImageCount(static_cast<uint32_t>(m_swapImages.size()));
+    }
+
     // Recreate RT storage image
     {
         VkImageCreateInfo ici{};
@@ -176,7 +196,58 @@ void VulkanRenderer::recreateSwapchain() {
         vkCreateImageView(m_device, &ivci, nullptr, &m_rtImageView);
     }
 
-    // Transition RT image to GENERAL layout
+    // Recreate postprocess image
+    {
+        VkImageCreateInfo ici{};
+        ici.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+        ici.imageType = VK_IMAGE_TYPE_2D;
+        ici.format = VK_FORMAT_B8G8R8A8_SRGB;
+        ici.extent = {m_extent.width, m_extent.height, 1};
+        ici.mipLevels = 1;
+        ici.arrayLayers = 1;
+        ici.samples = VK_SAMPLE_COUNT_1_BIT;
+        ici.tiling = VK_IMAGE_TILING_OPTIMAL;
+        ici.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+        ici.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        ici.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+        vkCreateImage(m_device, &ici, nullptr, &m_postImage);
+
+        VkMemoryRequirements memReq{};
+        vkGetImageMemoryRequirements(m_device, m_postImage, &memReq);
+
+        VkPhysicalDeviceMemoryProperties memProps{};
+        vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProps);
+        auto findMemoryType = [&](uint32_t typeFilter, VkMemoryPropertyFlags props) -> uint32_t {
+            for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
+                if ((typeFilter & (1u << i)) && (memProps.memoryTypes[i].propertyFlags & props) == props) return i;
+            }
+            return 0;
+        };
+
+        VkMemoryAllocateInfo mai{};
+        mai.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        mai.allocationSize = memReq.size;
+        mai.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+        vkAllocateMemory(m_device, &mai, nullptr, &m_postImageMemory);
+        vkBindImageMemory(m_device, m_postImage, m_postImageMemory, 0);
+
+        VkImageViewCreateInfo ivci{};
+        ivci.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        ivci.image = m_postImage;
+        ivci.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        ivci.format = VK_FORMAT_B8G8R8A8_SRGB;
+        ivci.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        ivci.subresourceRange.baseMipLevel = 0;
+        ivci.subresourceRange.levelCount = 1;
+        ivci.subresourceRange.baseArrayLayer = 0;
+        ivci.subresourceRange.layerCount = 1;
+
+        vkCreateImageView(m_device, &ivci, nullptr, &m_postImageView);
+    }
+
+    // Transition RT and post images to GENERAL layout
     {
         VkCommandBufferAllocateInfo cbai{};
         cbai.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -192,25 +263,28 @@ void VulkanRenderer::recreateSwapchain() {
         cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
         vkBeginCommandBuffer(transCmd, &cbbi);
 
-        VkImageMemoryBarrier2 imb{};
-        imb.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
-        imb.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
-        imb.srcAccessMask = 0;
-        imb.dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT;
-        imb.dstAccessMask = VK_ACCESS_2_SHADER_WRITE_BIT;
-        imb.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        imb.newLayout = VK_IMAGE_LAYOUT_GENERAL;
-        imb.image = m_rtImage;
-        imb.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        imb.subresourceRange.baseMipLevel = 0;
-        imb.subresourceRange.levelCount = 1;
-        imb.subresourceRange.baseArrayLayer = 0;
-        imb.subresourceRange.layerCount = 1;
+        VkImageMemoryBarrier2 barriers[2]{};
+        barriers[0].sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+        barriers[0].srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+        barriers[0].srcAccessMask = 0;
+        barriers[0].dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT;
+        barriers[0].dstAccessMask = VK_ACCESS_2_SHADER_WRITE_BIT;
+        barriers[0].oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        barriers[0].newLayout = VK_IMAGE_LAYOUT_GENERAL;
+        barriers[0].image = m_rtImage;
+        barriers[0].subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        barriers[0].subresourceRange.baseMipLevel = 0;
+        barriers[0].subresourceRange.levelCount = 1;
+        barriers[0].subresourceRange.baseArrayLayer = 0;
+        barriers[0].subresourceRange.layerCount = 1;
+
+        barriers[1] = barriers[0];
+        barriers[1].image = m_postImage;
 
         VkDependencyInfo depInfo{};
         depInfo.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
-        depInfo.imageMemoryBarrierCount = 1;
-        depInfo.pImageMemoryBarriers = &imb;
+        depInfo.imageMemoryBarrierCount = 2;
+        depInfo.pImageMemoryBarriers = barriers;
 
         vkCmdPipelineBarrier2(transCmd, &depInfo);
 
@@ -232,19 +306,59 @@ void VulkanRenderer::recreateSwapchain() {
 
     // Update descriptor set with new RT image view
     {
-        VkWriteDescriptorSet write{};
+        VkWriteDescriptorSet writes[2]{};
         VkDescriptorImageInfo imgInfo{};
         imgInfo.imageView = m_rtImageView;
         imgInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
 
-        write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        write.dstSet = m_rtDescSet;
-        write.dstBinding = 0;
-        write.descriptorCount = 1;
-        write.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-        write.pImageInfo = &imgInfo;
+        writes[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[0].dstSet = m_rtDescSet;
+        writes[0].dstBinding = 0;
+        writes[0].descriptorCount = 1;
+        writes[0].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        writes[0].pImageInfo = &imgInfo;
 
-        vkUpdateDescriptorSets(m_device, 1, &write, 0, nullptr);
+        VkDescriptorBufferInfo paramsInfo{};
+        paramsInfo.buffer = m_shaderParamsBuffer;
+        paramsInfo.offset = 0;
+        paramsInfo.range = sizeof(ShaderParamsCPU);
+
+        writes[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[1].dstSet = m_rtDescSet;
+        writes[1].dstBinding = 5;
+        writes[1].descriptorCount = 1;
+        writes[1].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        writes[1].pBufferInfo = &paramsInfo;
+
+        vkUpdateDescriptorSets(m_device, 2, writes, 0, nullptr);
+    }
+
+    // Update postprocess descriptor set with new image views
+    {
+        VkDescriptorImageInfo srcInfo{};
+        srcInfo.imageView = m_rtImageView;
+        srcInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+
+        VkDescriptorImageInfo dstInfo{};
+        dstInfo.imageView = m_postImageView;
+        dstInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+
+        VkWriteDescriptorSet writes[2]{};
+        writes[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[0].dstSet = m_postDescSet;
+        writes[0].dstBinding = 0;
+        writes[0].descriptorCount = 1;
+        writes[0].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        writes[0].pImageInfo = &srcInfo;
+
+        writes[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[1].dstSet = m_postDescSet;
+        writes[1].dstBinding = 1;
+        writes[1].descriptorCount = 1;
+        writes[1].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        writes[1].pImageInfo = &dstInfo;
+
+        vkUpdateDescriptorSets(m_device, 2, writes, 0, nullptr);
     }
 
     std::cout << "Swapchain recreated: " << m_extent.width << "x" << m_extent.height << std::endl;

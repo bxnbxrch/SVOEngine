@@ -3,16 +3,44 @@
 
 layout(binding = 0, set = 0, rgba8) uniform image2D image;
 layout(binding = 3, set = 0) uniform accelerationStructureEXT topLevelAS;
+layout(binding = 4, set = 0, std430) readonly buffer EmissiveBuffer {
+    uvec4 emissiveVoxels[];
+};
+layout(std140, binding = 5, set = 0) uniform ShaderParams {
+    vec4 bgColor;
+    vec4 keyDir;
+    vec4 fillDir;
+    vec4 params0; // ambient, emissiveSelf, emissiveDirect, attenFactor
+    vec4 params1; // attenBias, maxLights, debugMode, ddaEps
+    vec4 params2; // ddaEpsScale, reserved, reserved, reserved
+};
+layout(binding = 6, set = 0, std430) readonly buffer SpatialGrid {
+    uint gridData[];
+};
 
-layout(location = 0) rayPayloadEXT vec3 hitColor;
+struct Payload {
+    vec3 albedo;
+    vec3 normal;
+    vec3 position;
+    float emissive;
+    uint hit;
+};
+
+layout(location = 0) rayPayloadEXT Payload payload;
 
 layout(push_constant) uniform PushConstants {
     float time;
-    uint debugMask;
-    float distance;
-    float yaw;
-    float pitch;
+    uint debugMask; // bit0 = draw grids/subgrids, bit1 = draw root bounds, bit2 = manual control, bit3 = free-fly camera
+    float distance;  // distance from target (orbit mode)
+    float yaw;       // horizontal angle (radians)
+    float pitch;     // vertical angle (radians)
     float fov;
+    float gridSize;
+    uint pad;
+    vec3 cameraPos;  // free-fly camera position
+    float pad2;
+    vec3 cameraDir;  // free-fly camera direction
+    float pad3;
 } pc;
 
 void main() {
@@ -21,38 +49,181 @@ void main() {
     vec2 d = inUV * 2.0 - 1.0;
     d.x *= float(gl_LaunchSizeEXT.x) / float(gl_LaunchSizeEXT.y);
     
-    // Camera setup using spherical coordinates
-    const float GRID_SIZE = 256.0;
-    vec3 target = vec3(GRID_SIZE * 0.5);
+    // Camera setup using spherical coordinates (orbit) or free-fly mode
+    vec3 target = vec3(pc.gridSize * 0.5);
     
-    float cy = cos(pc.yaw);
-    float sy = sin(pc.yaw);
-    float cp = cos(pc.pitch);
-    float sp = sin(pc.pitch);
+    vec3 camPos, forward;
+    bool freeFlyCameraMode = (pc.debugMask & 8u) != 0u;
     
-    vec3 camPos = target + pc.distance * vec3(cy * cp, sp, sy * cp);
-    vec3 forward = normalize(target - camPos);
+    if (freeFlyCameraMode) {
+        // Use free-fly camera from push constants
+        camPos = pc.cameraPos;
+        forward = normalize(pc.cameraDir);
+    } else {
+        // Use orbit camera
+        float cy = cos(pc.yaw);
+        float sy = sin(pc.yaw);
+        float cp = cos(pc.pitch);
+        float sp = sin(pc.pitch);
+        
+        camPos = target + pc.distance * vec3(cy * cp, sp, sy * cp);
+        forward = normalize(target - camPos);
+    }
+    
     vec3 right = normalize(cross(forward, vec3(0.0, 1.0, 0.0)));
     vec3 up = cross(right, forward);
     
     float tanHalfFov = tan(radians(pc.fov) * 0.5);
     vec3 rayDir = normalize(forward + tanHalfFov * (d.x * right + d.y * up));
     
-    // Trace ray
-    hitColor = vec3(0.0);
+    // Early exit: if ray pointing away from SVO and camera outside, skip tracing
+    vec3 svoCenter = vec3(pc.gridSize * 0.5);
+    vec3 toSVO = svoCenter - camPos;
+    float camDist = length(toSVO);
+    if (camDist > pc.gridSize * 2.0 && dot(rayDir, toSVO) < 0.0) {
+        imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(bgColor.bgr, 1.0));
+        return;
+    }
     
-    traceRayEXT(topLevelAS,              // acceleration structure
-                gl_RayFlagsOpaqueEXT,     // ray flags
-                0xFF,                      // cull mask
-                0,                         // sbt record offset
-                0,                         // sbt record stride
-                0,                         // miss index
-                camPos,                    // ray origin
-                0.001,                     // ray min range
-                rayDir,                    // ray direction
-                10000.0,                   // ray max range
-                0);                        // payload location
-    
-    imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(hitColor.bgr, 1.0));
+    const int sampleCount = 1;
+    vec3 radiance = vec3(0.0);
+    vec3 debugLighting = vec3(0.0);
+    vec3 debugNormal = vec3(0.0);
+    vec3 debugAlbedo = vec3(0.0);
+    float debugEmissive = 0.0;
+    bool debugHit = false;
+
+    for (int s = 0; s < sampleCount; ++s) {
+        vec3 throughput = vec3(1.0);
+        vec3 origin = camPos;
+        vec3 dir = rayDir;
+
+        for (int bounce = 0; bounce < 1; ++bounce) {
+            payload.hit = 0u;
+
+            traceRayEXT(topLevelAS,              // acceleration structure
+                        gl_RayFlagsOpaqueEXT,     // ray flags
+                        0xFF,                      // cull mask
+                        0,                         // sbt record offset
+                        0,                         // sbt record stride
+                        0,                         // miss index
+                        origin,                    // ray origin
+                        0.001,                     // ray min range
+                        dir,                       // ray direction
+                        10000.0,                   // ray max range
+                        0);                        // payload location
+
+            if (payload.hit == 0u) {
+                radiance += throughput * vec3(bgColor);
+                break;
+            }
+
+            vec3 albedo = payload.albedo;
+            float emissive = payload.emissive;
+
+            if (bounce == 0) {
+                vec3 keyLight = normalize(keyDir.xyz);
+                vec3 fillLight = normalize(fillDir.xyz);
+                float keyDiffuse = max(dot(payload.normal, keyLight), 0.0);
+                float fillDiffuse = max(dot(payload.normal, fillLight), 0.0);
+                float ambient = params0.x;
+                float lighting = clamp(ambient + keyDiffuse * keyDir.w + fillDiffuse * fillDir.w, 0.0, 1.0);
+                radiance += throughput * albedo * lighting;
+                debugLighting = vec3(lighting);
+                debugNormal = payload.normal;
+                debugAlbedo = albedo;
+                debugEmissive = emissive;
+                debugHit = true;
+
+                // Use spatial light grid for efficient light queries
+                // Cache grid dimensions (read once)
+                uvec3 gridDim = uvec3(gridData[0], gridData[1], gridData[2]);
+                float cellSize = pc.gridSize / float(gridDim.x);
+                
+                // Convert hit position to grid cell
+                ivec3 cellCoord = ivec3(clamp(payload.position / cellSize, vec3(0.0), vec3(gridDim - uvec3(1u))));
+                
+                const float maxLightDist2 = 400.0 * 400.0;
+                uint maxLights = uint(params1.y);
+                uint lightsProcessed = 0u;
+                bool reachedLimit = false;
+                
+                // Track processed lights to avoid duplicates (simple bitset for first 128 lights)
+                uint processed[4] = uint[4](0u, 0u, 0u, 0u);
+                
+                // Query current cell + 6 face neighbors only (not full 3x3x3)
+                const ivec3 neighbors[7] = ivec3[7](
+                    ivec3(0,0,0), ivec3(1,0,0), ivec3(-1,0,0),
+                    ivec3(0,1,0), ivec3(0,-1,0), ivec3(0,0,1), ivec3(0,0,-1)
+                );
+                
+                for (int n = 0; n < 7; ++n) {
+                    if (reachedLimit) break;
+                    
+                    ivec3 neighborCell = cellCoord + neighbors[n];
+                    if (any(lessThan(neighborCell, ivec3(0))) || any(greaterThanEqual(neighborCell, ivec3(gridDim)))) continue;
+                    
+                    uint cellIdx = uint(neighborCell.x + neighborCell.y * int(gridDim.x) + neighborCell.z * int(gridDim.x) * int(gridDim.y));
+                    uint headerIdx = 4u + cellIdx * 2u;
+                    uint lightCount = gridData[headerIdx + 1u];
+                    if (lightCount == 0u) continue; // Skip empty cells
+                    
+                    uint lightOffset = gridData[headerIdx];
+                    uint totalCells = gridDim.x * gridDim.y * gridDim.z;
+                    uint lightDataStart = 4u + totalCells * 2u;
+                    
+                    for (uint i = 0u; i < lightCount; ++i) {
+                        uint lightIdx = gridData[lightDataStart + lightOffset + i];
+                        
+                        // Deduplicate lights (simple bitset for first 128)
+                        if (lightIdx < 128u) {
+                            uint bucket = lightIdx / 32u;
+                            uint bit = lightIdx % 32u;
+                            if ((processed[bucket] & (1u << bit)) != 0u) continue;
+                            processed[bucket] |= (1u << bit);
+                        }
+                        
+                        uvec4 data = emissiveVoxels[lightIdx + 1u];
+                        vec3 lightPos = vec3(data.xyz) + vec3(0.5);
+                        vec3 toLight = lightPos - payload.position;
+                        float dist2 = dot(toLight, toLight);
+                        if (dist2 < 1e-4 || dist2 > maxLightDist2) continue;
+                        
+                        float invDist = inversesqrt(dist2);
+                        vec3 ldir = toLight * invDist;
+                        float ndotl = max(dot(payload.normal, ldir), 0.0);
+                        float intensity = float(data.w) / 255.0;
+                        float atten = 1.0 / (params1.x + params0.w * dist2);
+                        float lightTerm = ndotl * intensity * params0.z * atten;
+                        radiance += throughput * albedo * lightTerm;
+                        debugLighting += vec3(lightTerm);
+                        
+                        lightsProcessed++;
+                        if (maxLights > 0u && lightsProcessed >= maxLights) {
+                            reachedLimit = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            radiance += throughput * albedo * (emissive * params0.y);
+            throughput *= albedo;
+        }
+    }
+
+    radiance /= float(sampleCount);
+    vec3 outColor = clamp(radiance, 0.0, 1.0);
+    int mode = int(params1.z);
+    if (mode == 1) {
+        outColor = debugHit ? clamp(debugLighting, 0.0, 1.0) : vec3(0.0);
+    } else if (mode == 2) {
+        outColor = debugHit ? clamp(debugAlbedo, 0.0, 1.0) : vec3(0.0);
+    } else if (mode == 3) {
+        outColor = debugHit ? normalize(debugNormal) * 0.5 + 0.5 : vec3(0.0);
+    } else if (mode == 4) {
+        outColor = debugHit ? vec3(debugEmissive) : vec3(0.0);
+    }
+    imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(outColor.bgr, 1.0));
 }
 

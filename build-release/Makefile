@@ -214,29 +214,101 @@ src/SparseVoxelOctree.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.s
 .PHONY : src/SparseVoxelOctree.cpp.s
 
-src/VulkanRenderer.o: src/VulkanRenderer.cpp.o
-.PHONY : src/VulkanRenderer.o
+src/VulkanRendererCore.o: src/VulkanRendererCore.cpp.o
+.PHONY : src/VulkanRendererCore.o
 
 # target to build an object file
-src/VulkanRenderer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o
-.PHONY : src/VulkanRenderer.cpp.o
+src/VulkanRendererCore.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererCore.cpp.o
+.PHONY : src/VulkanRendererCore.cpp.o
 
-src/VulkanRenderer.i: src/VulkanRenderer.cpp.i
-.PHONY : src/VulkanRenderer.i
+src/VulkanRendererCore.i: src/VulkanRendererCore.cpp.i
+.PHONY : src/VulkanRendererCore.i
 
 # target to preprocess a source file
-src/VulkanRenderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRenderer.cpp.i
-.PHONY : src/VulkanRenderer.cpp.i
+src/VulkanRendererCore.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererCore.cpp.i
+.PHONY : src/VulkanRendererCore.cpp.i
 
-src/VulkanRenderer.s: src/VulkanRenderer.cpp.s
-.PHONY : src/VulkanRenderer.s
+src/VulkanRendererCore.s: src/VulkanRendererCore.cpp.s
+.PHONY : src/VulkanRendererCore.s
 
 # target to generate assembly for a file
-src/VulkanRenderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRenderer.cpp.s
-.PHONY : src/VulkanRenderer.cpp.s
+src/VulkanRendererCore.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererCore.cpp.s
+.PHONY : src/VulkanRendererCore.cpp.s
+
+src/VulkanRendererDraw.o: src/VulkanRendererDraw.cpp.o
+.PHONY : src/VulkanRendererDraw.o
+
+# target to build an object file
+src/VulkanRendererDraw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererDraw.cpp.o
+.PHONY : src/VulkanRendererDraw.cpp.o
+
+src/VulkanRendererDraw.i: src/VulkanRendererDraw.cpp.i
+.PHONY : src/VulkanRendererDraw.i
+
+# target to preprocess a source file
+src/VulkanRendererDraw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererDraw.cpp.i
+.PHONY : src/VulkanRendererDraw.cpp.i
+
+src/VulkanRendererDraw.s: src/VulkanRendererDraw.cpp.s
+.PHONY : src/VulkanRendererDraw.s
+
+# target to generate assembly for a file
+src/VulkanRendererDraw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererDraw.cpp.s
+.PHONY : src/VulkanRendererDraw.cpp.s
+
+src/VulkanRendererInit.o: src/VulkanRendererInit.cpp.o
+.PHONY : src/VulkanRendererInit.o
+
+# target to build an object file
+src/VulkanRendererInit.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererInit.cpp.o
+.PHONY : src/VulkanRendererInit.cpp.o
+
+src/VulkanRendererInit.i: src/VulkanRendererInit.cpp.i
+.PHONY : src/VulkanRendererInit.i
+
+# target to preprocess a source file
+src/VulkanRendererInit.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererInit.cpp.i
+.PHONY : src/VulkanRendererInit.cpp.i
+
+src/VulkanRendererInit.s: src/VulkanRendererInit.cpp.s
+.PHONY : src/VulkanRendererInit.s
+
+# target to generate assembly for a file
+src/VulkanRendererInit.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererInit.cpp.s
+.PHONY : src/VulkanRendererInit.cpp.s
+
+src/VulkanRendererSwapchain.o: src/VulkanRendererSwapchain.cpp.o
+.PHONY : src/VulkanRendererSwapchain.o
+
+# target to build an object file
+src/VulkanRendererSwapchain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererSwapchain.cpp.o
+.PHONY : src/VulkanRendererSwapchain.cpp.o
+
+src/VulkanRendererSwapchain.i: src/VulkanRendererSwapchain.cpp.i
+.PHONY : src/VulkanRendererSwapchain.i
+
+# target to preprocess a source file
+src/VulkanRendererSwapchain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererSwapchain.cpp.i
+.PHONY : src/VulkanRendererSwapchain.cpp.i
+
+src/VulkanRendererSwapchain.s: src/VulkanRendererSwapchain.cpp.s
+.PHONY : src/VulkanRendererSwapchain.s
+
+# target to generate assembly for a file
+src/VulkanRendererSwapchain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/VulkanRendererSwapchain.cpp.s
+.PHONY : src/VulkanRendererSwapchain.cpp.s
 
 src/Window.o: src/Window.cpp.o
 .PHONY : src/Window.o
@@ -262,6 +334,174 @@ src/Window.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/Window.cpp.s
 .PHONY : src/Window.cpp.s
 
+src/graphics/ComputePipeline.o: src/graphics/ComputePipeline.cpp.o
+.PHONY : src/graphics/ComputePipeline.o
+
+# target to build an object file
+src/graphics/ComputePipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/ComputePipeline.cpp.o
+.PHONY : src/graphics/ComputePipeline.cpp.o
+
+src/graphics/ComputePipeline.i: src/graphics/ComputePipeline.cpp.i
+.PHONY : src/graphics/ComputePipeline.i
+
+# target to preprocess a source file
+src/graphics/ComputePipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/ComputePipeline.cpp.i
+.PHONY : src/graphics/ComputePipeline.cpp.i
+
+src/graphics/ComputePipeline.s: src/graphics/ComputePipeline.cpp.s
+.PHONY : src/graphics/ComputePipeline.s
+
+# target to generate assembly for a file
+src/graphics/ComputePipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/ComputePipeline.cpp.s
+.PHONY : src/graphics/ComputePipeline.cpp.s
+
+src/graphics/DescriptorSet.o: src/graphics/DescriptorSet.cpp.o
+.PHONY : src/graphics/DescriptorSet.o
+
+# target to build an object file
+src/graphics/DescriptorSet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/DescriptorSet.cpp.o
+.PHONY : src/graphics/DescriptorSet.cpp.o
+
+src/graphics/DescriptorSet.i: src/graphics/DescriptorSet.cpp.i
+.PHONY : src/graphics/DescriptorSet.i
+
+# target to preprocess a source file
+src/graphics/DescriptorSet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/DescriptorSet.cpp.i
+.PHONY : src/graphics/DescriptorSet.cpp.i
+
+src/graphics/DescriptorSet.s: src/graphics/DescriptorSet.cpp.s
+.PHONY : src/graphics/DescriptorSet.s
+
+# target to generate assembly for a file
+src/graphics/DescriptorSet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/DescriptorSet.cpp.s
+.PHONY : src/graphics/DescriptorSet.cpp.s
+
+src/graphics/RayTracingPipeline.o: src/graphics/RayTracingPipeline.cpp.o
+.PHONY : src/graphics/RayTracingPipeline.o
+
+# target to build an object file
+src/graphics/RayTracingPipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/RayTracingPipeline.cpp.o
+.PHONY : src/graphics/RayTracingPipeline.cpp.o
+
+src/graphics/RayTracingPipeline.i: src/graphics/RayTracingPipeline.cpp.i
+.PHONY : src/graphics/RayTracingPipeline.i
+
+# target to preprocess a source file
+src/graphics/RayTracingPipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/RayTracingPipeline.cpp.i
+.PHONY : src/graphics/RayTracingPipeline.cpp.i
+
+src/graphics/RayTracingPipeline.s: src/graphics/RayTracingPipeline.cpp.s
+.PHONY : src/graphics/RayTracingPipeline.s
+
+# target to generate assembly for a file
+src/graphics/RayTracingPipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/RayTracingPipeline.cpp.s
+.PHONY : src/graphics/RayTracingPipeline.cpp.s
+
+src/graphics/VulkanBuffer.o: src/graphics/VulkanBuffer.cpp.o
+.PHONY : src/graphics/VulkanBuffer.o
+
+# target to build an object file
+src/graphics/VulkanBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanBuffer.cpp.o
+.PHONY : src/graphics/VulkanBuffer.cpp.o
+
+src/graphics/VulkanBuffer.i: src/graphics/VulkanBuffer.cpp.i
+.PHONY : src/graphics/VulkanBuffer.i
+
+# target to preprocess a source file
+src/graphics/VulkanBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanBuffer.cpp.i
+.PHONY : src/graphics/VulkanBuffer.cpp.i
+
+src/graphics/VulkanBuffer.s: src/graphics/VulkanBuffer.cpp.s
+.PHONY : src/graphics/VulkanBuffer.s
+
+# target to generate assembly for a file
+src/graphics/VulkanBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanBuffer.cpp.s
+.PHONY : src/graphics/VulkanBuffer.cpp.s
+
+src/graphics/VulkanDevice.o: src/graphics/VulkanDevice.cpp.o
+.PHONY : src/graphics/VulkanDevice.o
+
+# target to build an object file
+src/graphics/VulkanDevice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanDevice.cpp.o
+.PHONY : src/graphics/VulkanDevice.cpp.o
+
+src/graphics/VulkanDevice.i: src/graphics/VulkanDevice.cpp.i
+.PHONY : src/graphics/VulkanDevice.i
+
+# target to preprocess a source file
+src/graphics/VulkanDevice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanDevice.cpp.i
+.PHONY : src/graphics/VulkanDevice.cpp.i
+
+src/graphics/VulkanDevice.s: src/graphics/VulkanDevice.cpp.s
+.PHONY : src/graphics/VulkanDevice.s
+
+# target to generate assembly for a file
+src/graphics/VulkanDevice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanDevice.cpp.s
+.PHONY : src/graphics/VulkanDevice.cpp.s
+
+src/graphics/VulkanImage.o: src/graphics/VulkanImage.cpp.o
+.PHONY : src/graphics/VulkanImage.o
+
+# target to build an object file
+src/graphics/VulkanImage.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanImage.cpp.o
+.PHONY : src/graphics/VulkanImage.cpp.o
+
+src/graphics/VulkanImage.i: src/graphics/VulkanImage.cpp.i
+.PHONY : src/graphics/VulkanImage.i
+
+# target to preprocess a source file
+src/graphics/VulkanImage.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanImage.cpp.i
+.PHONY : src/graphics/VulkanImage.cpp.i
+
+src/graphics/VulkanImage.s: src/graphics/VulkanImage.cpp.s
+.PHONY : src/graphics/VulkanImage.s
+
+# target to generate assembly for a file
+src/graphics/VulkanImage.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanImage.cpp.s
+.PHONY : src/graphics/VulkanImage.cpp.s
+
+src/graphics/VulkanShader.o: src/graphics/VulkanShader.cpp.o
+.PHONY : src/graphics/VulkanShader.o
+
+# target to build an object file
+src/graphics/VulkanShader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanShader.cpp.o
+.PHONY : src/graphics/VulkanShader.cpp.o
+
+src/graphics/VulkanShader.i: src/graphics/VulkanShader.cpp.i
+.PHONY : src/graphics/VulkanShader.i
+
+# target to preprocess a source file
+src/graphics/VulkanShader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanShader.cpp.i
+.PHONY : src/graphics/VulkanShader.cpp.i
+
+src/graphics/VulkanShader.s: src/graphics/VulkanShader.cpp.s
+.PHONY : src/graphics/VulkanShader.s
+
+# target to generate assembly for a file
+src/graphics/VulkanShader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/graphics/VulkanShader.cpp.s
+.PHONY : src/graphics/VulkanShader.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -286,6 +526,366 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/raytracing/AccelerationStructure.o: src/raytracing/AccelerationStructure.cpp.o
+.PHONY : src/raytracing/AccelerationStructure.o
+
+# target to build an object file
+src/raytracing/AccelerationStructure.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/AccelerationStructure.cpp.o
+.PHONY : src/raytracing/AccelerationStructure.cpp.o
+
+src/raytracing/AccelerationStructure.i: src/raytracing/AccelerationStructure.cpp.i
+.PHONY : src/raytracing/AccelerationStructure.i
+
+# target to preprocess a source file
+src/raytracing/AccelerationStructure.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/AccelerationStructure.cpp.i
+.PHONY : src/raytracing/AccelerationStructure.cpp.i
+
+src/raytracing/AccelerationStructure.s: src/raytracing/AccelerationStructure.cpp.s
+.PHONY : src/raytracing/AccelerationStructure.s
+
+# target to generate assembly for a file
+src/raytracing/AccelerationStructure.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/AccelerationStructure.cpp.s
+.PHONY : src/raytracing/AccelerationStructure.cpp.s
+
+src/raytracing/ShaderBindingTable.o: src/raytracing/ShaderBindingTable.cpp.o
+.PHONY : src/raytracing/ShaderBindingTable.o
+
+# target to build an object file
+src/raytracing/ShaderBindingTable.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/ShaderBindingTable.cpp.o
+.PHONY : src/raytracing/ShaderBindingTable.cpp.o
+
+src/raytracing/ShaderBindingTable.i: src/raytracing/ShaderBindingTable.cpp.i
+.PHONY : src/raytracing/ShaderBindingTable.i
+
+# target to preprocess a source file
+src/raytracing/ShaderBindingTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/ShaderBindingTable.cpp.i
+.PHONY : src/raytracing/ShaderBindingTable.cpp.i
+
+src/raytracing/ShaderBindingTable.s: src/raytracing/ShaderBindingTable.cpp.s
+.PHONY : src/raytracing/ShaderBindingTable.s
+
+# target to generate assembly for a file
+src/raytracing/ShaderBindingTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/raytracing/ShaderBindingTable.cpp.s
+.PHONY : src/raytracing/ShaderBindingTable.cpp.s
+
+src/render/ComputeSceneRenderer.o: src/render/ComputeSceneRenderer.cpp.o
+.PHONY : src/render/ComputeSceneRenderer.o
+
+# target to build an object file
+src/render/ComputeSceneRenderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/ComputeSceneRenderer.cpp.o
+.PHONY : src/render/ComputeSceneRenderer.cpp.o
+
+src/render/ComputeSceneRenderer.i: src/render/ComputeSceneRenderer.cpp.i
+.PHONY : src/render/ComputeSceneRenderer.i
+
+# target to preprocess a source file
+src/render/ComputeSceneRenderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/ComputeSceneRenderer.cpp.i
+.PHONY : src/render/ComputeSceneRenderer.cpp.i
+
+src/render/ComputeSceneRenderer.s: src/render/ComputeSceneRenderer.cpp.s
+.PHONY : src/render/ComputeSceneRenderer.s
+
+# target to generate assembly for a file
+src/render/ComputeSceneRenderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/ComputeSceneRenderer.cpp.s
+.PHONY : src/render/ComputeSceneRenderer.cpp.s
+
+src/render/RayTracingSceneRenderer.o: src/render/RayTracingSceneRenderer.cpp.o
+.PHONY : src/render/RayTracingSceneRenderer.o
+
+# target to build an object file
+src/render/RayTracingSceneRenderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/RayTracingSceneRenderer.cpp.o
+.PHONY : src/render/RayTracingSceneRenderer.cpp.o
+
+src/render/RayTracingSceneRenderer.i: src/render/RayTracingSceneRenderer.cpp.i
+.PHONY : src/render/RayTracingSceneRenderer.i
+
+# target to preprocess a source file
+src/render/RayTracingSceneRenderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/RayTracingSceneRenderer.cpp.i
+.PHONY : src/render/RayTracingSceneRenderer.cpp.i
+
+src/render/RayTracingSceneRenderer.s: src/render/RayTracingSceneRenderer.cpp.s
+.PHONY : src/render/RayTracingSceneRenderer.s
+
+# target to generate assembly for a file
+src/render/RayTracingSceneRenderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/RayTracingSceneRenderer.cpp.s
+.PHONY : src/render/RayTracingSceneRenderer.cpp.s
+
+src/render/SceneRenderer.o: src/render/SceneRenderer.cpp.o
+.PHONY : src/render/SceneRenderer.o
+
+# target to build an object file
+src/render/SceneRenderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/SceneRenderer.cpp.o
+.PHONY : src/render/SceneRenderer.cpp.o
+
+src/render/SceneRenderer.i: src/render/SceneRenderer.cpp.i
+.PHONY : src/render/SceneRenderer.i
+
+# target to preprocess a source file
+src/render/SceneRenderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/SceneRenderer.cpp.i
+.PHONY : src/render/SceneRenderer.cpp.i
+
+src/render/SceneRenderer.s: src/render/SceneRenderer.cpp.s
+.PHONY : src/render/SceneRenderer.s
+
+# target to generate assembly for a file
+src/render/SceneRenderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/render/SceneRenderer.cpp.s
+.PHONY : src/render/SceneRenderer.cpp.s
+
+src/scene/Camera.o: src/scene/Camera.cpp.o
+.PHONY : src/scene/Camera.o
+
+# target to build an object file
+src/scene/Camera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Camera.cpp.o
+.PHONY : src/scene/Camera.cpp.o
+
+src/scene/Camera.i: src/scene/Camera.cpp.i
+.PHONY : src/scene/Camera.i
+
+# target to preprocess a source file
+src/scene/Camera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Camera.cpp.i
+.PHONY : src/scene/Camera.cpp.i
+
+src/scene/Camera.s: src/scene/Camera.cpp.s
+.PHONY : src/scene/Camera.s
+
+# target to generate assembly for a file
+src/scene/Camera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Camera.cpp.s
+.PHONY : src/scene/Camera.cpp.s
+
+src/scene/Scene.o: src/scene/Scene.cpp.o
+.PHONY : src/scene/Scene.o
+
+# target to build an object file
+src/scene/Scene.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Scene.cpp.o
+.PHONY : src/scene/Scene.cpp.o
+
+src/scene/Scene.i: src/scene/Scene.cpp.i
+.PHONY : src/scene/Scene.i
+
+# target to preprocess a source file
+src/scene/Scene.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Scene.cpp.i
+.PHONY : src/scene/Scene.cpp.i
+
+src/scene/Scene.s: src/scene/Scene.cpp.s
+.PHONY : src/scene/Scene.s
+
+# target to generate assembly for a file
+src/scene/Scene.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/Scene.cpp.s
+.PHONY : src/scene/Scene.cpp.s
+
+src/scene/SceneBuffers.o: src/scene/SceneBuffers.cpp.o
+.PHONY : src/scene/SceneBuffers.o
+
+# target to build an object file
+src/scene/SceneBuffers.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/SceneBuffers.cpp.o
+.PHONY : src/scene/SceneBuffers.cpp.o
+
+src/scene/SceneBuffers.i: src/scene/SceneBuffers.cpp.i
+.PHONY : src/scene/SceneBuffers.i
+
+# target to preprocess a source file
+src/scene/SceneBuffers.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/SceneBuffers.cpp.i
+.PHONY : src/scene/SceneBuffers.cpp.i
+
+src/scene/SceneBuffers.s: src/scene/SceneBuffers.cpp.s
+.PHONY : src/scene/SceneBuffers.s
+
+# target to generate assembly for a file
+src/scene/SceneBuffers.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/src/scene/SceneBuffers.cpp.s
+.PHONY : src/scene/SceneBuffers.cpp.s
+
+third_party/imgui/backends/imgui_impl_sdl2.o: third_party/imgui/backends/imgui_impl_sdl2.cpp.o
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.o
+
+# target to build an object file
+third_party/imgui/backends/imgui_impl_sdl2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_sdl2.cpp.o
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.cpp.o
+
+third_party/imgui/backends/imgui_impl_sdl2.i: third_party/imgui/backends/imgui_impl_sdl2.cpp.i
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.i
+
+# target to preprocess a source file
+third_party/imgui/backends/imgui_impl_sdl2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_sdl2.cpp.i
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.cpp.i
+
+third_party/imgui/backends/imgui_impl_sdl2.s: third_party/imgui/backends/imgui_impl_sdl2.cpp.s
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.s
+
+# target to generate assembly for a file
+third_party/imgui/backends/imgui_impl_sdl2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_sdl2.cpp.s
+.PHONY : third_party/imgui/backends/imgui_impl_sdl2.cpp.s
+
+third_party/imgui/backends/imgui_impl_vulkan.o: third_party/imgui/backends/imgui_impl_vulkan.cpp.o
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.o
+
+# target to build an object file
+third_party/imgui/backends/imgui_impl_vulkan.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_vulkan.cpp.o
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.cpp.o
+
+third_party/imgui/backends/imgui_impl_vulkan.i: third_party/imgui/backends/imgui_impl_vulkan.cpp.i
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.i
+
+# target to preprocess a source file
+third_party/imgui/backends/imgui_impl_vulkan.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_vulkan.cpp.i
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.cpp.i
+
+third_party/imgui/backends/imgui_impl_vulkan.s: third_party/imgui/backends/imgui_impl_vulkan.cpp.s
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.s
+
+# target to generate assembly for a file
+third_party/imgui/backends/imgui_impl_vulkan.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/backends/imgui_impl_vulkan.cpp.s
+.PHONY : third_party/imgui/backends/imgui_impl_vulkan.cpp.s
+
+third_party/imgui/imgui.o: third_party/imgui/imgui.cpp.o
+.PHONY : third_party/imgui/imgui.o
+
+# target to build an object file
+third_party/imgui/imgui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui.cpp.o
+.PHONY : third_party/imgui/imgui.cpp.o
+
+third_party/imgui/imgui.i: third_party/imgui/imgui.cpp.i
+.PHONY : third_party/imgui/imgui.i
+
+# target to preprocess a source file
+third_party/imgui/imgui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui.cpp.i
+.PHONY : third_party/imgui/imgui.cpp.i
+
+third_party/imgui/imgui.s: third_party/imgui/imgui.cpp.s
+.PHONY : third_party/imgui/imgui.s
+
+# target to generate assembly for a file
+third_party/imgui/imgui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui.cpp.s
+.PHONY : third_party/imgui/imgui.cpp.s
+
+third_party/imgui/imgui_demo.o: third_party/imgui/imgui_demo.cpp.o
+.PHONY : third_party/imgui/imgui_demo.o
+
+# target to build an object file
+third_party/imgui/imgui_demo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_demo.cpp.o
+.PHONY : third_party/imgui/imgui_demo.cpp.o
+
+third_party/imgui/imgui_demo.i: third_party/imgui/imgui_demo.cpp.i
+.PHONY : third_party/imgui/imgui_demo.i
+
+# target to preprocess a source file
+third_party/imgui/imgui_demo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_demo.cpp.i
+.PHONY : third_party/imgui/imgui_demo.cpp.i
+
+third_party/imgui/imgui_demo.s: third_party/imgui/imgui_demo.cpp.s
+.PHONY : third_party/imgui/imgui_demo.s
+
+# target to generate assembly for a file
+third_party/imgui/imgui_demo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_demo.cpp.s
+.PHONY : third_party/imgui/imgui_demo.cpp.s
+
+third_party/imgui/imgui_draw.o: third_party/imgui/imgui_draw.cpp.o
+.PHONY : third_party/imgui/imgui_draw.o
+
+# target to build an object file
+third_party/imgui/imgui_draw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_draw.cpp.o
+.PHONY : third_party/imgui/imgui_draw.cpp.o
+
+third_party/imgui/imgui_draw.i: third_party/imgui/imgui_draw.cpp.i
+.PHONY : third_party/imgui/imgui_draw.i
+
+# target to preprocess a source file
+third_party/imgui/imgui_draw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_draw.cpp.i
+.PHONY : third_party/imgui/imgui_draw.cpp.i
+
+third_party/imgui/imgui_draw.s: third_party/imgui/imgui_draw.cpp.s
+.PHONY : third_party/imgui/imgui_draw.s
+
+# target to generate assembly for a file
+third_party/imgui/imgui_draw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_draw.cpp.s
+.PHONY : third_party/imgui/imgui_draw.cpp.s
+
+third_party/imgui/imgui_tables.o: third_party/imgui/imgui_tables.cpp.o
+.PHONY : third_party/imgui/imgui_tables.o
+
+# target to build an object file
+third_party/imgui/imgui_tables.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_tables.cpp.o
+.PHONY : third_party/imgui/imgui_tables.cpp.o
+
+third_party/imgui/imgui_tables.i: third_party/imgui/imgui_tables.cpp.i
+.PHONY : third_party/imgui/imgui_tables.i
+
+# target to preprocess a source file
+third_party/imgui/imgui_tables.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_tables.cpp.i
+.PHONY : third_party/imgui/imgui_tables.cpp.i
+
+third_party/imgui/imgui_tables.s: third_party/imgui/imgui_tables.cpp.s
+.PHONY : third_party/imgui/imgui_tables.s
+
+# target to generate assembly for a file
+third_party/imgui/imgui_tables.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_tables.cpp.s
+.PHONY : third_party/imgui/imgui_tables.cpp.s
+
+third_party/imgui/imgui_widgets.o: third_party/imgui/imgui_widgets.cpp.o
+.PHONY : third_party/imgui/imgui_widgets.o
+
+# target to build an object file
+third_party/imgui/imgui_widgets.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_widgets.cpp.o
+.PHONY : third_party/imgui/imgui_widgets.cpp.o
+
+third_party/imgui/imgui_widgets.i: third_party/imgui/imgui_widgets.cpp.i
+.PHONY : third_party/imgui/imgui_widgets.i
+
+# target to preprocess a source file
+third_party/imgui/imgui_widgets.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_widgets.cpp.i
+.PHONY : third_party/imgui/imgui_widgets.cpp.i
+
+third_party/imgui/imgui_widgets.s: third_party/imgui/imgui_widgets.cpp.s
+.PHONY : third_party/imgui/imgui_widgets.s
+
+# target to generate assembly for a file
+third_party/imgui/imgui_widgets.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/third_party/imgui/imgui_widgets.cpp.s
+.PHONY : third_party/imgui/imgui_widgets.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -305,15 +905,90 @@ help:
 	@echo "... src/SparseVoxelOctree.o"
 	@echo "... src/SparseVoxelOctree.i"
 	@echo "... src/SparseVoxelOctree.s"
-	@echo "... src/VulkanRenderer.o"
-	@echo "... src/VulkanRenderer.i"
-	@echo "... src/VulkanRenderer.s"
+	@echo "... src/VulkanRendererCore.o"
+	@echo "... src/VulkanRendererCore.i"
+	@echo "... src/VulkanRendererCore.s"
+	@echo "... src/VulkanRendererDraw.o"
+	@echo "... src/VulkanRendererDraw.i"
+	@echo "... src/VulkanRendererDraw.s"
+	@echo "... src/VulkanRendererInit.o"
+	@echo "... src/VulkanRendererInit.i"
+	@echo "... src/VulkanRendererInit.s"
+	@echo "... src/VulkanRendererSwapchain.o"
+	@echo "... src/VulkanRendererSwapchain.i"
+	@echo "... src/VulkanRendererSwapchain.s"
 	@echo "... src/Window.o"
 	@echo "... src/Window.i"
 	@echo "... src/Window.s"
+	@echo "... src/graphics/ComputePipeline.o"
+	@echo "... src/graphics/ComputePipeline.i"
+	@echo "... src/graphics/ComputePipeline.s"
+	@echo "... src/graphics/DescriptorSet.o"
+	@echo "... src/graphics/DescriptorSet.i"
+	@echo "... src/graphics/DescriptorSet.s"
+	@echo "... src/graphics/RayTracingPipeline.o"
+	@echo "... src/graphics/RayTracingPipeline.i"
+	@echo "... src/graphics/RayTracingPipeline.s"
+	@echo "... src/graphics/VulkanBuffer.o"
+	@echo "... src/graphics/VulkanBuffer.i"
+	@echo "... src/graphics/VulkanBuffer.s"
+	@echo "... src/graphics/VulkanDevice.o"
+	@echo "... src/graphics/VulkanDevice.i"
+	@echo "... src/graphics/VulkanDevice.s"
+	@echo "... src/graphics/VulkanImage.o"
+	@echo "... src/graphics/VulkanImage.i"
+	@echo "... src/graphics/VulkanImage.s"
+	@echo "... src/graphics/VulkanShader.o"
+	@echo "... src/graphics/VulkanShader.i"
+	@echo "... src/graphics/VulkanShader.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/raytracing/AccelerationStructure.o"
+	@echo "... src/raytracing/AccelerationStructure.i"
+	@echo "... src/raytracing/AccelerationStructure.s"
+	@echo "... src/raytracing/ShaderBindingTable.o"
+	@echo "... src/raytracing/ShaderBindingTable.i"
+	@echo "... src/raytracing/ShaderBindingTable.s"
+	@echo "... src/render/ComputeSceneRenderer.o"
+	@echo "... src/render/ComputeSceneRenderer.i"
+	@echo "... src/render/ComputeSceneRenderer.s"
+	@echo "... src/render/RayTracingSceneRenderer.o"
+	@echo "... src/render/RayTracingSceneRenderer.i"
+	@echo "... src/render/RayTracingSceneRenderer.s"
+	@echo "... src/render/SceneRenderer.o"
+	@echo "... src/render/SceneRenderer.i"
+	@echo "... src/render/SceneRenderer.s"
+	@echo "... src/scene/Camera.o"
+	@echo "... src/scene/Camera.i"
+	@echo "... src/scene/Camera.s"
+	@echo "... src/scene/Scene.o"
+	@echo "... src/scene/Scene.i"
+	@echo "... src/scene/Scene.s"
+	@echo "... src/scene/SceneBuffers.o"
+	@echo "... src/scene/SceneBuffers.i"
+	@echo "... src/scene/SceneBuffers.s"
+	@echo "... third_party/imgui/backends/imgui_impl_sdl2.o"
+	@echo "... third_party/imgui/backends/imgui_impl_sdl2.i"
+	@echo "... third_party/imgui/backends/imgui_impl_sdl2.s"
+	@echo "... third_party/imgui/backends/imgui_impl_vulkan.o"
+	@echo "... third_party/imgui/backends/imgui_impl_vulkan.i"
+	@echo "... third_party/imgui/backends/imgui_impl_vulkan.s"
+	@echo "... third_party/imgui/imgui.o"
+	@echo "... third_party/imgui/imgui.i"
+	@echo "... third_party/imgui/imgui.s"
+	@echo "... third_party/imgui/imgui_demo.o"
+	@echo "... third_party/imgui/imgui_demo.i"
+	@echo "... third_party/imgui/imgui_demo.s"
+	@echo "... third_party/imgui/imgui_draw.o"
+	@echo "... third_party/imgui/imgui_draw.i"
+	@echo "... third_party/imgui/imgui_draw.s"
+	@echo "... third_party/imgui/imgui_tables.o"
+	@echo "... third_party/imgui/imgui_tables.i"
+	@echo "... third_party/imgui/imgui_tables.s"
+	@echo "... third_party/imgui/imgui_widgets.o"
+	@echo "... third_party/imgui/imgui_widgets.i"
+	@echo "... third_party/imgui/imgui_widgets.s"
 .PHONY : help
 
 

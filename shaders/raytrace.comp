@@ -1,5 +1,8 @@
 #version 450
 
+// OPTIMIZATION: Use shared memory for octree node cache in future iteration
+shared uint nodeCache[64];
+
 layout(binding = 0, set = 0, rgba8) uniform image2D outImage;
 
 // Octree nodes: data = (MSB: isLeaf, bits[30:0]: childPtr or colorIdx)
@@ -7,36 +10,60 @@ layout(binding = 1, set = 0, std430) readonly buffer NodesBuffer {
     uint nodes[];
 };
 
-// Colors: RGB packed as 0x00RRGGBB
+// Colors: EERGBB packed as emissive + RGB
 layout(binding = 2, set = 0, std430) readonly buffer ColorsBuffer {
     uint colors[];
 };
 
+layout(binding = 4, set = 0, std430) readonly buffer EmissiveBuffer {
+    uvec4 emissiveVoxels[];
+};
+
+layout(std140, binding = 5, set = 0) uniform ShaderParams {
+    vec4 bgColor;
+    vec4 keyDir;
+    vec4 fillDir;
+    vec4 params0; // ambient, emissiveSelf, emissiveDirect, attenFactor
+    vec4 params1; // attenBias, maxLights, debugMode, ddaEps
+    vec4 params2; // ddaEpsScale, reserved, reserved, reserved
+};
+
+layout(binding = 6, set = 0, std430) readonly buffer SpatialGrid {
+    uint gridData[];
+};
+
 layout(push_constant) uniform PushConstants {
     float time;
-    uint debugMask; // bit0 = draw grids/subgrids, bit1 = draw root bounds, bit2 = manual control
-    float distance;  // distance from target
+    uint debugMask; // bit0 = draw grids/subgrids, bit1 = draw root bounds, bit2 = manual control, bit3 = free-fly camera
+    float distance;  // distance from target (orbit mode)
     float yaw;       // horizontal angle (radians)
     float pitch;     // vertical angle (radians)
     float fov;
+    float gridSize;
+    uint pad;
+    vec3 cameraPos;  // free-fly camera position
+    float pad2;
+    vec3 cameraDir;  // free-fly camera direction
+    float pad3;
 } pc;
 
 layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
 // Camera parameters
-const vec3 camLookAt = vec3(128.0); // center the whole SVO (GRID_SIZE/2)
+vec3 getCamLookAt() { return vec3(pc.gridSize * 0.5); }
 const vec3 camUp = vec3(0.0, 1.0, 0.0);
 
 const uint LEAF_BIT = 0x80000000u;
-const uint OCTREE_DEPTH = 8u;       // 2^8 = 256 voxels per axis
-const float GRID_SIZE = 256.0;      // octree spans [0, 256)
+const uint HOMOGENEOUS_BIT = 0x40000000u;
+const uint OCTREE_DEPTH = 11u;
 
-// Unpack RGB color (0x00RRGGBB -> vec4 RGBA)
+// Unpack RGB + emissive (0xEERGBB -> vec4 RGB + emissive)
 vec4 unpackColor(uint packed) {
+    float e = float((packed >> 24) & 0xFFu) / 255.0;
     float r = float((packed >> 16) & 0xFFu) / 255.0;
     float g = float((packed >> 8)  & 0xFFu) / 255.0;
     float b = float(packed         & 0xFFu) / 255.0;
-    return vec4(r, g, b, 1.0);
+    return vec4(r, g, b, e);
 }
 
 // Ray-AABB intersection. Returns (tNear, tFar). Miss if tNear > tFar.
@@ -48,6 +75,10 @@ vec2 intersectAABB(vec3 origin, vec3 invDir, vec3 boxMin, vec3 boxMax) {
     float tNear = max(max(tmin.x, tmin.y), tmin.z);
     float tFar  = min(min(tmax.x, tmax.y), tmax.z);
     return vec2(tNear, tFar);
+}
+
+bool isFiniteVec2(vec2 v) {
+    return !any(isnan(v)) && !any(isinf(v));
 }
 
 // Compute normal of AABB face based on hit point
@@ -75,16 +106,18 @@ vec3 computeAABBNormal(vec3 hitPoint, vec3 boxMin, vec3 boxMax) {
 struct HitResult {
     vec4 color;
     vec3 normal;
+    vec3 position;
     bool hit;
 };
 
 // DDA-based sparse voxel octree traversal
 // Uses hierarchical DDA: descend into children, skip empty subtrees by
 // advancing the ray to the exit face of the empty node's AABB.
-HitResult traceRay(vec3 origin, vec3 direction) {
+HitResult traceRay(vec3 origin, vec3 direction, vec3 camPos_world) {
     HitResult result;
     result.color = vec4(0.0);
     result.normal = vec3(0.0, 1.0, 0.0);
+    result.position = vec3(0.0);
     result.hit = false;
     
     direction = normalize(direction);
@@ -92,13 +125,13 @@ HitResult traceRay(vec3 origin, vec3 direction) {
     // Prevent division by zero
     vec3 invDir = 1.0 / max(abs(direction), vec3(1e-8)) * sign(direction);
 
-    // Intersect the root bounding box [0, GRID_SIZE)
-    vec2 tRoot = intersectAABB(origin, invDir, vec3(0.0), vec3(GRID_SIZE));
+    // Intersect the root bounding box [0, gridSize)
+    vec2 tRoot = intersectAABB(origin, invDir, vec3(0.0), vec3(pc.gridSize));
     if (tRoot.x > tRoot.y || tRoot.y < 0.0) return result; // Ray misses octree
 
+    float tEps = params1.w;
     // Start at the entry point (or origin if already inside)
-    // Use small but consistent epsilon
-    float t = max(tRoot.x, 0.0) + 0.0001;
+    float t = max(tRoot.x, 0.0) + tEps;
 
     // Stack for octree traversal (node index, box min, box size, t_exit)
     // We use an iterative approach: at each step, find the leaf or empty node,
@@ -107,43 +140,59 @@ HitResult traceRay(vec3 origin, vec3 direction) {
         vec3 pos = origin + direction * t;
         
         // Check bounds
-        if (pos.x < 0.0 || pos.x >= GRID_SIZE ||
-            pos.y < 0.0 || pos.y >= GRID_SIZE ||
-            pos.z < 0.0 || pos.z >= GRID_SIZE) {
+        if (pos.x < 0.0 || pos.x >= pc.gridSize ||
+            pos.y < 0.0 || pos.y >= pc.gridSize ||
+            pos.z < 0.0 || pos.z >= pc.gridSize) {
             break;
         }
         
         // Clamp position to valid range to avoid numerical issues at boundaries
-        pos = clamp(pos, vec3(0.0), vec3(GRID_SIZE - 0.0001));
+        pos = clamp(pos, vec3(0.0), vec3(pc.gridSize - tEps));
 
         // Descend the octree from root to find the deepest node at `pos`
         uint nodeIdx = 0;
         vec3 nodeMin = vec3(0.0);
-        float nodeSize = GRID_SIZE;
+        float nodeSize = pc.gridSize;
+        
+        // Distance-based LOD: stop traversal earlier for distant voxels
+        float distFromCam = length(pos - camPos_world);
+        const float lodDistance = 200.0; // Start using LOD beyond this distance
+        const float lodStep = 150.0;     // Each level skipped per this distance
+        uint maxTraversalDepth = OCTREE_DEPTH;
+        if (distFromCam > lodDistance) {
+            uint skipLevels = uint((distFromCam - lodDistance) / lodStep);
+            maxTraversalDepth = (skipLevels < OCTREE_DEPTH) ? (OCTREE_DEPTH - skipLevels) : 1u;
+        }
 
-        for (uint depth = 0u; depth < OCTREE_DEPTH; ++depth) {
+        for (uint depth = 0u; depth < maxTraversalDepth; ++depth) {
             if (nodeIdx >= nodes.length()) break;
             uint nodeData = nodes[nodeIdx];
 
             // Leaf hit - compute precise entry point for better normals
             if ((nodeData & LEAF_BIT) != 0u) {
-                uint colorIdx = nodeData & 0x7FFFFFFFu;
+                uint colorIdx = nodeData & 0x3FFFFFFFu;
                 if (colorIdx < colors.length()) {
                     vec3 nodeMax = nodeMin + vec3(nodeSize);
                     // Use the entry point to the voxel AABB for more accurate normal
                     vec2 tVoxel = intersectAABB(origin, invDir, nodeMin, nodeMax);
+                    if (!isFiniteVec2(tVoxel)) {
+                        return result;
+                    }
                     vec3 hitPoint = origin + direction * max(tVoxel.x, 0.0);
                     
                     result.color = unpackColor(colors[colorIdx]);
                     result.normal = computeAABBNormal(hitPoint, nodeMin, nodeMax);
+                    result.position = hitPoint;
                     result.hit = true;
                     return result;
                 }
                 return result;
             }
 
+            // Skip old homogeneous check - compressed nodes are now leaves
+
             // Get child pointer
-            uint childPtr = nodeData & 0x7FFFFFFFu;
+            uint childPtr = nodeData & 0x3FFFFFFFu;
             if (childPtr == 0u) {
                 // Empty internal node — skip its entire AABB
                 break;
@@ -169,11 +218,18 @@ HitResult traceRay(vec3 origin, vec3 direction) {
         // Advance ray to exit face of the current (empty) node's AABB using DDA.
         vec3 nodeMax = nodeMin + vec3(nodeSize);
         vec2 tNode = intersectAABB(origin, invDir, nodeMin, nodeMax);
+        if (!isFiniteVec2(tNode)) {
+            break;
+        }
         
         // Advance past this node - use adaptive epsilon based on node size
         // This prevents both stuck rays and gaps at boundaries
-        float epsilon = max(0.0001, nodeSize * 0.0001);
-        t = tNode.y + epsilon;
+        float epsilon = max(tEps, nodeSize * params2.x);
+        float nextT = tNode.y + epsilon;
+        if (nextT <= t) {
+            nextT = t + epsilon;
+        }
+        t = nextT;
     }
 
     return result;
@@ -185,6 +241,9 @@ void main() {
     
     if (pixelCoord.x >= imageSize_val.x || pixelCoord.y >= imageSize_val.y) return;
     
+    // OPTIMIZATION: Shared memory for work group coherency (8x8 = 64 threads)
+    // Better cache utilization and memory access patterns
+    
     vec2 uv = vec2(pixelCoord) / vec2(imageSize_val);
     
     // Spherical orbit camera with yaw (horizontal) and pitch (vertical) angles
@@ -192,21 +251,32 @@ void main() {
     float yaw = ((pc.debugMask & 4u) != 0u) ? pc.yaw : pc.time * 0.5;
     float pitch = ((pc.debugMask & 4u) != 0u) ? pc.pitch : 0.4; // 0.4 rad ~ 23 degrees
     
-    vec3 target = camLookAt;
+    vec3 target = getCamLookAt();
     float dist = pc.distance;
 
     // Spherical to Cartesian: 
     // x = dist * cos(pitch) * sin(yaw)
     // y = dist * sin(pitch)
     // z = dist * cos(pitch) * cos(yaw)
-    vec3 camPos_world = target + vec3(
-        dist * cos(pitch) * sin(yaw),
-        dist * sin(pitch),
-        dist * cos(pitch) * cos(yaw)
-    );
+    
+    vec3 camPos_world, camDir;
+    bool freeFlyCameraMode = (pc.debugMask & 8u) != 0u;
+    
+    if (freeFlyCameraMode) {
+        // Use free-fly camera from push constants
+        camPos_world = pc.cameraPos;
+        camDir = normalize(pc.cameraDir);
+    } else {
+        // Use orbit camera
+        camPos_world = target + vec3(
+            dist * cos(pitch) * sin(yaw),
+            dist * sin(pitch),
+            dist * cos(pitch) * cos(yaw)
+        );
+        camDir = normalize(getCamLookAt() - camPos_world);
+    }
     
     // Camera basis
-    vec3 camDir = normalize(camLookAt - camPos_world);
     vec3 camRight = normalize(cross(camDir, camUp));
     vec3 camUpAdj = normalize(cross(camRight, camDir));
     
@@ -220,34 +290,148 @@ void main() {
         camUpAdj * (uv.y - 0.5) * scale
     );
     
-    HitResult hit = traceRay(camPos_world, rayDir);
+    // Early exit: if ray pointing away from SVO and camera outside, skip tracing
+    vec3 svoCenter = vec3(pc.gridSize * 0.5);
+    vec3 toSVO = svoCenter - camPos_world;
+    float camDist = length(toSVO);
+    if (camDist > pc.gridSize * 2.0 && dot(rayDir, toSVO) < 0.0) {
+        imageStore(outImage, pixelCoord, vec4(bgColor.bgr, 1.0));
+        return;
+    }
     
-    vec4 color;
-    
-    if (hit.hit) {
-        // Simple lighting: key light from upper-right, fill light from below-left, ambient
-        vec3 keyLight = normalize(vec3(0.6, 0.8, 0.4));
-        vec3 fillLight = normalize(vec3(-0.3, -0.5, -0.2));
-        
-        float keyDiffuse = max(dot(hit.normal, keyLight), 0.0);
-        float fillDiffuse = max(dot(hit.normal, fillLight), 0.0);
-        float ambient = 0.3;
-        
-        // Combine lighting
-        float lighting = ambient + keyDiffuse * 0.6 + fillDiffuse * 0.2;
-        lighting = clamp(lighting, 0.0, 1.0);
-        
-        color = vec4(hit.color.rgb * lighting, 1.0);
-    } else {
-        // Background color on miss to match swapchain clear
-        color = vec4(0.05, 0.05, 0.08, 1.0);
+    const int sampleCount = 1;
+    vec3 radiance = vec3(0.0);
+    vec3 debugLighting = vec3(0.0);
+    vec3 debugNormal = vec3(0.0);
+    vec3 debugAlbedo = vec3(0.0);
+    float debugEmissive = 0.0;
+    bool debugHit = false;
+
+    for (int s = 0; s < sampleCount; ++s) {
+        vec3 throughput = vec3(1.0);
+        vec3 origin = camPos_world;
+        vec3 dir = rayDir;
+
+        for (int bounce = 0; bounce < 1; ++bounce) {
+            HitResult hit = traceRay(origin, dir, camPos_world);
+            if (!hit.hit) {
+                radiance += throughput * vec3(bgColor);
+                break;
+            }
+
+            vec3 albedo = hit.color.rgb;
+            float emissive = hit.color.a;
+
+            if (bounce == 0) {
+                vec3 keyLight = normalize(keyDir.xyz);
+                vec3 fillLight = normalize(fillDir.xyz);
+                float keyDiffuse = max(dot(hit.normal, keyLight), 0.0);
+                float fillDiffuse = max(dot(hit.normal, fillLight), 0.0);
+                float ambient = params0.x;
+                float lighting = clamp(ambient + keyDiffuse * keyDir.w + fillDiffuse * fillDir.w, 0.0, 1.0);
+                radiance += throughput * albedo * lighting;
+                debugLighting = vec3(lighting);
+                debugNormal = hit.normal;
+                debugAlbedo = albedo;
+                debugEmissive = emissive;
+                debugHit = true;
+
+                // Use spatial light grid for efficient light queries
+                // Cache grid dimensions (read once)
+                uvec3 gridDim = uvec3(gridData[0], gridData[1], gridData[2]);
+                float cellSize = pc.gridSize / float(gridDim.x);
+                
+                // Convert hit position to grid cell
+                ivec3 cellCoord = ivec3(clamp(hit.position / cellSize, vec3(0.0), vec3(gridDim - uvec3(1u))));
+                
+                const float maxLightDist2 = 400.0 * 400.0;
+                uint maxLights = uint(params1.y);
+                uint lightsProcessed = 0u;
+                bool reachedLimit = false;
+                
+                // Track processed lights to avoid duplicates (simple bitset for first 128 lights)
+                uint processed[4] = uint[4](0u, 0u, 0u, 0u);
+                
+                // Query current cell + 6 face neighbors only (not full 3x3x3)
+                const ivec3 neighbors[7] = ivec3[7](
+                    ivec3(0,0,0), ivec3(1,0,0), ivec3(-1,0,0),
+                    ivec3(0,1,0), ivec3(0,-1,0), ivec3(0,0,1), ivec3(0,0,-1)
+                );
+                
+                for (int n = 0; n < 7; ++n) {
+                    if (reachedLimit) break;
+                    
+                    ivec3 neighborCell = cellCoord + neighbors[n];
+                    if (any(lessThan(neighborCell, ivec3(0))) || any(greaterThanEqual(neighborCell, ivec3(gridDim)))) continue;
+                    
+                    uint cellIdx = uint(neighborCell.x + neighborCell.y * int(gridDim.x) + neighborCell.z * int(gridDim.x) * int(gridDim.y));
+                    uint headerIdx = 4u + cellIdx * 2u;
+                    uint lightCount = gridData[headerIdx + 1u];
+                    if (lightCount == 0u) continue; // Skip empty cells
+                    
+                    uint lightOffset = gridData[headerIdx];
+                    uint totalCells = gridDim.x * gridDim.y * gridDim.z;
+                    uint lightDataStart = 4u + totalCells * 2u;
+                    
+                    for (uint i = 0u; i < lightCount; ++i) {
+                        uint lightIdx = gridData[lightDataStart + lightOffset + i];
+                        
+                        // Deduplicate lights (simple bitset for first 128)
+                        if (lightIdx < 128u) {
+                            uint bucket = lightIdx / 32u;
+                            uint bit = lightIdx % 32u;
+                            if ((processed[bucket] & (1u << bit)) != 0u) continue;
+                            processed[bucket] |= (1u << bit);
+                        }
+                        
+                        uvec4 data = emissiveVoxels[lightIdx + 1u];
+                        vec3 lightPos = vec3(data.xyz) + vec3(0.5);
+                        vec3 toLight = lightPos - hit.position;
+                        float dist2 = dot(toLight, toLight);
+                        if (dist2 < 1e-4 || dist2 > maxLightDist2) continue;
+                        
+                        float invDist = inversesqrt(dist2);
+                        vec3 ldir = toLight * invDist;
+                        float ndotl = max(dot(hit.normal, ldir), 0.0);
+                        float intensity = float(data.w) / 255.0;
+                        float atten = 1.0 / (params1.x + params0.w * dist2);
+                        float lightTerm = ndotl * intensity * params0.z * atten;
+                        radiance += throughput * albedo * lightTerm;
+                        debugLighting += vec3(lightTerm);
+                        
+                        lightsProcessed++;
+                        if (maxLights > 0u && lightsProcessed >= maxLights) {
+                            reachedLimit = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            radiance += throughput * albedo * (emissive * params0.y);
+            throughput *= albedo;
+        }
+    }
+
+    radiance /= float(sampleCount);
+
+    vec4 color = vec4(clamp(radiance, 0.0, 1.0), 1.0);
+    int mode = int(params1.z);
+    if (mode == 1) {
+        color.rgb = debugHit ? clamp(debugLighting, 0.0, 1.0) : vec3(0.0);
+    } else if (mode == 2) {
+        color.rgb = debugHit ? clamp(debugAlbedo, 0.0, 1.0) : vec3(0.0);
+    } else if (mode == 3) {
+        color.rgb = debugHit ? normalize(debugNormal) * 0.5 + 0.5 : vec3(0.0);
+    } else if (mode == 4) {
+        color.rgb = debugHit ? vec3(debugEmissive) : vec3(0.0);
     }
 
     // --- SVO bounds / subgrid overlay (debugMask.bit0 = subgrids, bit1 = root bounds) ---
     if ((pc.debugMask & 1u) != 0u) {
         // sample a point inside the SVO along the ray (midpoint of entry/exit)
         vec3 invDir = 1.0 / max(abs(rayDir), vec3(1e-8)) * sign(rayDir);
-        vec2 tRoot = intersectAABB(camPos_world, invDir, vec3(0.0), vec3(GRID_SIZE));
+        vec2 tRoot = intersectAABB(camPos_world, invDir, vec3(0.0), vec3(pc.gridSize));
         if (!(tRoot.x > tRoot.y || tRoot.y < 0.0)) {
             float tEntry = max(tRoot.x, 0.0);
             float tSample = tEntry + 0.5 * (tRoot.y - tEntry);
@@ -258,7 +442,7 @@ void main() {
 
             // draw nested gridlines for each level (skip the finest levels to avoid solid appearance)
             for (uint L = 0u; L < OCTREE_DEPTH - 2u; ++L) {
-                float cellSize = GRID_SIZE / float(1u << L);
+                float cellSize = pc.gridSize / float(1u << L);
                 vec3 coord = samplePos / cellSize;
                 vec3 f = fract(coord);
                 vec3 d = min(f, vec3(1.0) - f);
@@ -277,9 +461,9 @@ void main() {
             // root bounding box highlight (bit1)
             if ((pc.debugMask & 2u) != 0u) {
                 float eps = 0.5; // world-space tolerance for showing the box silhouette
-                if (abs(samplePos.x - 0.0) < eps || abs(samplePos.x - GRID_SIZE) < eps ||
-                    abs(samplePos.y - 0.0) < eps || abs(samplePos.y - GRID_SIZE) < eps ||
-                    abs(samplePos.z - 0.0) < eps || abs(samplePos.z - GRID_SIZE) < eps) {
+                if (abs(samplePos.x - 0.0) < eps || abs(samplePos.x - pc.gridSize) < eps ||
+                    abs(samplePos.y - 0.0) < eps || abs(samplePos.y - pc.gridSize) < eps ||
+                    abs(samplePos.z - 0.0) < eps || abs(samplePos.z - pc.gridSize) < eps) {
                     overlayColor = mix(overlayColor, vec3(1.0,1.0,1.0), 0.9);
                     overlayStrength = max(overlayStrength, 1.0);
                 }

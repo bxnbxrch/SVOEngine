@@ -2,11 +2,15 @@
 #include "vox/SparseVoxelOctree.h"
 #include "vox/Shader.h"
 #include "VulkanRendererCommon.h"
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_vulkan.h"
 #include <SDL_vulkan.h>
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstring>
+#include <glm/glm.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -292,6 +296,72 @@ bool VulkanRenderer::init() {
         vkCreateImageView(m_device, &ivci, nullptr, &m_imageViews[i]);
     }
 
+    // ImGui init
+    {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+
+        ImGui_ImplSDL2_InitForVulkan(m_window);
+
+        VkDescriptorPoolSize poolSizes[] = {
+            { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+            { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+            { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+            { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+        };
+
+        VkDescriptorPoolCreateInfo dpci{};
+        dpci.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        dpci.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+        dpci.maxSets = 1000;
+        dpci.poolSizeCount = static_cast<uint32_t>(sizeof(poolSizes) / sizeof(poolSizes[0]));
+        dpci.pPoolSizes = poolSizes;
+
+        if (vkCreateDescriptorPool(m_device, &dpci, nullptr, &m_imguiPool) != VK_SUCCESS) {
+            std::cerr << "vkCreateDescriptorPool (imgui) failed\n";
+            return false;
+        }
+
+        ImGui_ImplVulkan_InitInfo initInfo{};
+        initInfo.ApiVersion = VK_API_VERSION_1_3;
+        initInfo.Instance = m_instance;
+        initInfo.PhysicalDevice = m_physicalDevice;
+        initInfo.Device = m_device;
+        initInfo.QueueFamily = m_graphicsQueueFamily;
+        initInfo.Queue = m_graphicsQueue;
+        initInfo.PipelineCache = VK_NULL_HANDLE;
+        initInfo.DescriptorPool = m_imguiPool;
+        initInfo.DescriptorPoolSize = 0;
+        initInfo.MinImageCount = static_cast<uint32_t>(m_swapImages.size());
+        initInfo.ImageCount = static_cast<uint32_t>(m_swapImages.size());
+        initInfo.UseDynamicRendering = true;
+        initInfo.Allocator = nullptr;
+        initInfo.CheckVkResultFn = nullptr;
+
+        initInfo.PipelineInfoMain.RenderPass = VK_NULL_HANDLE;
+        initInfo.PipelineInfoMain.Subpass = 0;
+        initInfo.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+    #ifdef IMGUI_IMPL_VULKAN_HAS_DYNAMIC_RENDERING
+        initInfo.PipelineInfoMain.PipelineRenderingCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO_KHR;
+        initInfo.PipelineInfoMain.PipelineRenderingCreateInfo.colorAttachmentCount = 1;
+        initInfo.PipelineInfoMain.PipelineRenderingCreateInfo.pColorAttachmentFormats = &m_surfaceFormat;
+    #endif
+
+        if (!ImGui_ImplVulkan_Init(&initInfo)) {
+            std::cerr << "ImGui_ImplVulkan_Init failed\n";
+            return false;
+        }
+        m_imguiInitialized = true;
+    }
+
     // command pool + buffers
     VkCommandPoolCreateInfo pc{};
     pc.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -324,11 +394,12 @@ bool VulkanRenderer::init() {
     m_cmdBufferValues.assign(m_cmdBuffers.size(), 0);
 
     // Initialize octree
-    m_octree = std::make_unique<SparseVoxelOctree>(8);
-    if (!m_octree->loadFromVoxFile("../monu1.vox")) {
-        std::cerr << "Failed to load monu1.vox, using test scene instead" << std::endl;
+    m_octree = std::make_unique<SparseVoxelOctree>(11);
+    if (!m_octree->loadFromVoxFile("../test.vox")) {
+        std::cerr << "Failed to load test.vox, using test scene instead" << std::endl;
         m_octree->generateTestScene();
     }
+    m_gridSize = 1u << m_octree->getDepth();
     DBGPRINT << "Octree initialized with test scene\n";
     DBGPRINT << "  Nodes: " << m_octree->getNodes().size() << "\n";
     DBGPRINT << "  Colors: " << m_octree->getColors().size() << "\n";
@@ -395,6 +466,68 @@ bool VulkanRenderer::init() {
             return false;
         }
         DBGPRINT << "Storage image created ("  << m_extent.width << "x" << m_extent.height << ")\n";
+    }
+
+    // 1b. Create postprocess output image (bloom)
+    {
+        VkImageCreateInfo ici{};
+        ici.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+        ici.imageType = VK_IMAGE_TYPE_2D;
+        ici.format = VK_FORMAT_B8G8R8A8_SRGB;
+        ici.extent = {m_extent.width, m_extent.height, 1};
+        ici.mipLevels = 1;
+        ici.arrayLayers = 1;
+        ici.samples = VK_SAMPLE_COUNT_1_BIT;
+        ici.tiling = VK_IMAGE_TILING_OPTIMAL;
+        ici.usage = VK_IMAGE_USAGE_STORAGE_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+        ici.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+        ici.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+        if (vkCreateImage(m_device, &ici, nullptr, &m_postImage) != VK_SUCCESS) {
+            std::cerr << "vkCreateImage (post image) failed\n";
+            return false;
+        }
+
+        VkMemoryRequirements memReq{};
+        vkGetImageMemoryRequirements(m_device, m_postImage, &memReq);
+
+        VkPhysicalDeviceMemoryProperties memProps{};
+        vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProps);
+        auto findMemoryType = [&](uint32_t typeFilter, VkMemoryPropertyFlags props) -> uint32_t {
+            for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
+                if ((typeFilter & (1u << i)) && (memProps.memoryTypes[i].propertyFlags & props) == props) return i;
+            }
+            return 0;
+        };
+
+        VkMemoryAllocateInfo mai{};
+        mai.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        mai.allocationSize = memReq.size;
+        mai.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+        if (vkAllocateMemory(m_device, &mai, nullptr, &m_postImageMemory) != VK_SUCCESS) {
+            std::cerr << "vkAllocateMemory (post image) failed\n";
+            return false;
+        }
+
+        vkBindImageMemory(m_device, m_postImage, m_postImageMemory, 0);
+
+        VkImageViewCreateInfo ivci{};
+        ivci.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        ivci.image = m_postImage;
+        ivci.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        ivci.format = VK_FORMAT_B8G8R8A8_SRGB;
+        ivci.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        ivci.subresourceRange.baseMipLevel = 0;
+        ivci.subresourceRange.levelCount = 1;
+        ivci.subresourceRange.baseArrayLayer = 0;
+        ivci.subresourceRange.layerCount = 1;
+
+        if (vkCreateImageView(m_device, &ivci, nullptr, &m_postImageView) != VK_SUCCESS) {
+            std::cerr << "vkCreateImageView (post image) failed\n";
+            return false;
+        }
+        DBGPRINT << "Post image created ("  << m_extent.width << "x" << m_extent.height << ")\n";
     }
 
     // 2. Create octree GPU buffers
@@ -471,13 +604,212 @@ bool VulkanRenderer::init() {
         DBGPRINT << "Octree GPU buffers created\n";
     }
 
+    // 2c. Create shader params uniform buffer
+    {
+        VkDeviceSize paramsSize = sizeof(ShaderParamsCPU);
+
+        VkBufferCreateInfo bci{};
+        bci.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bci.size = paramsSize;
+        bci.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+        bci.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+        if (vkCreateBuffer(m_device, &bci, nullptr, &m_shaderParamsBuffer) != VK_SUCCESS) {
+            std::cerr << "vkCreateBuffer (shader params) failed\n";
+            return false;
+        }
+
+        VkMemoryRequirements memReq{};
+        vkGetBufferMemoryRequirements(m_device, m_shaderParamsBuffer, &memReq);
+
+        VkPhysicalDeviceMemoryProperties memProps{};
+        vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProps);
+        auto findMemoryType = [&](uint32_t typeFilter, VkMemoryPropertyFlags props) -> uint32_t {
+            for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
+                if ((typeFilter & (1u << i)) && (memProps.memoryTypes[i].propertyFlags & props) == props) return i;
+            }
+            return 0;
+        };
+
+        VkMemoryAllocateInfo mai{};
+        mai.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        mai.allocationSize = memReq.size;
+        mai.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+        if (vkAllocateMemory(m_device, &mai, nullptr, &m_shaderParamsMemory) != VK_SUCCESS) {
+            std::cerr << "vkAllocateMemory (shader params) failed\n";
+            return false;
+        }
+
+        vkBindBufferMemory(m_device, m_shaderParamsBuffer, m_shaderParamsMemory, 0);
+
+        void* dst = nullptr;
+        vkMapMemory(m_device, m_shaderParamsMemory, 0, paramsSize, 0, &dst);
+        memcpy(dst, &m_shaderParams, paramsSize);
+        vkUnmapMemory(m_device, m_shaderParamsMemory);
+    }
+
+    // 2a. Create emissive voxel buffer (positions + intensity)
+    {
+        const auto& emissiveVoxels = m_octree->getEmissiveVoxels();
+        std::vector<glm::uvec4> emissiveData;
+        emissiveData.reserve(emissiveVoxels.size() + 1);
+        emissiveData.push_back(glm::uvec4(static_cast<uint32_t>(emissiveVoxels.size()), 0u, 0u, 0u));
+        for (const auto& pos : emissiveVoxels) {
+            emissiveData.push_back(glm::uvec4(pos, 255u));
+        }
+
+        VkDeviceSize emissiveSize = emissiveData.size() * sizeof(glm::uvec4);
+
+        VkBufferCreateInfo bci{};
+        bci.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bci.size = emissiveSize;
+        bci.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
+        bci.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+        if (vkCreateBuffer(m_device, &bci, nullptr, &m_emissiveBuffer) != VK_SUCCESS) {
+            std::cerr << "vkCreateBuffer (emissive) failed\n";
+            return false;
+        }
+
+        VkMemoryRequirements memReq{};
+        vkGetBufferMemoryRequirements(m_device, m_emissiveBuffer, &memReq);
+
+        VkPhysicalDeviceMemoryProperties memProps{};
+        vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProps);
+        auto findMemoryType = [&](uint32_t typeFilter, VkMemoryPropertyFlags props) -> uint32_t {
+            for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
+                if ((typeFilter & (1u << i)) && (memProps.memoryTypes[i].propertyFlags & props) == props) return i;
+            }
+            return 0;
+        };
+
+        VkMemoryAllocateInfo mai{};
+        mai.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        mai.allocationSize = memReq.size;
+        mai.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+        if (vkAllocateMemory(m_device, &mai, nullptr, &m_emissiveMemory) != VK_SUCCESS) {
+            std::cerr << "vkAllocateMemory (emissive) failed\n";
+            return false;
+        }
+
+        vkBindBufferMemory(m_device, m_emissiveBuffer, m_emissiveMemory, 0);
+
+        void* dst = nullptr;
+        vkMapMemory(m_device, m_emissiveMemory, 0, emissiveSize, 0, &dst);
+        memcpy(dst, emissiveData.data(), emissiveSize);
+        vkUnmapMemory(m_device, m_emissiveMemory);
+    }
+
+    // 2a2. Create spatial light grid for optimization
+    {
+        const auto& emissiveVoxels = m_octree->getEmissiveVoxels();
+        const uint32_t gridDim = 16; // 16x16x16 cells
+        const uint32_t totalCells = gridDim * gridDim * gridDim;
+        const float cellSize = static_cast<float>(m_gridSize) / gridDim;
+        const float lightRadius = cellSize * 1.5f; // Lights affect 1.5 cell radius
+
+        // Build spatial grid: for each cell, collect lights within range
+        std::vector<std::vector<uint32_t>> cellLights(totalCells);
+        
+        for (uint32_t lightIdx = 0; lightIdx < emissiveVoxels.size(); ++lightIdx) {
+            glm::vec3 lightPos = glm::vec3(emissiveVoxels[lightIdx]) + 0.5f;
+            
+            // Determine which cells this light affects
+            glm::ivec3 minCell = glm::max(glm::ivec3((lightPos - lightRadius) / cellSize), glm::ivec3(0));
+            glm::ivec3 maxCell = glm::min(glm::ivec3((lightPos + lightRadius) / cellSize), glm::ivec3(gridDim - 1));
+            
+            for (int z = minCell.z; z <= maxCell.z; ++z) {
+                for (int y = minCell.y; y <= maxCell.y; ++y) {
+                    for (int x = minCell.x; x <= maxCell.x; ++x) {
+                        uint32_t cellIdx = x + y * gridDim + z * gridDim * gridDim;
+                        cellLights[cellIdx].push_back(lightIdx);
+                    }
+                }
+            }
+        }
+
+        // Build buffer data: [gridDim.x, .y, .z, totalLightCount] + [cell offsets/counts] + [light indices]
+        std::vector<uint32_t> gridData;
+        gridData.push_back(gridDim);
+        gridData.push_back(gridDim);
+        gridData.push_back(gridDim);
+        gridData.push_back(static_cast<uint32_t>(emissiveVoxels.size()));
+        
+        // Reserve space for cell headers: [offset, count] per cell
+        uint32_t cellHeaderOffset = static_cast<uint32_t>(gridData.size());
+        gridData.resize(gridData.size() + totalCells * 2); // offset + count per cell
+        
+        // Write light indices
+        uint32_t lightDataOffset = static_cast<uint32_t>(gridData.size());
+        for (uint32_t cellIdx = 0; cellIdx < totalCells; ++cellIdx) {
+            uint32_t offset = static_cast<uint32_t>(gridData.size()) - lightDataOffset;
+            uint32_t count = static_cast<uint32_t>(cellLights[cellIdx].size());
+            
+            gridData[cellHeaderOffset + cellIdx * 2] = offset;
+            gridData[cellHeaderOffset + cellIdx * 2 + 1] = count;
+            
+            gridData.insert(gridData.end(), cellLights[cellIdx].begin(), cellLights[cellIdx].end());
+        }
+        
+        std::cout << "Spatial grid: " << gridDim << "^3 cells, " << gridData.size() << " uints, "
+                  << emissiveVoxels.size() << " lights\n";
+
+        VkDeviceSize gridSize = gridData.size() * sizeof(uint32_t);
+
+        VkBufferCreateInfo bci{};
+        bci.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+        bci.size = gridSize;
+        bci.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
+        bci.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+        if (vkCreateBuffer(m_device, &bci, nullptr, &m_spatialGridBuffer) != VK_SUCCESS) {
+            std::cerr << "vkCreateBuffer (spatial grid) failed\n";
+            return false;
+        }
+
+        VkMemoryRequirements memReq{};
+        vkGetBufferMemoryRequirements(m_device, m_spatialGridBuffer, &memReq);
+
+        VkPhysicalDeviceMemoryProperties memProps{};
+        vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProps);
+        auto findMemoryType = [&](uint32_t typeFilter, VkMemoryPropertyFlags props) -> uint32_t {
+            for (uint32_t i = 0; i < memProps.memoryTypeCount; ++i) {
+                if ((typeFilter & (1u << i)) && (memProps.memoryTypes[i].propertyFlags & props) == props) return i;
+            }
+            return 0;
+        };
+
+        VkMemoryAllocateInfo mai{};
+        mai.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+        mai.allocationSize = memReq.size;
+        mai.memoryTypeIndex = findMemoryType(memReq.memoryTypeBits,
+            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+        if (vkAllocateMemory(m_device, &mai, nullptr, &m_spatialGridMemory) != VK_SUCCESS) {
+            std::cerr << "vkAllocateMemory (spatial grid) failed\n";
+            return false;
+        }
+
+        vkBindBufferMemory(m_device, m_spatialGridBuffer, m_spatialGridMemory, 0);
+
+        void* dst = nullptr;
+        vkMapMemory(m_device, m_spatialGridMemory, 0, gridSize, 0, &dst);
+        memcpy(dst, gridData.data(), gridSize);
+        vkUnmapMemory(m_device, m_spatialGridMemory);
+    }
+
     // 2b. Create acceleration structures for RTX (if enabled)
     if (m_useRTX) {
         DBGPRINT << "Creating RTX acceleration structures...\n";
 
-        // Create AABB buffer - single AABB covering entire octree [0,0,0] to [256,256,256]
+        // Create AABB buffer - single AABB covering entire octree [0,0,0] to [grid,grid,grid]
         struct AABB { float minX, minY, minZ, maxX, maxY, maxZ; };
-        AABB aabb = {0.0f, 0.0f, 0.0f, 256.0f, 256.0f, 256.0f};
+        float gridMax = static_cast<float>(m_gridSize);
+        AABB aabb = {0.0f, 0.0f, 0.0f, gridMax, gridMax, gridMax};
 
         VkDeviceSize aabbSize = sizeof(AABB);
 
@@ -810,6 +1142,31 @@ bool VulkanRenderer::init() {
             bindings.push_back(binding3);
         }
 
+        // binding 4: emissive voxel positions
+        VkDescriptorSetLayoutBinding binding4{};
+        binding4.binding = 4;
+        binding4.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        binding4.descriptorCount = 1;
+        binding4.stageFlags = m_useRTX ? VK_SHADER_STAGE_RAYGEN_BIT_KHR : VK_SHADER_STAGE_COMPUTE_BIT;
+        bindings.push_back(binding4);
+
+        // binding 5: shader params uniform buffer
+        VkDescriptorSetLayoutBinding binding5{};
+        binding5.binding = 5;
+        binding5.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        binding5.descriptorCount = 1;
+        binding5.stageFlags = m_useRTX ? (VK_SHADER_STAGE_RAYGEN_BIT_KHR | VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR)
+                           : VK_SHADER_STAGE_COMPUTE_BIT;
+        bindings.push_back(binding5);
+
+        // binding 6: spatial light grid
+        VkDescriptorSetLayoutBinding binding6{};
+        binding6.binding = 6;
+        binding6.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        binding6.descriptorCount = 1;
+        binding6.stageFlags = m_useRTX ? VK_SHADER_STAGE_RAYGEN_BIT_KHR : VK_SHADER_STAGE_COMPUTE_BIT;
+        bindings.push_back(binding6);
+
         VkDescriptorSetLayoutCreateInfo dslci{};
         dslci.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
         dslci.bindingCount = static_cast<uint32_t>(bindings.size());
@@ -833,8 +1190,13 @@ bool VulkanRenderer::init() {
 
         VkDescriptorPoolSize poolSize1{};
         poolSize1.type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-        poolSize1.descriptorCount = 2;
+        poolSize1.descriptorCount = 4; // nodes, colors, emissive, spatial grid
         poolSizes.push_back(poolSize1);
+
+        VkDescriptorPoolSize poolSize3{};
+        poolSize3.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        poolSize3.descriptorCount = 1;
+        poolSizes.push_back(poolSize3);
 
         if (m_useRTX) {
             VkDescriptorPoolSize poolSize2{};
@@ -933,11 +1295,185 @@ bool VulkanRenderer::init() {
             writes.push_back(write3);
         }
 
+        // Emissive voxel buffer write
+        VkDescriptorBufferInfo emissiveInfo{};
+        emissiveInfo.buffer = m_emissiveBuffer;
+        emissiveInfo.offset = 0;
+        emissiveInfo.range = VK_WHOLE_SIZE;
+
+        VkWriteDescriptorSet write4{};
+        write4.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write4.dstSet = m_rtDescSet;
+        write4.dstBinding = 4;
+        write4.descriptorCount = 1;
+        write4.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        write4.pBufferInfo = &emissiveInfo;
+        writes.push_back(write4);
+
+        VkDescriptorBufferInfo paramsInfo{};
+        paramsInfo.buffer = m_shaderParamsBuffer;
+        paramsInfo.offset = 0;
+        paramsInfo.range = sizeof(ShaderParamsCPU);
+
+        VkWriteDescriptorSet write5{};
+        write5.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write5.dstSet = m_rtDescSet;
+        write5.dstBinding = 5;
+        write5.descriptorCount = 1;
+        write5.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        write5.pBufferInfo = &paramsInfo;
+        writes.push_back(write5);
+
+        // Spatial grid buffer write
+        VkDescriptorBufferInfo gridInfo{};
+        gridInfo.buffer = m_spatialGridBuffer;
+        gridInfo.offset = 0;
+        gridInfo.range = VK_WHOLE_SIZE;
+
+        VkWriteDescriptorSet write6{};
+        write6.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        write6.dstSet = m_rtDescSet;
+        write6.dstBinding = 6;
+        write6.descriptorCount = 1;
+        write6.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+        write6.pBufferInfo = &gridInfo;
+        writes.push_back(write6);
+
         vkUpdateDescriptorSets(m_device, static_cast<uint32_t>(writes.size()), writes.data(), 0, nullptr);
         DBGPRINT << "Descriptor sets updated\n";
     }
 
-    // Transition storage image to GENERAL for repeated use in compute shaders
+    // 5b. Create postprocess descriptor set layout/pool/set
+    {
+        VkDescriptorSetLayoutBinding srcBinding{};
+        srcBinding.binding = 0;
+        srcBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        srcBinding.descriptorCount = 1;
+        srcBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+        VkDescriptorSetLayoutBinding dstBinding{};
+        dstBinding.binding = 1;
+        dstBinding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        dstBinding.descriptorCount = 1;
+        dstBinding.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+
+        VkDescriptorSetLayoutBinding bindings[] = { srcBinding, dstBinding };
+
+        VkDescriptorSetLayoutCreateInfo dslci{};
+        dslci.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+        dslci.bindingCount = 2;
+        dslci.pBindings = bindings;
+
+        if (vkCreateDescriptorSetLayout(m_device, &dslci, nullptr, &m_postDescSetLayout) != VK_SUCCESS) {
+            std::cerr << "vkCreateDescriptorSetLayout (post) failed\n";
+            return false;
+        }
+
+        VkDescriptorPoolSize poolSizes[2]{};
+        poolSizes[0].type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        poolSizes[0].descriptorCount = 1;
+        poolSizes[1].type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        poolSizes[1].descriptorCount = 1;
+
+        VkDescriptorPoolCreateInfo dpci{};
+        dpci.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        dpci.maxSets = 1;
+        dpci.poolSizeCount = 2;
+        dpci.pPoolSizes = poolSizes;
+
+        if (vkCreateDescriptorPool(m_device, &dpci, nullptr, &m_postDescPool) != VK_SUCCESS) {
+            std::cerr << "vkCreateDescriptorPool (post) failed\n";
+            return false;
+        }
+
+        VkDescriptorSetAllocateInfo dsai{};
+        dsai.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        dsai.descriptorPool = m_postDescPool;
+        dsai.descriptorSetCount = 1;
+        dsai.pSetLayouts = &m_postDescSetLayout;
+
+        if (vkAllocateDescriptorSets(m_device, &dsai, &m_postDescSet) != VK_SUCCESS) {
+            std::cerr << "vkAllocateDescriptorSets (post) failed\n";
+            return false;
+        }
+
+        VkDescriptorImageInfo srcInfo{};
+        srcInfo.imageView = m_rtImageView;
+        srcInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+
+        VkDescriptorImageInfo dstInfo{};
+        dstInfo.imageView = m_postImageView;
+        dstInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
+
+        VkWriteDescriptorSet writes[2]{};
+        writes[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[0].dstSet = m_postDescSet;
+        writes[0].dstBinding = 0;
+        writes[0].descriptorCount = 1;
+        writes[0].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        writes[0].pImageInfo = &srcInfo;
+
+        writes[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        writes[1].dstSet = m_postDescSet;
+        writes[1].dstBinding = 1;
+        writes[1].descriptorCount = 1;
+        writes[1].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+        writes[1].pImageInfo = &dstInfo;
+
+        vkUpdateDescriptorSets(m_device, 2, writes, 0, nullptr);
+    }
+
+    // 5c. Create bloom compute pipeline
+    {
+        std::vector<char> bloomCode = vox::loadSpv("shaders/bloom.comp.spv");
+        if (bloomCode.empty()) {
+            std::cerr << "Failed to load bloom shader SPIR-V\n";
+            return false;
+        }
+
+        VkShaderModule bloomModule = vox::createShaderModule(m_device, bloomCode);
+        if (bloomModule == VK_NULL_HANDLE) {
+            std::cerr << "Bloom shader module creation failed\n";
+            return false;
+        }
+
+        VkPushConstantRange pushRange{};
+        pushRange.stageFlags = VK_SHADER_STAGE_COMPUTE_BIT;
+        pushRange.offset = 0;
+        pushRange.size = sizeof(float) * 4;
+
+        VkPipelineLayoutCreateInfo plci{};
+        plci.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+        plci.setLayoutCount = 1;
+        plci.pSetLayouts = &m_postDescSetLayout;
+        plci.pushConstantRangeCount = 1;
+        plci.pPushConstantRanges = &pushRange;
+
+        if (vkCreatePipelineLayout(m_device, &plci, nullptr, &m_postPipelineLayout) != VK_SUCCESS) {
+            std::cerr << "vkCreatePipelineLayout (post) failed\n";
+            return false;
+        }
+
+        VkPipelineShaderStageCreateInfo stageInfo{};
+        stageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+        stageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+        stageInfo.module = bloomModule;
+        stageInfo.pName = "main";
+
+        VkComputePipelineCreateInfo cpci{};
+        cpci.sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO;
+        cpci.layout = m_postPipelineLayout;
+        cpci.stage = stageInfo;
+
+        if (vkCreateComputePipelines(m_device, VK_NULL_HANDLE, 1, &cpci, nullptr, &m_postPipeline) != VK_SUCCESS) {
+            std::cerr << "vkCreateComputePipelines (post) failed\n";
+            return false;
+        }
+
+        vkDestroyShaderModule(m_device, bloomModule, nullptr);
+    }
+
+    // Transition storage images to GENERAL for repeated use in compute shaders
     {
         VkCommandBufferAllocateInfo cbai{};
         cbai.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -953,25 +1489,29 @@ bool VulkanRenderer::init() {
         cbbi.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
         vkBeginCommandBuffer(transCmd, &cbbi);
 
-        VkImageMemoryBarrier2 imb{};
-        imb.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
-        imb.srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
-        imb.srcAccessMask = 0;
-        imb.dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT;
-        imb.dstAccessMask = VK_ACCESS_2_SHADER_WRITE_BIT;
-        imb.oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        imb.newLayout = VK_IMAGE_LAYOUT_GENERAL;
-        imb.image = m_rtImage;
-        imb.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        imb.subresourceRange.baseMipLevel = 0;
-        imb.subresourceRange.levelCount = 1;
-        imb.subresourceRange.baseArrayLayer = 0;
-        imb.subresourceRange.layerCount = 1;
+        VkImageMemoryBarrier2 barriers[2]{};
+
+        barriers[0].sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2;
+        barriers[0].srcStageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+        barriers[0].srcAccessMask = 0;
+        barriers[0].dstStageMask = VK_PIPELINE_STAGE_2_COMPUTE_SHADER_BIT;
+        barriers[0].dstAccessMask = VK_ACCESS_2_SHADER_WRITE_BIT;
+        barriers[0].oldLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        barriers[0].newLayout = VK_IMAGE_LAYOUT_GENERAL;
+        barriers[0].image = m_rtImage;
+        barriers[0].subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+        barriers[0].subresourceRange.baseMipLevel = 0;
+        barriers[0].subresourceRange.levelCount = 1;
+        barriers[0].subresourceRange.baseArrayLayer = 0;
+        barriers[0].subresourceRange.layerCount = 1;
+
+        barriers[1] = barriers[0];
+        barriers[1].image = m_postImage;
 
         VkDependencyInfo depInfo{};
         depInfo.sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO;
-        depInfo.imageMemoryBarrierCount = 1;
-        depInfo.pImageMemoryBarriers = &imb;
+        depInfo.imageMemoryBarrierCount = 2;
+        depInfo.pImageMemoryBarriers = barriers;
 
         vkCmdPipelineBarrier2(transCmd, &depInfo);
 
@@ -989,7 +1529,7 @@ bool VulkanRenderer::init() {
         vkQueueWaitIdle(m_graphicsQueue);
 
         vkFreeCommandBuffers(m_device, m_cmdPool, 1, &transCmd);
-        DBGPRINT << "Storage image transitioned to GENERAL\n";
+        DBGPRINT << "Storage images transitioned to GENERAL\n";
     }
 
     // 6. Create pipeline (RTX ray tracing or compute fallback)

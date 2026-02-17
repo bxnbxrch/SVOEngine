@@ -1,9 +1,16 @@
 #version 460
 #extension GL_EXT_ray_tracing : require
 
-layout(location = 0) rayPayloadInEXT vec3 hitColor;
+struct Payload {
+    vec3 albedo;
+    vec3 normal;
+    vec3 position;
+    float emissive;
+    uint hit;
+};
+
+layout(location = 0) rayPayloadInEXT Payload payload;
 
 void main() {
-    // Background color on miss to match swapchain clear
-    hitColor = vec3(0.05, 0.05, 0.08);
+    payload.hit = 0u;
 }

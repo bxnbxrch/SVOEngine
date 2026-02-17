@@ -1,5 +1,6 @@
 # Hashes of file build rules.
 5084ae6e3f24107ec5b5e887cfe11a93 CMakeFiles/Shaders
+dda0112acbf77344ebd7c28110139689 shaders/bloom.comp.spv
 db1e12a0d572148bcd199b6b0ea031cf shaders/raytrace.comp.spv
 c1d2d76056937e874b9144054522774b shaders/raytrace.rchit.spv
 c9468dcc892d4346b0b5c5a68af63596 shaders/raytrace.rgen.spv

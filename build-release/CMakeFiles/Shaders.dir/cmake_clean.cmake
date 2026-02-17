@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Shaders"
+  "shaders/bloom.comp.spv"
   "shaders/raytrace.comp.spv"
   "shaders/raytrace.rchit.spv"
   "shaders/raytrace.rgen.spv"

@@ -15,6 +15,7 @@ set(SHADER_SRC_DIR "${CMAKE_SOURCE_DIR}/shaders")
 set(SHADER_OUT_DIR "${CMAKE_BINARY_DIR}/shaders")
 compile_shaders(${SHADER_OUT_DIR} ${SHADER_SRC_DIR}
   raytrace.comp
+  bloom.comp
   raytrace.rgen
   raytrace.rchit
   raytrace.rmiss
@@ -23,6 +24,13 @@ compile_shaders(${SHADER_OUT_DIR} ${SHADER_SRC_DIR}
 # COMPILED_SHADER_SPVS is populated by compile_shaders()
 
 add_executable(vox
+  third_party/imgui/imgui.cpp
+  third_party/imgui/imgui_draw.cpp
+  third_party/imgui/imgui_tables.cpp
+  third_party/imgui/imgui_widgets.cpp
+  third_party/imgui/imgui_demo.cpp
+  third_party/imgui/backends/imgui_impl_sdl2.cpp
+  third_party/imgui/backends/imgui_impl_vulkan.cpp
   src/main.cpp
   src/Application.cpp
   src/Window.cpp
@@ -60,7 +68,11 @@ if(ENABLE_DBGPRINT)
   target_compile_definitions(vox PRIVATE DEBUG)
 endif()
 # expose public headers
-target_include_directories(vox PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(vox PRIVATE
+  ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}/third_party/imgui
+  ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
+)
 
 if (TARGET SDL2::SDL2)
   target_link_libraries(vox PRIVATE SDL2::SDL2 Vulkan::Vulkan glm::glm)

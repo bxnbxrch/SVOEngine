@@ -88,12 +88,12 @@ clean: CMakeFiles/vox.dir/clean
 CMakeFiles/Shaders.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Shaders.dir/build.make CMakeFiles/Shaders.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Shaders.dir/build.make CMakeFiles/Shaders.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=1,2,3,4,5 "Built target Shaders"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target Shaders"
 .PHONY : CMakeFiles/Shaders.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Shaders.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Shaders.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 0
 .PHONY : CMakeFiles/Shaders.dir/rule
@@ -105,7 +105,7 @@ Shaders: CMakeFiles/Shaders.dir/rule
 # codegen rule for target.
 CMakeFiles/Shaders.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Shaders.dir/build.make CMakeFiles/Shaders.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target Shaders"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target Shaders"
 .PHONY : CMakeFiles/Shaders.dir/codegen
 
 # clean rule for target.
@@ -120,12 +120,12 @@ CMakeFiles/Shaders.dir/clean:
 CMakeFiles/vox.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=6,7,8,9,10,11,12,13,14,15,16,17 "Built target vox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44 "Built target vox"
 .PHONY : CMakeFiles/vox.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/vox.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 12
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 38
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/vox.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles 0
 .PHONY : CMakeFiles/vox.dir/rule
@@ -137,7 +137,7 @@ vox: CMakeFiles/vox.dir/rule
 # codegen rule for target.
 CMakeFiles/vox.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/vox.dir/build.make CMakeFiles/vox.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=6,7,8,9,10,11,12,13,14,15,16,17 "Finished codegen for target vox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44 "Finished codegen for target vox"
 .PHONY : CMakeFiles/vox.dir/codegen
 
 # clean rule for target.

@@ -465,6 +465,8 @@ CMakeFiles/vox.dir/src/Application.cpp.o: \
  /usr/include/glm/detail/type_half.hpp \
  /usr/include/glm/detail/type_half.inl /usr/include/glm/integer.hpp \
  /usr/include/glm/detail/func_integer.inl \
+ /home/ben/Documents/SVOEngien/SVOEngine/third_party/imgui/imgui.h \
+ /home/ben/Documents/SVOEngien/SVOEngine/third_party/imgui/imconfig.h \
  /usr/include/glm/gtx/string_cast.hpp \
  /usr/include/glm/gtc/type_precision.hpp \
  /usr/include/glm/gtc/quaternion.hpp /usr/include/glm/gtc/constants.hpp \

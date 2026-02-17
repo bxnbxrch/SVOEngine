@@ -1,0 +1,48 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+layout(binding = 0, set = 0, rgba8) uniform readonly image2D srcImage;
+layout(binding = 1, set = 0, rgba8) uniform writeonly image2D dstImage;
+
+layout(push_constant) uniform BloomParams {
+    float threshold;
+    float intensity;
+    float radius;
+    float padding;
+} pc;
+
+float luminance(vec3 c) {
+    return dot(c, vec3(0.2126, 0.7152, 0.0722));
+}
+
+void main() {
+    ivec2 coord = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 size = imageSize(srcImage);
+    if (coord.x >= size.x || coord.y >= size.y) return;
+
+    vec4 srcRaw = imageLoad(srcImage, coord);
+    vec3 srcColor = srcRaw.bgr;
+
+    vec3 bloom = vec3(0.0);
+    int r = int(clamp(pc.radius, 1.0, 4.0));
+    int samples = 0;
+
+    for (int y = -r; y <= r; ++y) {
+        for (int x = -r; x <= r; ++x) {
+            ivec2 p = clamp(coord + ivec2(x, y), ivec2(0), size - ivec2(1));
+            vec3 c = imageLoad(srcImage, p).bgr;
+            float l = luminance(c);
+            float w = max(l - pc.threshold, 0.0);
+            bloom += c * w;
+            samples++;
+        }
+    }
+
+    if (samples > 0) {
+        bloom /= float(samples);
+    }
+
+    vec3 outColor = clamp(srcColor + bloom * pc.intensity, 0.0, 1.0);
+    imageStore(dstImage, coord, vec4(outColor.bgr, 1.0));
+}

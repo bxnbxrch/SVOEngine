@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <chrono>
+#include <glm/glm.hpp>
 
 namespace vox {
 class SparseVoxelOctree;
@@ -20,6 +21,8 @@ public:
     bool init();
     void drawFrame();
     void toggleGridOverlay();
+    void toggleDebugLighting();
+    void toggleGUI();
     void recreateSwapchain();
 
     // input-driven controls
@@ -27,6 +30,22 @@ public:
     void adjustPitch(float delta);
     void adjustYaw(float delta);
     void togglePauseOrbit();
+    
+    // Free-fly camera controls
+    void toggleCameraMode();
+    void moveCameraForward(float amount);
+    void moveCameraRight(float amount);
+    void moveCameraUp(float amount);
+    void rotateCameraYaw(float delta);
+    void rotateCameraPitch(float delta);
+    // set free-fly camera position and forward direction (for benchmarking)
+    void setCameraTransform(const glm::vec3 &pos, const glm::vec3 &forward);
+    
+    // check if in free-fly camera mode
+    bool isFreeFlyMode() const { return m_freeFlyCameraMode; }
+    
+    // check if GUI is visible
+    bool isGUIVisible() const { return m_guiVisible; }
 
     bool valid() const { return m_initialized; }
 
@@ -48,6 +67,8 @@ private:
     VkFormat m_surfaceFormat = VK_FORMAT_UNDEFINED;
     VkExtent2D m_extent{};
 
+    uint32_t m_gridSize = 256;
+
     VkCommandPool m_cmdPool = VK_NULL_HANDLE;
     std::vector<VkCommandBuffer> m_cmdBuffers;
 
@@ -64,6 +85,10 @@ private:
     VkDeviceMemory m_rtImageMemory = VK_NULL_HANDLE;
     VkImageView m_rtImageView = VK_NULL_HANDLE;
 
+    VkImage m_postImage = VK_NULL_HANDLE; // postprocess output (bloom)
+    VkDeviceMemory m_postImageMemory = VK_NULL_HANDLE;
+    VkImageView m_postImageView = VK_NULL_HANDLE;
+
     VkDescriptorSetLayout m_rtDescSetLayout = VK_NULL_HANDLE;
     VkDescriptorPool m_rtDescPool = VK_NULL_HANDLE;
     VkDescriptorSet m_rtDescSet = VK_NULL_HANDLE;
@@ -71,8 +96,25 @@ private:
     VkPipelineLayout m_rtPipelineLayout = VK_NULL_HANDLE;
     VkPipeline m_rtPipeline = VK_NULL_HANDLE;
 
+    VkDescriptorSetLayout m_postDescSetLayout = VK_NULL_HANDLE;
+    VkDescriptorPool m_postDescPool = VK_NULL_HANDLE;
+    VkDescriptorSet m_postDescSet = VK_NULL_HANDLE;
+    VkPipelineLayout m_postPipelineLayout = VK_NULL_HANDLE;
+    VkPipeline m_postPipeline = VK_NULL_HANDLE;
+
+    VkDescriptorPool m_imguiPool = VK_NULL_HANDLE;
+    bool m_imguiInitialized = false;
+    bool m_guiVisible = true;
+
     // runtime debug flags
-    bool m_showSvoOverlay = true; // default: visible
+    bool m_showSvoOverlay = false; // default: disabled for performance
+    int m_debugMode = 0;
+    bool m_bloomEnabled = false;
+    float m_resolutionScale = 1.0f; // render scale (0.5 = half res)
+    bool m_temporalEnabled = false; // temporal reprojection (not yet implemented)
+    float m_bloomThreshold = 0.9f;
+    float m_bloomIntensity = 0.6f;
+    float m_bloomRadius = 2.0f;
 
     // camera / input-controlled parameters
     float m_distance = 400.0f;      // distance from target
@@ -83,12 +125,46 @@ private:
     float m_pausedTime = 0.0f;
     std::chrono::high_resolution_clock::time_point m_startTime;
     bool m_manualControl = false;
+    
+    // Free-fly camera mode
+    bool m_freeFlyCameraMode = false;
+    glm::vec3 m_cameraPosition{1024.0f, 585.0f, 1024.0f}; // Start at center +Y
+    glm::vec3 m_cameraForward{1.0f, 0.0f, 0.0f};
+    glm::vec3 m_cameraRight{0.0f, 0.0f, -1.0f};
+    glm::vec3 m_cameraUp{0.0f, 1.0f, 0.0f};
+    float m_freeFlyYaw = 0.0f;
+    float m_freeFlyPitch = 0.0f;
 
     // Octree data buffers
     VkBuffer m_octreeNodesBuffer = VK_NULL_HANDLE;
     VkDeviceMemory m_octreeNodesMemory = VK_NULL_HANDLE;
     VkBuffer m_octreeColorsBuffer = VK_NULL_HANDLE;
     VkDeviceMemory m_octreeColorsMemory = VK_NULL_HANDLE;
+
+    VkBuffer m_emissiveBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_emissiveMemory = VK_NULL_HANDLE;
+
+    VkBuffer m_spatialGridBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_spatialGridMemory = VK_NULL_HANDLE;
+
+    VkBuffer m_shaderParamsBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_shaderParamsMemory = VK_NULL_HANDLE;
+
+    struct ShaderParamsCPU {
+        glm::vec4 bgColor;
+        glm::vec4 keyDir;
+        glm::vec4 fillDir;
+        glm::vec4 params0; // ambient, emissiveSelf, emissiveDirect, attenFactor
+        glm::vec4 params1; // attenBias, maxLights, debugMode, ddaEps
+        glm::vec4 params2; // ddaEpsScale, reserved, reserved, reserved
+    } m_shaderParams{
+        glm::vec4(0.05f, 0.05f, 0.08f, 0.0f),
+        glm::vec4(glm::normalize(glm::vec3(0.6f, 0.8f, 0.4f)), 0.6f),
+        glm::vec4(glm::normalize(glm::vec3(-0.3f, -0.5f, -0.2f)), 0.2f),
+        glm::vec4(0.3f, 4.0f, 6.0f, 0.02f),
+        glm::vec4(1.0f, 0.0f, 0.0f, 0.001f),
+        glm::vec4(0.0002f, 0.0f, 0.0f, 0.0f)
+    };
     
     // RTX ray tracing
     bool m_useRTX = false;

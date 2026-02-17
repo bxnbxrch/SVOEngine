@@ -9,6 +9,15 @@ layout(binding = 2, set = 0, std430) readonly buffer ColorsBuffer {
     uint colors[];
 };
 
+layout(std140, binding = 5, set = 0) uniform ShaderParams {
+    vec4 bgColor;
+    vec4 keyDir;
+    vec4 fillDir;
+    vec4 params0; // ambient, emissiveSelf, emissiveDirect, attenFactor
+    vec4 params1; // attenBias, maxLights, debugMode, ddaEps
+    vec4 params2; // ddaEpsScale, reserved, reserved, reserved
+};
+
 layout(push_constant) uniform PushConstants {
     float time;
     uint debugMask;
@@ -16,19 +25,30 @@ layout(push_constant) uniform PushConstants {
     float yaw;
     float pitch;
     float fov;
+    float gridSize;
+    uint pad;
 } pc;
 
-layout(location = 0) rayPayloadInEXT vec3 hitColor;
+struct Payload {
+    vec3 albedo;
+    vec3 normal;
+    vec3 position;
+    float emissive;
+    uint hit;
+};
+
+layout(location = 0) rayPayloadInEXT Payload payload;
 
 const uint LEAF_BIT = 0x80000000u;
-const uint OCTREE_DEPTH = 8u;
-const float GRID_SIZE = 256.0;
+const uint HOMOGENEOUS_BIT = 0x40000000u;
+const uint OCTREE_DEPTH = 11u;
 
 vec4 unpackColor(uint packed) {
+    float e = float((packed >> 24) & 0xFFu) / 255.0;
     float r = float((packed >> 16) & 0xFFu) / 255.0;
     float g = float((packed >> 8)  & 0xFFu) / 255.0;
     float b = float(packed         & 0xFFu) / 255.0;
-    return vec4(r, g, b, 1.0);
+    return vec4(r, g, b, e);
 }
 
 vec2 intersectAABB(vec3 origin, vec3 invDir, vec3 boxMin, vec3 boxMax) {
@@ -39,6 +59,10 @@ vec2 intersectAABB(vec3 origin, vec3 invDir, vec3 boxMin, vec3 boxMax) {
     float tNear = max(max(tmin.x, tmin.y), tmin.z);
     float tFar  = min(min(tmax.x, tmax.y), tmax.z);
     return vec2(tNear, tFar);
+}
+
+bool isFiniteVec2(vec2 v) {
+    return !any(isnan(v)) && !any(isinf(v));
 }
 
 vec3 computeAABBNormal(vec3 hitPoint, vec3 boxMin, vec3 boxMax) {
@@ -68,63 +92,63 @@ void main() {
     direction = normalize(direction);
     vec3 invDir = 1.0 / max(abs(direction), vec3(1e-8)) * sign(direction);
     
-    vec2 tRoot = intersectAABB(origin, invDir, vec3(0.0), vec3(GRID_SIZE));
+    vec2 tRoot = intersectAABB(origin, invDir, vec3(0.0), vec3(pc.gridSize));
     if (tRoot.x > tRoot.y || tRoot.y < 0.0) {
-        hitColor = vec3(0.0);
+        payload.hit = 0u;
         return;
     }
     
-    float t = max(tRoot.x, 0.0) + 0.0001;
+    float tEps = params1.w;
+    float t = max(tRoot.x, 0.0) + tEps;
     
     // Octree traversal
     for (int iter = 0; iter < 256; ++iter) {
         vec3 pos = origin + direction * t;
         
-        if (pos.x < 0.0 || pos.x >= GRID_SIZE ||
-            pos.y < 0.0 || pos.y >= GRID_SIZE ||
-            pos.z < 0.0 || pos.z >= GRID_SIZE) {
+        if (pos.x < 0.0 || pos.x >= pc.gridSize ||
+            pos.y < 0.0 || pos.y >= pc.gridSize ||
+            pos.z < 0.0 || pos.z >= pc.gridSize) {
             break;
         }
         
-        pos = clamp(pos, vec3(0.0), vec3(GRID_SIZE - 0.0001));
+        pos = clamp(pos, vec3(0.0), vec3(pc.gridSize - tEps));
         
         uint nodeIdx = 0;
         vec3 nodeMin = vec3(0.0);
-        float nodeSize = GRID_SIZE;
+        float nodeSize = pc.gridSize;
         
         for (uint depth = 0u; depth < OCTREE_DEPTH; ++depth) {
             if (nodeIdx >= nodes.length()) break;
             uint nodeData = nodes[nodeIdx];
             
             if ((nodeData & LEAF_BIT) != 0u) {
-                uint colorIdx = nodeData & 0x7FFFFFFFu;
+                uint colorIdx = nodeData & 0x3FFFFFFFu;
                 if (colorIdx < colors.length()) {
                     vec3 nodeMax = nodeMin + vec3(nodeSize);
                     vec2 tVoxel = intersectAABB(origin, invDir, nodeMin, nodeMax);
+                    if (!isFiniteVec2(tVoxel)) {
+                        payload.hit = 0u;
+                        return;
+                    }
                     vec3 hitPoint = origin + direction * max(tVoxel.x, 0.0);
                     
                     vec4 color = unpackColor(colors[colorIdx]);
                     vec3 normal = computeAABBNormal(hitPoint, nodeMin, nodeMax);
                     
-                    // Simple lighting
-                    vec3 keyLight = normalize(vec3(0.6, 0.8, 0.4));
-                    vec3 fillLight = normalize(vec3(-0.3, -0.5, -0.2));
-                    
-                    float keyDiffuse = max(dot(normal, keyLight), 0.0);
-                    float fillDiffuse = max(dot(normal, fillLight), 0.0);
-                    float ambient = 0.3;
-                    
-                    float lighting = ambient + keyDiffuse * 0.6 + fillDiffuse * 0.2;
-                    lighting = clamp(lighting, 0.0, 1.0);
-                    
-                    hitColor = color.rgb * lighting;
+                    payload.albedo = color.rgb;
+                    payload.normal = normal;
+                    payload.position = hitPoint;
+                    payload.emissive = color.a;
+                    payload.hit = 1u;
                     return;
                 }
-                hitColor = vec3(0.0);
+                payload.hit = 0u;
                 return;
             }
             
-            uint childPtr = nodeData & 0x7FFFFFFFu;
+            // Skip old homogeneous check - compressed nodes are now leaves
+            
+            uint childPtr = nodeData & 0x3FFFFFFFu;
             if (childPtr == 0u) break;
             
             float halfSize = nodeSize * 0.5;
@@ -144,11 +168,18 @@ void main() {
         
         vec3 nodeMax = nodeMin + vec3(nodeSize);
         vec2 tNode = intersectAABB(origin, invDir, nodeMin, nodeMax);
+        if (!isFiniteVec2(tNode)) {
+            break;
+        }
         
-        float epsilon = max(0.0001, nodeSize * 0.0001);
-        t = tNode.y + epsilon;
+        float epsilon = max(tEps, nodeSize * params2.x);
+        float nextT = tNode.y + epsilon;
+        if (nextT <= t) {
+            nextT = t + epsilon;
+        }
+        t = nextT;
     }
     
-    hitColor = vec3(0.0);
+    payload.hit = 0u;
 }
 
