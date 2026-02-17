@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/ben/Documents/vox/build-release/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

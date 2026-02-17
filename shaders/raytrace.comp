@@ -1,0 +1,238 @@
+#version 450
+
+layout(binding = 0, set = 0, rgba8) uniform image2D outImage;
+
+// Octree nodes: data = (MSB: isLeaf, bits[30:0]: childPtr or colorIdx)
+layout(binding = 1, set = 0, std430) readonly buffer NodesBuffer {
+    uint nodes[];
+};
+
+// Colors: RGB packed as 0x00RRGGBB
+layout(binding = 2, set = 0, std430) readonly buffer ColorsBuffer {
+    uint colors[];
+};
+
+layout(push_constant) uniform PushConstants {
+    float time;
+    uint debugMask; // bit0 = draw grids/subgrids, bit1 = draw root bounds, bit2 = manual orbit
+    float orbitRadius; // overridden from renderer
+    float camHeight;
+    float fov;
+    float orbitAngle;
+} pc;
+
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+// Camera parameters
+const vec3 camLookAt = vec3(128.0); // center the whole SVO (GRID_SIZE/2)
+const vec3 camUp = vec3(0.0, 1.0, 0.0);
+
+const uint LEAF_BIT = 0x80000000u;
+const uint OCTREE_DEPTH = 8u;       // 2^8 = 256 voxels per axis
+const float GRID_SIZE = 256.0;      // octree spans [0, 256)
+
+// Unpack RGB color (0x00RRGGBB -> vec4 RGBA)
+vec4 unpackColor(uint packed) {
+    float r = float((packed >> 16) & 0xFFu) / 255.0;
+    float g = float((packed >> 8)  & 0xFFu) / 255.0;
+    float b = float(packed         & 0xFFu) / 255.0;
+    return vec4(r, g, b, 1.0);
+}
+
+// Ray-AABB intersection. Returns (tNear, tFar). Miss if tNear > tFar.
+vec2 intersectAABB(vec3 origin, vec3 invDir, vec3 boxMin, vec3 boxMax) {
+    vec3 t0 = (boxMin - origin) * invDir;
+    vec3 t1 = (boxMax - origin) * invDir;
+    vec3 tmin = min(t0, t1);
+    vec3 tmax = max(t0, t1);
+    float tNear = max(max(tmin.x, tmin.y), tmin.z);
+    float tFar  = min(min(tmax.x, tmax.y), tmax.z);
+    return vec2(tNear, tFar);
+}
+
+// DDA-based sparse voxel octree traversal
+// Uses hierarchical DDA: descend into children, skip empty subtrees by
+// advancing the ray to the exit face of the empty node's AABB.
+vec4 traceRay(vec3 origin, vec3 direction) {
+    direction = normalize(direction);
+    
+    // Prevent division by zero
+    vec3 invDir = 1.0 / mix(direction, vec3(1e-6), lessThan(abs(direction), vec3(1e-8)));
+
+    // Intersect the root bounding box [0, GRID_SIZE)
+    vec2 tRoot = intersectAABB(origin, invDir, vec3(0.0), vec3(GRID_SIZE));
+    if (tRoot.x > tRoot.y || tRoot.y < 0.0) return vec4(0.0); // Ray misses octree
+
+    // Start at the entry point (or origin if already inside)
+    float t = max(tRoot.x, 0.0) + 1e-4;
+
+    // Stack for octree traversal (node index, box min, box size, t_exit)
+    // We use an iterative approach: at each step, find the leaf or empty node,
+    // then advance past it.
+    for (int iter = 0; iter < 512; ++iter) {
+        vec3 pos = origin + direction * t;
+        
+        // Check bounds
+        if (pos.x < 0.0 || pos.x >= GRID_SIZE ||
+            pos.y < 0.0 || pos.y >= GRID_SIZE ||
+            pos.z < 0.0 || pos.z >= GRID_SIZE) {
+            break;
+        }
+
+        // Descend the octree from root to find the deepest node at `pos`
+        uint nodeIdx = 0;
+        vec3 nodeMin = vec3(0.0);
+        float nodeSize = GRID_SIZE;
+
+        for (uint depth = 0u; depth < OCTREE_DEPTH; ++depth) {
+            if (nodeIdx >= nodes.length()) break;
+            uint nodeData = nodes[nodeIdx];
+
+            // Leaf hit
+            if ((nodeData & LEAF_BIT) != 0u) {
+                uint colorIdx = nodeData & 0x7FFFFFFFu;
+                if (colorIdx < colors.length()) {
+                    return unpackColor(colors[colorIdx]);
+                }
+                return vec4(0.0);
+            }
+
+            // Get child pointer
+            uint childPtr = nodeData & 0x7FFFFFFFu;
+            if (childPtr == 0u) {
+                // Empty internal node — skip its entire AABB
+                break;
+            }
+
+            // Determine which child octant the position falls in
+            float halfSize = nodeSize * 0.5;
+            vec3 mid = nodeMin + vec3(halfSize);
+            
+            uint childIdx = 0u;
+            vec3 childMin = nodeMin;
+            
+            if (pos.x >= mid.x) { childIdx += 4u; childMin.x = mid.x; }
+            if (pos.y >= mid.y) { childIdx += 2u; childMin.y = mid.y; }
+            if (pos.z >= mid.z) { childIdx += 1u; childMin.z = mid.z; }
+
+            nodeIdx = childPtr + childIdx;
+            nodeMin = childMin;
+            nodeSize = halfSize;
+        }
+
+        // We exited the loop without hitting a leaf — the node at `pos` is empty.
+        // Advance ray to exit face of the current (empty) node's AABB using DDA.
+        vec3 nodeMax = nodeMin + vec3(nodeSize);
+        vec2 tNode = intersectAABB(origin, invDir, nodeMin, nodeMax);
+        
+        // Advance past this node
+        t = tNode.y + 1e-4;
+        
+        // Safety: if we didn't advance, force a small step
+        if (t <= tNode.x + 1e-4) {
+            t += nodeSize * 0.5;
+        }
+    }
+
+    return vec4(0.0);
+}
+
+void main() {
+    ivec2 pixelCoord = ivec2(gl_GlobalInvocationID.xy);
+    ivec2 imageSize_val = imageSize(outImage);
+    
+    if (pixelCoord.x >= imageSize_val.x || pixelCoord.y >= imageSize_val.y) return;
+    
+    vec2 uv = vec2(pixelCoord) / vec2(imageSize_val);
+    
+    // Orbit camera (zoomed out) with safety clamp so camera never goes inside the SVO
+    // angle: either driven by time or by manual orbitAngle (bit2 in debugMask)
+    float angle = ((pc.debugMask & 4u) != 0u) ? pc.orbitAngle : pc.time * 0.5;
+    vec3 orbitCenter = camLookAt;
+    float camHeight = pc.camHeight;
+
+    // ensure camera distance (3D) is larger than SVO half-diagonal so it's always outside
+    float halfDiag = sqrt(3.0) * (GRID_SIZE * 0.5);
+    float desiredDist = halfDiag * 1.2; // margin so entire SVO is comfortably visible
+    float minOrbitRadius = sqrt(max(0.0, desiredDist * desiredDist - camHeight * camHeight));
+
+    float orbitRadius = max(pc.orbitRadius, minOrbitRadius);
+
+    vec3 camPos_world = orbitCenter + vec3(
+        sin(angle) * orbitRadius,
+        camHeight,
+        cos(angle) * orbitRadius
+    );
+    
+    // Camera basis
+    vec3 camDir = normalize(camLookAt - camPos_world);
+    vec3 camRight = normalize(cross(camDir, camUp));
+    vec3 camUpAdj = normalize(cross(camRight, camDir));
+    
+    // Perspective ray
+    float aspect = float(imageSize_val.x) / float(imageSize_val.y);
+    float scale = tan(radians(45.0) * 0.5);
+    
+    vec3 rayDir = normalize(
+        camDir +
+        camRight * (uv.x - 0.5) * aspect * scale +
+        camUpAdj * (uv.y - 0.5) * scale
+    );
+    
+    vec4 color = traceRay(camPos_world, rayDir);
+
+    // Sky gradient on miss
+    if (color.a == 0.0) {
+        float sky = max(rayDir.y, 0.0);
+        color = vec4(mix(vec3(0.15, 0.15, 0.2), vec3(0.4, 0.6, 0.9), sky), 1.0);
+    }
+
+    // --- SVO bounds / subgrid overlay (debugMask.bit0 = subgrids, bit1 = root bounds) ---
+    if ((pc.debugMask & 1u) != 0u) {
+        // sample a point inside the SVO along the ray (midpoint of entry/exit)
+        vec3 invDir = 1.0 / mix(rayDir, vec3(1e-6), lessThan(abs(rayDir), vec3(1e-8)));
+        vec2 tRoot = intersectAABB(camPos_world, invDir, vec3(0.0), vec3(GRID_SIZE));
+        if (!(tRoot.x > tRoot.y || tRoot.y < 0.0)) {
+            float tEntry = max(tRoot.x, 0.0);
+            float tSample = tEntry + 0.5 * (tRoot.y - tEntry);
+            vec3 samplePos = camPos_world + rayDir * tSample;
+
+            float overlayStrength = 0.0;
+            vec3 overlayColor = vec3(0.0);
+
+            // draw nested gridlines for each level
+            for (uint L = 0u; L < OCTREE_DEPTH; ++L) {
+                float cellSize = GRID_SIZE / float(1u << L);
+                vec3 coord = samplePos / cellSize;
+                vec3 f = fract(coord);
+                vec3 d = min(f, vec3(1.0) - f);
+                float planeDist = min(min(d.x, d.y), d.z);
+
+                float thickness = 0.03 / float(L + 1u); // coarser levels thicker
+                float a = smoothstep(thickness, 0.0, planeDist);
+                if (a > 0.001) {
+                    // simple coloring by level
+                    vec3 levelCol = mix(vec3(0.9,0.4,0.1), vec3(0.2,0.7,1.0), float(L) / float(OCTREE_DEPTH));
+                    overlayColor = mix(overlayColor, levelCol, a * 0.6);
+                    overlayStrength = max(overlayStrength, a * (1.0 - float(L) / float(OCTREE_DEPTH)));
+                }
+            }
+
+            // root bounding box highlight (bit1)
+            if ((pc.debugMask & 2u) != 0u) {
+                float eps = 0.5; // world-space tolerance for showing the box silhouette
+                if (abs(samplePos.x - 0.0) < eps || abs(samplePos.x - GRID_SIZE) < eps ||
+                    abs(samplePos.y - 0.0) < eps || abs(samplePos.y - GRID_SIZE) < eps ||
+                    abs(samplePos.z - 0.0) < eps || abs(samplePos.z - GRID_SIZE) < eps) {
+                    overlayColor = mix(overlayColor, vec3(1.0,1.0,1.0), 0.9);
+                    overlayStrength = max(overlayStrength, 1.0);
+                }
+            }
+
+            // composite overlay (additive tint)
+            color.rgb = mix(color.rgb, clamp(color.rgb + overlayColor * overlayStrength, 0.0, 1.0), overlayStrength * 0.7);
+        }
+    }
+
+    imageStore(outImage, pixelCoord, color);
+}
