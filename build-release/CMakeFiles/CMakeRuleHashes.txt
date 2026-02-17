@@ -1,3 +1,7 @@
 # Hashes of file build rules.
-d1b1cdd9517a309b3cf0091b2de97b1f CMakeFiles/Shaders
-5a3b492ce00d392c14d10865c0a02ccc shaders/raytrace.comp.spv
+5084ae6e3f24107ec5b5e887cfe11a93 CMakeFiles/Shaders
+db1e12a0d572148bcd199b6b0ea031cf shaders/raytrace.comp.spv
+c1d2d76056937e874b9144054522774b shaders/raytrace.rchit.spv
+c9468dcc892d4346b0b5c5a68af63596 shaders/raytrace.rgen.spv
+0bc81bbaaeceb7df102e0bb52581cdbc shaders/raytrace.rint.spv
+b87688a5b206ec0deb67934aadf7ea8d shaders/raytrace.rmiss.spv

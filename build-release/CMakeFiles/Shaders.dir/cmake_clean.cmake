@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Shaders"
   "shaders/raytrace.comp.spv"
+  "shaders/raytrace.rchit.spv"
+  "shaders/raytrace.rgen.spv"
+  "shaders/raytrace.rint.spv"
+  "shaders/raytrace.rmiss.spv"
 )
 
 # Per-language clean rules from dependency scanning.

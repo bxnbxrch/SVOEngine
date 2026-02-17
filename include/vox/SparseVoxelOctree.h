@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <cstdint>
+#include <string>
 
 namespace vox {
 
@@ -19,6 +20,9 @@ public:
 
     // Populate dummy test scene: some colored voxel blocks
     void generateTestScene();
+
+    // Load from MagicaVoxel .vox file
+    bool loadFromVoxFile(const std::string& filepath);
 
     // Get octree nodes (GPU upload)
     const std::vector<OctreeNode>& getNodes() const { return m_nodes; }

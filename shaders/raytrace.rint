@@ -1,0 +1,13 @@
+#version 460
+#extension GL_EXT_ray_tracing : require
+
+// Custom intersection shader for voxel octree AABB
+// The hardware has already tested the ray against our AABB
+// We just need to report the hit
+hitAttributeEXT vec2 hit;
+
+void main() {
+    // Report intersection at the current ray parameter
+    // The closest hit shader will do the actual octree traversal
+    reportIntersectionEXT(gl_RayTminEXT, 0);
+}

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DGLM_ENABLE_EXPERIMENTAL -DSDL_MAIN_HANDLED
 
-CXX_INCLUDES = -I/home/ben/Documents/vox/include -isystem /usr/include/SDL2
+CXX_INCLUDES = -I/home/ben/Documents/SVOEngien/SVOEngine/include -isystem /usr/include/SDL2
 
 CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic
 

@@ -13,6 +13,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/vox.dir/src/main.cpp.o"
   "CMakeFiles/vox.dir/src/main.cpp.o.d"
   "shaders/raytrace.comp.spv"
+  "shaders/raytrace.rchit.spv"
+  "shaders/raytrace.rgen.spv"
+  "shaders/raytrace.rint.spv"
+  "shaders/raytrace.rmiss.spv"
   "vox"
   "vox.pdb"
 )

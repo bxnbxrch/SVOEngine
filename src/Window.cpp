@@ -68,6 +68,7 @@ void Window::pollEvents(bool &running) {
         }
 
         if (ev.type == SDL_WINDOWEVENT && ev.window.event == SDL_WINDOWEVENT_CLOSE) running = false;
+        if (ev.type == SDL_WINDOWEVENT && ev.window.event == SDL_WINDOWEVENT_RESIZED) m_resized = true;
     }
 }
 
@@ -96,6 +97,12 @@ bool Window::consumeMouseDrag(int &outDx, int &outDy) {
 
 void Window::getSize(int &w, int &h) const {
     SDL_GetWindowSize(m_window, &w, &h);
+}
+
+bool Window::consumeResized() {
+    bool v = m_resized;
+    m_resized = false;
+    return v;
 }
 
 } // namespace vox

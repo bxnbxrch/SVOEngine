@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/ben/Documents/vox/build-release/cmake_install.cmake"
+		"/home/ben/Documents/SVOEngien/SVOEngine/build-release/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

@@ -1,7 +1,60 @@
-# Build / artifacts
-/build/
+# Build directories
+build/
+build-release/
+build-debug/
+cmake-build-*/
+dist/
+out/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeUserPresets.json
+cmake_install.cmake
+Makefile
+*.cmake
+
+# Compiled output
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
 /*.exe
 /*.out
-/*.dll
-/*.so
-/*.dylib
+vox
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Dependencies (if using vcpkg or similar)
+vcpkg_installed/
+conan/
+
+# OS files
+*.lnk
+
+# Editor backups
+*.bak
+*.backup
+
+# Temporary files
+*.tmp
+*.temp
+.~*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# VoxelEngine specific

@@ -22,13 +22,12 @@ events:
     candidate_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -36,8 +35,8 @@ events:
     searched_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/uname"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/uname"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/uname"
       - "/home/ben/.local/share/omarchy/bin/uname"
-      - "/home/ben/.cargo/bin/uname"
       - "/usr/local/sbin/uname"
       - "/usr/local/bin/uname"
     found: "/usr/bin/uname"
@@ -45,13 +44,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -61,7 +59,7 @@ events:
       - "/usr/share/cmake/Modules/CMakeDetermineSystem.cmake:212 (message)"
       - "CMakeLists.txt:2 (project)"
     message: |
-      The system is: Linux - 6.17.12-1-1-ARCH - aarch64
+      The system is: Linux - 6.17.8-arch1-1 - x86_64
   -
     kind: "find-v1"
     backtrace:
@@ -85,33 +83,31 @@ events:
     candidate_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
     searched_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gmake"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gmake"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gmake"
       - "/home/ben/.local/share/omarchy/bin/gmake"
-      - "/home/ben/.cargo/bin/gmake"
       - "/usr/local/sbin/gmake"
       - "/usr/local/bin/gmake"
       - "/usr/bin/gmake"
-      - "/usr/share/dotnet/gmake"
-      - "/home/ben/.dotnet/tools/gmake"
+      - "/usr/lib/jvm/default/bin/gmake"
       - "/usr/bin/site_perl/gmake"
       - "/usr/bin/vendor_perl/gmake"
       - "/usr/bin/core_perl/gmake"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/make"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/make"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/make"
       - "/home/ben/.local/share/omarchy/bin/make"
-      - "/home/ben/.cargo/bin/make"
       - "/usr/local/sbin/make"
       - "/usr/local/bin/make"
     found: "/usr/bin/make"
@@ -119,13 +115,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -160,21 +155,20 @@ events:
     candidate_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
     searched_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/c++"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/c++"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/c++"
       - "/home/ben/.local/share/omarchy/bin/c++"
-      - "/home/ben/.cargo/bin/c++"
       - "/usr/local/sbin/c++"
       - "/usr/local/bin/c++"
     found: "/usr/bin/c++"
@@ -182,13 +176,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -221,13 +214,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -251,7 +243,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
       
       The CXX compiler identification is GNU, found in:
-        /home/ben/Documents/vox/build-release/CMakeFiles/4.2.3/CompilerIdCXX/a.out
+        /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/4.2.3/CompilerIdCXX/a.out
       
   -
     kind: "find-v1"
@@ -276,12 +268,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -290,13 +281,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -323,12 +313,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -337,13 +326,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -370,12 +358,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -384,13 +371,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -417,12 +403,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -431,13 +416,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -464,12 +448,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -478,13 +461,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -511,12 +493,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -525,13 +506,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -558,12 +538,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -572,13 +551,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -605,12 +583,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -619,13 +596,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -652,12 +628,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -665,12 +640,11 @@ events:
       - "/usr/bin/dlltool"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/dlltool"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/dlltool"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/dlltool"
       - "/home/ben/.local/share/omarchy/bin/dlltool"
-      - "/home/ben/.cargo/bin/dlltool"
       - "/usr/local/sbin/dlltool"
       - "/usr/local/bin/dlltool"
-      - "/usr/share/dotnet/dlltool"
-      - "/home/ben/.dotnet/tools/dlltool"
+      - "/usr/lib/jvm/default/bin/dlltool"
       - "/usr/bin/site_perl/dlltool"
       - "/usr/bin/vendor_perl/dlltool"
       - "/usr/bin/core_perl/dlltool"
@@ -679,13 +653,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -712,12 +685,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -726,13 +698,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -759,12 +730,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -772,12 +742,11 @@ events:
       - "/usr/bin/tapi"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/tapi"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/tapi"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/tapi"
       - "/home/ben/.local/share/omarchy/bin/tapi"
-      - "/home/ben/.cargo/bin/tapi"
       - "/usr/local/sbin/tapi"
       - "/usr/local/bin/tapi"
-      - "/usr/share/dotnet/tapi"
-      - "/home/ben/.dotnet/tools/tapi"
+      - "/usr/lib/jvm/default/bin/tapi"
       - "/usr/bin/site_perl/tapi"
       - "/usr/bin/vendor_perl/tapi"
       - "/usr/bin/core_perl/tapi"
@@ -786,13 +755,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -822,12 +790,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -835,36 +802,33 @@ events:
       - "/usr/bin/gcc-ar-15.2"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-15.2"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ar-15.2"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ar-15.2"
       - "/home/ben/.local/share/omarchy/bin/gcc-ar-15.2"
-      - "/home/ben/.cargo/bin/gcc-ar-15.2"
       - "/usr/local/sbin/gcc-ar-15.2"
       - "/usr/local/bin/gcc-ar-15.2"
-      - "/usr/share/dotnet/gcc-ar-15.2"
-      - "/home/ben/.dotnet/tools/gcc-ar-15.2"
+      - "/usr/lib/jvm/default/bin/gcc-ar-15.2"
       - "/usr/bin/site_perl/gcc-ar-15.2"
       - "/usr/bin/vendor_perl/gcc-ar-15.2"
       - "/usr/bin/core_perl/gcc-ar-15.2"
       - "/usr/bin/gcc-ar-15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ar-15"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ar-15"
       - "/home/ben/.local/share/omarchy/bin/gcc-ar-15"
-      - "/home/ben/.cargo/bin/gcc-ar-15"
       - "/usr/local/sbin/gcc-ar-15"
       - "/usr/local/bin/gcc-ar-15"
-      - "/usr/share/dotnet/gcc-ar-15"
-      - "/home/ben/.dotnet/tools/gcc-ar-15"
+      - "/usr/lib/jvm/default/bin/gcc-ar-15"
       - "/usr/bin/site_perl/gcc-ar-15"
       - "/usr/bin/vendor_perl/gcc-ar-15"
       - "/usr/bin/core_perl/gcc-ar-15"
       - "/usr/bin/gcc-ar15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ar15"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ar15"
       - "/home/ben/.local/share/omarchy/bin/gcc-ar15"
-      - "/home/ben/.cargo/bin/gcc-ar15"
       - "/usr/local/sbin/gcc-ar15"
       - "/usr/local/bin/gcc-ar15"
-      - "/usr/share/dotnet/gcc-ar15"
-      - "/home/ben/.dotnet/tools/gcc-ar15"
+      - "/usr/lib/jvm/default/bin/gcc-ar15"
       - "/usr/bin/site_perl/gcc-ar15"
       - "/usr/bin/vendor_perl/gcc-ar15"
       - "/usr/bin/core_perl/gcc-ar15"
@@ -873,13 +837,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -909,12 +872,11 @@ events:
       - "/usr/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -922,36 +884,33 @@ events:
       - "/usr/bin/gcc-ranlib-15.2"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-15.2"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ranlib-15.2"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ranlib-15.2"
       - "/home/ben/.local/share/omarchy/bin/gcc-ranlib-15.2"
-      - "/home/ben/.cargo/bin/gcc-ranlib-15.2"
       - "/usr/local/sbin/gcc-ranlib-15.2"
       - "/usr/local/bin/gcc-ranlib-15.2"
-      - "/usr/share/dotnet/gcc-ranlib-15.2"
-      - "/home/ben/.dotnet/tools/gcc-ranlib-15.2"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib-15.2"
       - "/usr/bin/site_perl/gcc-ranlib-15.2"
       - "/usr/bin/vendor_perl/gcc-ranlib-15.2"
       - "/usr/bin/core_perl/gcc-ranlib-15.2"
       - "/usr/bin/gcc-ranlib-15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ranlib-15"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ranlib-15"
       - "/home/ben/.local/share/omarchy/bin/gcc-ranlib-15"
-      - "/home/ben/.cargo/bin/gcc-ranlib-15"
       - "/usr/local/sbin/gcc-ranlib-15"
       - "/usr/local/bin/gcc-ranlib-15"
-      - "/usr/share/dotnet/gcc-ranlib-15"
-      - "/home/ben/.dotnet/tools/gcc-ranlib-15"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib-15"
       - "/usr/bin/site_perl/gcc-ranlib-15"
       - "/usr/bin/vendor_perl/gcc-ranlib-15"
       - "/usr/bin/core_perl/gcc-ranlib-15"
       - "/usr/bin/gcc-ranlib15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib15"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/gcc-ranlib15"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/gcc-ranlib15"
       - "/home/ben/.local/share/omarchy/bin/gcc-ranlib15"
-      - "/home/ben/.cargo/bin/gcc-ranlib15"
       - "/usr/local/sbin/gcc-ranlib15"
       - "/usr/local/bin/gcc-ranlib15"
-      - "/usr/share/dotnet/gcc-ranlib15"
-      - "/home/ben/.dotnet/tools/gcc-ranlib15"
+      - "/usr/lib/jvm/default/bin/gcc-ranlib15"
       - "/usr/bin/site_perl/gcc-ranlib15"
       - "/usr/bin/vendor_perl/gcc-ranlib15"
       - "/usr/bin/core_perl/gcc-ranlib15"
@@ -960,13 +919,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -979,8 +937,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf"
-      binary: "/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf"
+      source: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS"
+      binary: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -990,64 +948,64 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf'
+        Change Dir: '/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_05e35/fast
-        /usr/bin/make  -f CMakeFiles/cmTC_05e35.dir/build.make CMakeFiles/cmTC_05e35.dir/build
-        make[1]: Entering directory '/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf'
-        Building CXX object CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -v -o CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_6c227/fast
+        /usr/bin/make  -f CMakeFiles/cmTC_6c227.dir/build.make CMakeFiles/cmTC_6c227.dir/build
+        make[1]: Entering directory '/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS'
+        Building CXX object CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
-        Target: aarch64-unknown-linux-gnu
-        Configured with: /build/gcc/src/gcc/configure --enable-languages=c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/archlinuxarm/PKGBUILDs/issues --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-linker-build-id --enable-lto --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-multilib --disable-werror --host=aarch64-unknown-linux-gnu --build=aarch64-unknown-linux-gnu --with-arch=armv8-a
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
-        gcc version 15.2.1 20260103 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/'
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_05e35.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=armv8-a -mlittle-endian -mabi=lp64 -version -o /tmp/cclPkLJv.s
-        GNU C++17 (GCC) version 15.2.1 20260103 (aarch64-unknown-linux-gnu)
-        	compiled by GNU C version 15.2.1 20260103, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version isl-0.27-GMP
+        gcc version 15.2.1 20251112 (GCC) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_6c227.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccSNhiX2.s
+        GNU C++17 (GCC) version 15.2.1 20251112 (x86_64-pc-linux-gnu)
+        	compiled by GNU C version 15.2.1 20251112, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version isl-0.27-GMP
         
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
-        ignoring nonexistent directory "/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../aarch64-unknown-linux-gnu/include"
+        ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"
         #include "..." search starts here:
         #include <...> search starts here:
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/aarch64-unknown-linux-gnu
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include
          /usr/local/include
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed
          /usr/include
         End of search list.
-        Compiler executable checksum: 22f71637668c1447496409cb9cdee0b4
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/'
-         as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o /tmp/cclPkLJv.s
-        GNU assembler version 2.45.1 (aarch64-unknown-linux-gnu) using BFD version (GNU Binutils) 2.45.1
-        COMPILER_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/
-        LIBRARY_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_05e35
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_05e35.dir/link.txt --verbose=1
+        Compiler executable checksum: 4f062beaae229dc32234f13ba259a70e
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/'
+         as -v --64 -o CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccSNhiX2.s
+        GNU assembler version 2.45.1 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.1
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_6c227
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6c227.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
-        COLLECT_LTO_WRAPPER=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper
-        Target: aarch64-unknown-linux-gnu
-        Configured with: /build/gcc/src/gcc/configure --enable-languages=c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/archlinuxarm/PKGBUILDs/issues --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-linker-build-id --enable-lto --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-multilib --disable-werror --host=aarch64-unknown-linux-gnu --build=aarch64-unknown-linux-gnu --with-arch=armv8-a
+        COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper
+        Target: x86_64-pc-linux-gnu
+        Configured with: /build/gcc/src/gcc/configure --enable-languages=ada,c,c++,d,fortran,go,lto,m2,objc,obj-c++,rust,cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
-        gcc version 15.2.1 20260103 (GCC) 
-        COMPILER_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/
-        LIBRARY_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_05e35' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_05e35.'
-         /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/collect2 -plugin /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cciRJ74Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux -pie -o cmTC_05e35 /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1 -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o
-        collect2 version 15.2.1 20260103
-        /usr/bin/ld -plugin /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cciRJ74Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux -pie -o cmTC_05e35 /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1 -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o
+        gcc version 15.2.1 20251112 (GCC) 
+        COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/
+        LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6c227' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_6c227.'
+         /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4LkHt6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_6c227 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o
+        collect2 version 15.2.1 20251112
+        /usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4LkHt6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_6c227 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o
         GNU ld (GNU Binutils) 2.45.1
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_05e35' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_05e35.'
-        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_05e35
-        make[1]: Leaving directory '/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6c227' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_6c227.'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_6c227
+        make[1]: Leaving directory '/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS'
         
       exitCode: 0
   -
@@ -1060,22 +1018,22 @@ events:
       Parsed CXX implicit include dir info: rv=done
         found start of include info
         found start of implicit include info
-          add: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1]
-          add: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/aarch64-unknown-linux-gnu]
-          add: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward]
-          add: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include]
           add: [/usr/local/include]
-          add: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed]
+          add: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed]
           add: [/usr/include]
         end of search list found
-        collapse include dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1] ==> [/usr/include/c++/15.2.1]
-        collapse include dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/aarch64-unknown-linux-gnu] ==> [/usr/include/c++/15.2.1/aarch64-unknown-linux-gnu]
-        collapse include dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward] ==> [/usr/include/c++/15.2.1/backward]
-        collapse include dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include] ==> [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1] ==> [/usr/include/c++/15.2.1]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu] ==> [/usr/include/c++/15.2.1/x86_64-pc-linux-gnu]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward] ==> [/usr/include/c++/15.2.1/backward]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include]
         collapse include dir [/usr/local/include] ==> [/usr/local/include]
-        collapse include dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed] ==> [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed]
+        collapse include dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed]
         collapse include dir [/usr/include] ==> [/usr/include]
-        implicit include dirs: [/usr/include/c++/15.2.1;/usr/include/c++/15.2.1/aarch64-unknown-linux-gnu;/usr/include/c++/15.2.1/backward;/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include;/usr/local/include;/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed;/usr/include]
+        implicit include dirs: [/usr/include/c++/15.2.1;/usr/include/c++/15.2.1/x86_64-pc-linux-gnu;/usr/include/c++/15.2.1/backward;/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include;/usr/local/include;/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed;/usr/include]
       
       
   -
@@ -1088,63 +1046,63 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf']
+        ignore line: [Change Dir: '/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_05e35/fast]
-        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_05e35.dir/build.make CMakeFiles/cmTC_05e35.dir/build]
-        ignore line: [make[1]: Entering directory '/home/ben/Documents/vox/build-release/CMakeFiles/CMakeScratch/TryCompile-o2N5kf']
-        ignore line: [Building CXX object CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_6c227/fast]
+        ignore line: [/usr/bin/make  -f CMakeFiles/cmTC_6c227.dir/build.make CMakeFiles/cmTC_6c227.dir/build]
+        ignore line: [make[1]: Entering directory '/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/CMakeScratch/TryCompile-SiFTmS']
+        ignore line: [Building CXX object CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
-        ignore line: [Target: aarch64-unknown-linux-gnu]
-        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/archlinuxarm/PKGBUILDs/issues --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-linker-build-id --enable-lto --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-multilib --disable-werror --host=aarch64-unknown-linux-gnu --build=aarch64-unknown-linux-gnu --with-arch=armv8-a]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
-        ignore line: [gcc version 15.2.1 20260103 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/']
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_05e35.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=armv8-a -mlittle-endian -mabi=lp64 -version -o /tmp/cclPkLJv.s]
-        ignore line: [GNU C++17 (GCC) version 15.2.1 20260103 (aarch64-unknown-linux-gnu)]
-        ignore line: [	compiled by GNU C version 15.2.1 20260103  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version isl-0.27-GMP]
+        ignore line: [gcc version 15.2.1 20251112 (GCC) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/']
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/cc1plus -quiet -v -D_GNU_SOURCE /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_6c227.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o /tmp/ccSNhiX2.s]
+        ignore line: [GNU C++17 (GCC) version 15.2.1 20251112 (x86_64-pc-linux-gnu)]
+        ignore line: [	compiled by GNU C version 15.2.1 20251112  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version isl-0.27-GMP]
         ignore line: []
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
-        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../aarch64-unknown-linux-gnu/include"]
+        ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../x86_64-pc-linux-gnu/include"]
         ignore line: [#include "..." search starts here:]
         ignore line: [#include <...> search starts here:]
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1]
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/aarch64-unknown-linux-gnu]
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward]
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/x86_64-pc-linux-gnu]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../include/c++/15.2.1/backward]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include]
         ignore line: [ /usr/local/include]
-        ignore line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/include-fixed]
+        ignore line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include-fixed]
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
-        ignore line: [Compiler executable checksum: 22f71637668c1447496409cb9cdee0b4]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/']
-        ignore line: [ as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o /tmp/cclPkLJv.s]
-        ignore line: [GNU assembler version 2.45.1 (aarch64-unknown-linux-gnu) using BFD version (GNU Binutils) 2.45.1]
-        ignore line: [COMPILER_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/]
-        ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_05e35]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_05e35.dir/link.txt --verbose=1]
+        ignore line: [Compiler executable checksum: 4f062beaae229dc32234f13ba259a70e]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/']
+        ignore line: [ as -v --64 -o CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccSNhiX2.s]
+        ignore line: [GNU assembler version 2.45.1 (x86_64-pc-linux-gnu) using BFD version (GNU Binutils) 2.45.1]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_6c227]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6c227.dir/link.txt --verbose=1]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
-        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper]
-        ignore line: [Target: aarch64-unknown-linux-gnu]
-        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://github.com/archlinuxarm/PKGBUILDs/issues --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-linker-build-id --enable-lto --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-multilib --disable-werror --host=aarch64-unknown-linux-gnu --build=aarch64-unknown-linux-gnu --with-arch=armv8-a]
+        ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper]
+        ignore line: [Target: x86_64-pc-linux-gnu]
+        ignore line: [Configured with: /build/gcc/src/gcc/configure --enable-languages=ada c c++ d fortran go lto m2 objc obj-c++ rust cobol --enable-bootstrap --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=https://gitlab.archlinux.org/archlinux/packaging/packages/gcc/-/issues --with-build-config=bootstrap-lto --with-linker-hash-style=gnu --with-system-zlib --enable-__cxa_atexit --enable-cet=auto --enable-checking=release --enable-clocale=gnu --enable-default-pie --enable-default-ssp --enable-gnu-indirect-function --enable-gnu-unique-object --enable-libstdcxx-backtrace --enable-link-serialization=1 --enable-linker-build-id --enable-lto --enable-multilib --enable-plugin --enable-shared --enable-threads=posix --disable-libssp --disable-libstdcxx-pch --disable-werror]
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
-        ignore line: [gcc version 15.2.1 20260103 (GCC) ]
-        ignore line: [COMPILER_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/]
-        ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_05e35' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_05e35.']
-        link line: [ /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/collect2 -plugin /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cciRJ74Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux -pie -o cmTC_05e35 /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1 -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o]
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/collect2] ==> ignore
+        ignore line: [gcc version 15.2.1 20251112 (GCC) ]
+        ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/]
+        ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/:/lib/../lib/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../:/lib/:/usr/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6c227' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_6c227.']
+        link line: [ /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/collect2 -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4LkHt6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_6c227 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/collect2] ==> ignore
           arg [-plugin] ==> ignore
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/liblto_plugin.so] ==> ignore
-          arg [-plugin-opt=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/cciRJ74Y.res] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc4LkHt6.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -1153,26 +1111,25 @@ events:
           arg [--build-id] ==> ignore
           arg [--eh-frame-hdr] ==> ignore
           arg [--hash-style=gnu] ==> ignore
+          arg [-m] ==> ignore
+          arg [elf_x86_64] ==> ignore
           arg [-dynamic-linker] ==> ignore
-          arg [/lib/ld-linux-aarch64.so.1] ==> ignore
-          arg [-X] ==> ignore
-          arg [-EL] ==> ignore
-          arg [-maarch64linux] ==> ignore
+          arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-pie] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_05e35] ==> ignore
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o] ==> obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o]
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o] ==> obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o]
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o] ==> obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o]
-          arg [-L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1] ==> dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1]
-          arg [-L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib] ==> dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib]
+          arg [cmTC_6c227] ==> ignore
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib]
           arg [-L/lib/../lib] ==> dir [/lib/../lib]
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
-          arg [-L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../..] ==> dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../..]
+          arg [-L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../..] ==> dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../..]
           arg [-L/lib] ==> dir [/lib]
           arg [-L/usr/lib] ==> dir [/usr/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -1180,24 +1137,24 @@ events:
           arg [-lc] ==> lib [c]
           arg [-lgcc_s] ==> lib [gcc_s]
           arg [-lgcc] ==> lib [gcc]
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o] ==> obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o]
-          arg [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o] ==> obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o]
-        ignore line: [collect2 version 15.2.1 20260103]
-        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cciRJ74Y.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux -pie -o cmTC_05e35 /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1 -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_05e35.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o]
+          arg [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o] ==> obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o]
+        ignore line: [collect2 version 15.2.1 20251112]
+        ignore line: [/usr/bin/ld -plugin /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/lto-wrapper -plugin-opt=-fresolution=/tmp/cc4LkHt6.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -o cmTC_6c227 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1 -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../.. -L/lib -L/usr/lib -v CMakeFiles/cmTC_6c227.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o]
         linker tool for 'CXX': /usr/bin/ld
-        collapse obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/Scrt1.o] ==> [/usr/lib/Scrt1.o]
-        collapse obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crti.o] ==> [/usr/lib/crti.o]
-        collapse obj [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib/crtn.o] ==> [/usr/lib/crtn.o]
-        collapse library dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1] ==> [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1]
-        collapse library dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../../../lib] ==> [/usr/lib]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o] ==> [/usr/lib/Scrt1.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o] ==> [/usr/lib/crti.o]
+        collapse obj [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crtn.o] ==> [/usr/lib/crtn.o]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1] ==> [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib] ==> [/usr/lib]
         collapse library dir [/lib/../lib] ==> [/lib]
         collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
-        collapse library dir [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/../../..] ==> [/usr/lib]
+        collapse library dir [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../..] ==> [/usr/lib]
         collapse library dir [/lib] ==> [/lib]
         collapse library dir [/usr/lib] ==> [/usr/lib]
         implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
-        implicit objs: [/usr/lib/Scrt1.o;/usr/lib/crti.o;/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtbeginS.o;/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1/crtendS.o;/usr/lib/crtn.o]
-        implicit dirs: [/usr/lib/gcc/aarch64-unknown-linux-gnu/15.2.1;/usr/lib;/lib]
+        implicit objs: [/usr/lib/Scrt1.o;/usr/lib/crti.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o;/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o;/usr/lib/crtn.o]
+        implicit dirs: [/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1;/usr/lib;/lib]
         implicit fwks: []
       
       
@@ -1247,11 +1204,11 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "/home/ben/Documents/vox/build-release/CMakeFiles/pkgRedirects/SDL2Config.cmake"
+        path: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/pkgRedirects/SDL2Config.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "/home/ben/Documents/vox/build-release/CMakeFiles/pkgRedirects/sdl2-config.cmake"
+        path: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/pkgRedirects/sdl2-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -1271,19 +1228,19 @@ events:
         mode: "config"
         reason: "no_exist"
       -
+        path: "/home/ben/.local/share/mise/installs/node/25.2.1/SDL2Config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/ben/.local/share/mise/installs/node/25.2.1/sdl2-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
         path: "/home/ben/.local/share/omarchy/SDL2Config.cmake"
         mode: "config"
         reason: "no_exist"
       -
         path: "/home/ben/.local/share/omarchy/sdl2-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "/home/ben/.cargo/SDL2Config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "/home/ben/.cargo/sdl2-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -1305,18 +1262,17 @@ events:
     found:
       path: "/usr/lib/cmake/SDL2/SDL2Config.cmake"
       mode: "config"
-      version: "2.32.62"
+      version: "2.32.58"
     search_context:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1352,13 +1308,12 @@ events:
       - "/include/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -1378,13 +1333,12 @@ events:
       - "/include/vulkan/vulkan.h"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/vulkan/vulkan.h"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/vulkan/vulkan.h"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/vulkan/vulkan.h"
       - "/home/ben/.local/share/omarchy/bin/vulkan/vulkan.h"
-      - "/home/ben/.cargo/bin/vulkan/vulkan.h"
       - "/usr/local/sbin/vulkan/vulkan.h"
       - "/usr/local/bin/vulkan/vulkan.h"
       - "/usr/bin/vulkan/vulkan.h"
-      - "/usr/share/dotnet/vulkan/vulkan.h"
-      - "/home/ben/.dotnet/tools/vulkan/vulkan.h"
+      - "/usr/lib/jvm/default/bin/vulkan/vulkan.h"
       - "/usr/bin/site_perl/vulkan/vulkan.h"
       - "/usr/bin/vendor_perl/vulkan/vulkan.h"
       - "/usr/bin/core_perl/vulkan/vulkan.h"
@@ -1395,13 +1349,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1439,13 +1392,12 @@ events:
       - "/lib/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -1466,13 +1418,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1510,13 +1461,12 @@ events:
       - "/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -1542,13 +1492,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1584,13 +1533,12 @@ events:
       - "/bin/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -1616,13 +1564,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1672,11 +1619,11 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "/home/ben/Documents/vox/build-release/CMakeFiles/pkgRedirects/glmConfig.cmake"
+        path: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/pkgRedirects/glmConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "/home/ben/Documents/vox/build-release/CMakeFiles/pkgRedirects/glm-config.cmake"
+        path: "/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/pkgRedirects/glm-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -1696,19 +1643,19 @@ events:
         mode: "config"
         reason: "no_exist"
       -
+        path: "/home/ben/.local/share/mise/installs/node/25.2.1/glmConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/home/ben/.local/share/mise/installs/node/25.2.1/glm-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
         path: "/home/ben/.local/share/omarchy/glmConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
         path: "/home/ben/.local/share/omarchy/glm-config.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "/home/ben/.cargo/glmConfig.cmake"
-        mode: "config"
-        reason: "no_exist"
-      -
-        path: "/home/ben/.cargo/glm-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -1735,13 +1682,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"
@@ -1776,13 +1722,12 @@ events:
     candidate_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/"
       - "/home/ben/.local/share/omarchy/bin/"
-      - "/home/ben/.cargo/bin/"
       - "/usr/local/sbin/"
       - "/usr/local/bin/"
       - "/usr/bin/"
-      - "/usr/share/dotnet/"
-      - "/home/ben/.dotnet/tools/"
+      - "/usr/lib/jvm/default/bin/"
       - "/usr/bin/site_perl/"
       - "/usr/bin/vendor_perl/"
       - "/usr/bin/core_perl/"
@@ -1803,12 +1748,12 @@ events:
       - "/opt/bin/"
       - "/opt/sbin/"
       - "/opt/"
-      - "/home/ben/Documents/vox/glslc/"
+      - "/home/ben/Documents/SVOEngien/SVOEngine/glslc/"
     searched_directories:
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand/glslangValidator"
       - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli/glslangValidator"
+      - "/home/ben/.local/share/mise/installs/node/25.2.1/bin/glslangValidator"
       - "/home/ben/.local/share/omarchy/bin/glslangValidator"
-      - "/home/ben/.cargo/bin/glslangValidator"
       - "/usr/local/sbin/glslangValidator"
       - "/usr/local/bin/glslangValidator"
     found: "/usr/bin/glslangValidator"
@@ -1816,13 +1761,12 @@ events:
       ENV{PATH}:
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/debugCommand"
         - "/home/ben/.config/Code/User/globalStorage/github.copilot-chat/copilotCli"
+        - "/home/ben/.local/share/mise/installs/node/25.2.1/bin"
         - "/home/ben/.local/share/omarchy/bin"
-        - "/home/ben/.cargo/bin"
         - "/usr/local/sbin"
         - "/usr/local/bin"
         - "/usr/bin"
-        - "/usr/share/dotnet"
-        - "/home/ben/.dotnet/tools"
+        - "/usr/lib/jvm/default/bin"
         - "/usr/bin/site_perl"
         - "/usr/bin/vendor_perl"
         - "/usr/bin/core_perl"

@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ben/Documents/vox
+CMAKE_SOURCE_DIR = /home/ben/Documents/SVOEngien/SVOEngine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ben/Documents/vox/build-release
+CMAKE_BINARY_DIR = /home/ben/Documents/SVOEngien/SVOEngine/build-release
 
 # Include any dependencies generated for this target.
 include CMakeFiles/vox.dir/depend.make
@@ -69,96 +69,112 @@ include CMakeFiles/vox.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/vox.dir/flags.make
 
-shaders/raytrace.comp.spv: /home/ben/Documents/vox/shaders/raytrace.comp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Compiling raytrace.comp to SPIR-V"
-	/usr/bin/glslangValidator -V /home/ben/Documents/vox/shaders/raytrace.comp -o /home/ben/Documents/vox/build-release/shaders/raytrace.comp.spv
+shaders/raytrace.comp.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.comp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Compiling raytrace.comp to SPIR-V"
+	/usr/bin/glslangValidator -V /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.comp -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.comp.spv
+
+shaders/raytrace.rgen.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rgen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Compiling raytrace.rgen to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rgen -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rgen.spv
+
+shaders/raytrace.rchit.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rchit
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Compiling raytrace.rchit to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rchit -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rchit.spv
+
+shaders/raytrace.rmiss.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rmiss
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Compiling raytrace.rmiss to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rmiss -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rmiss.spv
+
+shaders/raytrace.rint.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rint
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Compiling raytrace.rint to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rint -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rint.spv
 
 CMakeFiles/vox.dir/codegen:
 .PHONY : CMakeFiles/vox.dir/codegen
 
 CMakeFiles/vox.dir/src/main.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/main.cpp.o: /home/ben/Documents/vox/src/main.cpp
+CMakeFiles/vox.dir/src/main.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/main.cpp
 CMakeFiles/vox.dir/src/main.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/vox.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/main.cpp.o -MF CMakeFiles/vox.dir/src/main.cpp.o.d -o CMakeFiles/vox.dir/src/main.cpp.o -c /home/ben/Documents/vox/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/vox.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/main.cpp.o -MF CMakeFiles/vox.dir/src/main.cpp.o.d -o CMakeFiles/vox.dir/src/main.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/main.cpp
 
 CMakeFiles/vox.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/main.cpp > CMakeFiles/vox.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/main.cpp > CMakeFiles/vox.dir/src/main.cpp.i
 
 CMakeFiles/vox.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/main.cpp -o CMakeFiles/vox.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/main.cpp -o CMakeFiles/vox.dir/src/main.cpp.s
 
 CMakeFiles/vox.dir/src/Application.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/Application.cpp.o: /home/ben/Documents/vox/src/Application.cpp
+CMakeFiles/vox.dir/src/Application.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/Application.cpp
 CMakeFiles/vox.dir/src/Application.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/vox.dir/src/Application.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Application.cpp.o -MF CMakeFiles/vox.dir/src/Application.cpp.o.d -o CMakeFiles/vox.dir/src/Application.cpp.o -c /home/ben/Documents/vox/src/Application.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/vox.dir/src/Application.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Application.cpp.o -MF CMakeFiles/vox.dir/src/Application.cpp.o.d -o CMakeFiles/vox.dir/src/Application.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/Application.cpp
 
 CMakeFiles/vox.dir/src/Application.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/Application.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/Application.cpp > CMakeFiles/vox.dir/src/Application.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/Application.cpp > CMakeFiles/vox.dir/src/Application.cpp.i
 
 CMakeFiles/vox.dir/src/Application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/Application.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/Application.cpp -o CMakeFiles/vox.dir/src/Application.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/Application.cpp -o CMakeFiles/vox.dir/src/Application.cpp.s
 
 CMakeFiles/vox.dir/src/Window.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/Window.cpp.o: /home/ben/Documents/vox/src/Window.cpp
+CMakeFiles/vox.dir/src/Window.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/Window.cpp
 CMakeFiles/vox.dir/src/Window.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/vox.dir/src/Window.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Window.cpp.o -MF CMakeFiles/vox.dir/src/Window.cpp.o.d -o CMakeFiles/vox.dir/src/Window.cpp.o -c /home/ben/Documents/vox/src/Window.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/vox.dir/src/Window.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Window.cpp.o -MF CMakeFiles/vox.dir/src/Window.cpp.o.d -o CMakeFiles/vox.dir/src/Window.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/Window.cpp
 
 CMakeFiles/vox.dir/src/Window.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/Window.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/Window.cpp > CMakeFiles/vox.dir/src/Window.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/Window.cpp > CMakeFiles/vox.dir/src/Window.cpp.i
 
 CMakeFiles/vox.dir/src/Window.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/Window.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/Window.cpp -o CMakeFiles/vox.dir/src/Window.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/Window.cpp -o CMakeFiles/vox.dir/src/Window.cpp.s
 
 CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o: /home/ben/Documents/vox/src/VulkanRenderer.cpp
+CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/VulkanRenderer.cpp
 CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o -MF CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o.d -o CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o -c /home/ben/Documents/vox/src/VulkanRenderer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o -MF CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o.d -o CMakeFiles/vox.dir/src/VulkanRenderer.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/VulkanRenderer.cpp
 
 CMakeFiles/vox.dir/src/VulkanRenderer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/VulkanRenderer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/VulkanRenderer.cpp > CMakeFiles/vox.dir/src/VulkanRenderer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/VulkanRenderer.cpp > CMakeFiles/vox.dir/src/VulkanRenderer.cpp.i
 
 CMakeFiles/vox.dir/src/VulkanRenderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/VulkanRenderer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/VulkanRenderer.cpp -o CMakeFiles/vox.dir/src/VulkanRenderer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/VulkanRenderer.cpp -o CMakeFiles/vox.dir/src/VulkanRenderer.cpp.s
 
 CMakeFiles/vox.dir/src/Shader.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/Shader.cpp.o: /home/ben/Documents/vox/src/Shader.cpp
+CMakeFiles/vox.dir/src/Shader.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/Shader.cpp
 CMakeFiles/vox.dir/src/Shader.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/vox.dir/src/Shader.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Shader.cpp.o -MF CMakeFiles/vox.dir/src/Shader.cpp.o.d -o CMakeFiles/vox.dir/src/Shader.cpp.o -c /home/ben/Documents/vox/src/Shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/vox.dir/src/Shader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/Shader.cpp.o -MF CMakeFiles/vox.dir/src/Shader.cpp.o.d -o CMakeFiles/vox.dir/src/Shader.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/Shader.cpp
 
 CMakeFiles/vox.dir/src/Shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/Shader.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/Shader.cpp > CMakeFiles/vox.dir/src/Shader.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/Shader.cpp > CMakeFiles/vox.dir/src/Shader.cpp.i
 
 CMakeFiles/vox.dir/src/Shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/Shader.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/Shader.cpp -o CMakeFiles/vox.dir/src/Shader.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/Shader.cpp -o CMakeFiles/vox.dir/src/Shader.cpp.s
 
 CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o: CMakeFiles/vox.dir/flags.make
-CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o: /home/ben/Documents/vox/src/SparseVoxelOctree.cpp
+CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o: /home/ben/Documents/SVOEngien/SVOEngine/src/SparseVoxelOctree.cpp
 CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o: CMakeFiles/vox.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o -MF CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o.d -o CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o -c /home/ben/Documents/vox/src/SparseVoxelOctree.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o -MF CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o.d -o CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o -c /home/ben/Documents/SVOEngien/SVOEngine/src/SparseVoxelOctree.cpp
 
 CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/vox/src/SparseVoxelOctree.cpp > CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ben/Documents/SVOEngien/SVOEngine/src/SparseVoxelOctree.cpp > CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.i
 
 CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/vox/src/SparseVoxelOctree.cpp -o CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ben/Documents/SVOEngien/SVOEngine/src/SparseVoxelOctree.cpp -o CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.s
 
 # Object files for target vox
 vox_OBJECTS = \
@@ -180,11 +196,11 @@ vox: CMakeFiles/vox.dir/src/Shader.cpp.o
 vox: CMakeFiles/vox.dir/src/SparseVoxelOctree.cpp.o
 vox: CMakeFiles/vox.dir/build.make
 vox: CMakeFiles/vox.dir/compiler_depend.ts
-vox: /usr/lib/libSDL2-2.0.so.0.3200.62
+vox: /usr/lib/libSDL2-2.0.so.0.3200.58
 vox: /lib/libvulkan.so
 vox: /usr/lib/libglm.a
 vox: CMakeFiles/vox.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable vox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable vox"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/vox.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -196,6 +212,10 @@ CMakeFiles/vox.dir/clean:
 .PHONY : CMakeFiles/vox.dir/clean
 
 CMakeFiles/vox.dir/depend: shaders/raytrace.comp.spv
-	cd /home/ben/Documents/vox/build-release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ben/Documents/vox /home/ben/Documents/vox /home/ben/Documents/vox/build-release /home/ben/Documents/vox/build-release /home/ben/Documents/vox/build-release/CMakeFiles/vox.dir/DependInfo.cmake "--color=$(COLOR)" vox
+CMakeFiles/vox.dir/depend: shaders/raytrace.rchit.spv
+CMakeFiles/vox.dir/depend: shaders/raytrace.rgen.spv
+CMakeFiles/vox.dir/depend: shaders/raytrace.rint.spv
+CMakeFiles/vox.dir/depend: shaders/raytrace.rmiss.spv
+	cd /home/ben/Documents/SVOEngien/SVOEngine/build-release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ben/Documents/SVOEngien/SVOEngine /home/ben/Documents/SVOEngien/SVOEngine /home/ben/Documents/SVOEngien/SVOEngine/build-release /home/ben/Documents/SVOEngien/SVOEngine/build-release /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/vox.dir/DependInfo.cmake "--color=$(COLOR)" vox
 .PHONY : CMakeFiles/vox.dir/depend
 

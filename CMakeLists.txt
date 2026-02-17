@@ -15,6 +15,10 @@ set(SHADER_SRC_DIR "${CMAKE_SOURCE_DIR}/shaders")
 set(SHADER_OUT_DIR "${CMAKE_BINARY_DIR}/shaders")
 compile_shaders(${SHADER_OUT_DIR} ${SHADER_SRC_DIR}
   raytrace.comp
+  raytrace.rgen
+  raytrace.rchit
+  raytrace.rmiss
+  raytrace.rint
 )
 # COMPILED_SHADER_SPVS is populated by compile_shaders()
 
@@ -25,6 +29,21 @@ add_executable(vox
   src/VulkanRenderer.cpp
   src/Shader.cpp
   src/SparseVoxelOctree.cpp
+  src/graphics/VulkanDevice.cpp
+  src/graphics/VulkanBuffer.cpp
+  src/graphics/VulkanImage.cpp
+  src/graphics/VulkanShader.cpp
+  src/graphics/ComputePipeline.cpp
+  src/graphics/RayTracingPipeline.cpp
+  src/graphics/DescriptorSet.cpp
+  src/scene/Camera.cpp
+  src/scene/Scene.cpp
+  src/scene/SceneBuffers.cpp
+  src/render/SceneRenderer.cpp
+  src/render/ComputeSceneRenderer.cpp
+  src/render/RayTracingSceneRenderer.cpp
+  src/raytracing/AccelerationStructure.cpp
+  src/raytracing/ShaderBindingTable.cpp
   ${COMPILED_SHADER_SPVS}
 )
 

@@ -20,12 +20,13 @@ public:
     bool init();
     void drawFrame();
     void toggleGridOverlay();
+    void recreateSwapchain();
 
     // input-driven controls
-    void adjustOrbitRadius(float delta);
-    void adjustCamHeight(float delta);
+    void adjustDistance(float delta);
+    void adjustPitch(float delta);
+    void adjustYaw(float delta);
     void togglePauseOrbit();
-    void adjustOrbitAngle(float deltaRadians);
 
     bool valid() const { return m_initialized; }
 
@@ -74,22 +75,58 @@ private:
     bool m_showSvoOverlay = true; // default: visible
 
     // camera / input-controlled parameters
-    float m_orbitRadius = 400.0f;
-    float m_camHeight = 120.0f;
+    float m_distance = 400.0f;      // distance from target
+    float m_yaw = 0.0f;             // horizontal angle (radians)
+    float m_pitch = 0.4f;           // vertical angle (radians), 0 = horizon, PI/2 = top
     float m_fov = 45.0f;
     bool m_pauseOrbit = false;
     float m_pausedTime = 0.0f;
     std::chrono::high_resolution_clock::time_point m_startTime;
-
-    // manual orbit (mouse drag)
-    float m_orbitAngle = 0.0f; // radians
-    bool m_manualOrbit = false;
+    bool m_manualControl = false;
 
     // Octree data buffers
     VkBuffer m_octreeNodesBuffer = VK_NULL_HANDLE;
     VkDeviceMemory m_octreeNodesMemory = VK_NULL_HANDLE;
     VkBuffer m_octreeColorsBuffer = VK_NULL_HANDLE;
     VkDeviceMemory m_octreeColorsMemory = VK_NULL_HANDLE;
+    
+    // RTX ray tracing
+    bool m_useRTX = false;
+    
+    // Acceleration structures
+    VkAccelerationStructureKHR m_blas = VK_NULL_HANDLE;
+    VkAccelerationStructureKHR m_tlas = VK_NULL_HANDLE;
+    VkBuffer m_blasBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_blasMemory = VK_NULL_HANDLE;
+    VkBuffer m_tlasBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_tlasMemory = VK_NULL_HANDLE;
+    
+    // AABB buffer for voxels  
+    VkBuffer m_aabbBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_aabbMemory = VK_NULL_HANDLE;
+    
+    // Shader Binding Table
+    VkBuffer m_sbtBuffer = VK_NULL_HANDLE;
+    VkDeviceMemory m_sbtMemory = VK_NULL_HANDLE;
+    VkStridedDeviceAddressRegionKHR m_rgenRegion{};
+    VkStridedDeviceAddressRegionKHR m_missRegion{};
+    VkStridedDeviceAddressRegionKHR m_hitRegion{};
+    VkStridedDeviceAddressRegionKHR m_callRegion{};
+    
+    // Ray tracing properties
+    VkPhysicalDeviceRayTracingPipelinePropertiesKHR m_rtPipelineProperties{};
+    
+    // Function pointers
+    PFN_vkGetBufferDeviceAddressKHR vkGetBufferDeviceAddressKHR = nullptr;
+    PFN_vkCreateAccelerationStructureKHR vkCreateAccelerationStructureKHR = nullptr;
+    PFN_vkDestroyAccelerationStructureKHR vkDestroyAccelerationStructureKHR = nullptr;
+    PFN_vkGetAccelerationStructureBuildSizesKHR vkGetAccelerationStructureBuildSizesKHR = nullptr;
+    PFN_vkGetAccelerationStructureDeviceAddressKHR vkGetAccelerationStructureDeviceAddressKHR = nullptr;
+    PFN_vkCmdBuildAccelerationStructuresKHR vkCmdBuildAccelerationStructuresKHR = nullptr;
+    PFN_vkBuildAccelerationStructuresKHR vkBuildAccelerationStructuresKHR = nullptr;
+    PFN_vkCreateRayTracingPipelinesKHR vkCreateRayTracingPipelinesKHR = nullptr;
+    PFN_vkGetRayTracingShaderGroupHandlesKHR vkGetRayTracingShaderGroupHandlesKHR = nullptr;
+    PFN_vkCmdTraceRaysKHR vkCmdTraceRaysKHR = nullptr;
 };
 
 } // namespace vox

@@ -26,6 +26,7 @@ public:
 
     SDL_Window* handle() const { return m_window; }
     void getSize(int &w, int &h) const;
+    bool consumeResized();
 
 private:
     SDL_Window* m_window = nullptr;
@@ -50,6 +51,9 @@ private:
     int m_lastMouseY = 0;
     int m_mouseDx = 0;
     int m_mouseDy = 0;
+    
+    // window resize flag
+    bool m_resized = false;
 };
 
 } // namespace vox

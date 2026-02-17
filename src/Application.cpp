@@ -24,6 +24,11 @@ int Application::run() {
     bool running = true;
     while (running) {
         m_window.pollEvents(running);
+        
+        // Handle window resize
+        if (m_window.consumeResized() && m_renderer) {
+            m_renderer->recreateSwapchain();
+        }
 
         // grid toggle
         if (m_window.consumeGridToggle()) {
@@ -33,28 +38,26 @@ int Application::run() {
         // wheel zoom
         int wheel = m_window.consumeWheelDelta();
         if (wheel != 0 && m_renderer) {
-            // scroll up -> zoom in (smaller radius)
-            m_renderer->adjustOrbitRadius(-20.0f * (float)wheel);
+            // scroll up -> zoom in (smaller distance)
+            m_renderer->adjustDistance(-20.0f * (float)wheel);
         }
 
         // mouse drag -> orbit control
         int mdx=0, mdy=0;
         if (m_window.consumeMouseDrag(mdx, mdy) && m_renderer) {
-            const float sens = 0.005f;            // radians per pixel
-            m_renderer->adjustOrbitAngle(-mdx * sens);
-            // vertical drag adjusts camera height
-            m_renderer->adjustCamHeight(-mdy * 0.5f);
+            const float sens = 0.005f;  // radians per pixel
+            m_renderer->adjustYaw(-mdx * sens);    // left/right rotates horizontally (inverted)
+            m_renderer->adjustPitch(-mdy * sens);  // up/down rotates vertically
         }
 
         // keyboard controls
-        if (m_window.consumeZoomIn() && m_renderer) m_renderer->adjustOrbitRadius(-20.0f);
-        if (m_window.consumeZoomOut() && m_renderer) m_renderer->adjustOrbitRadius(20.0f);
-        if (m_window.consumeHeightUp() && m_renderer) m_renderer->adjustCamHeight(8.0f);
-        if (m_window.consumeHeightDown() && m_renderer) m_renderer->adjustCamHeight(-8.0f);
+        if (m_window.consumeZoomIn() && m_renderer) m_renderer->adjustDistance(-20.0f);
+        if (m_window.consumeZoomOut() && m_renderer) m_renderer->adjustDistance(20.0f);
+        if (m_window.consumeHeightUp() && m_renderer) m_renderer->adjustPitch(0.1f);
+        if (m_window.consumeHeightDown() && m_renderer) m_renderer->adjustPitch(-0.1f);
         if (m_window.consumePauseToggle() && m_renderer) m_renderer->togglePauseOrbit();
 
         m_renderer->drawFrame();
-        SDL_Delay(16);
     }
     return 0;
 }

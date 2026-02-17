@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ben/Documents/vox
+CMAKE_SOURCE_DIR = /home/ben/Documents/SVOEngien/SVOEngine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ben/Documents/vox/build-release
+CMAKE_BINARY_DIR = /home/ben/Documents/SVOEngien/SVOEngine/build-release
 
 # Utility rule file for Shaders.
 
@@ -67,16 +67,40 @@ include CMakeFiles/Shaders.dir/compiler_depend.make
 include CMakeFiles/Shaders.dir/progress.make
 
 CMakeFiles/Shaders: shaders/raytrace.comp.spv
+CMakeFiles/Shaders: shaders/raytrace.rgen.spv
+CMakeFiles/Shaders: shaders/raytrace.rchit.spv
+CMakeFiles/Shaders: shaders/raytrace.rmiss.spv
+CMakeFiles/Shaders: shaders/raytrace.rint.spv
 
-shaders/raytrace.comp.spv: /home/ben/Documents/vox/shaders/raytrace.comp
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/vox/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Compiling raytrace.comp to SPIR-V"
-	/usr/bin/glslangValidator -V /home/ben/Documents/vox/shaders/raytrace.comp -o /home/ben/Documents/vox/build-release/shaders/raytrace.comp.spv
+shaders/raytrace.comp.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.comp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Compiling raytrace.comp to SPIR-V"
+	/usr/bin/glslangValidator -V /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.comp -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.comp.spv
+
+shaders/raytrace.rchit.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rchit
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Compiling raytrace.rchit to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rchit -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rchit.spv
+
+shaders/raytrace.rgen.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rgen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Compiling raytrace.rgen to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rgen -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rgen.spv
+
+shaders/raytrace.rint.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rint
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Compiling raytrace.rint to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rint -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rint.spv
+
+shaders/raytrace.rmiss.spv: /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rmiss
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Compiling raytrace.rmiss to SPIR-V"
+	/usr/bin/glslangValidator -V --target-env vulkan1.2 /home/ben/Documents/SVOEngien/SVOEngine/shaders/raytrace.rmiss -o /home/ben/Documents/SVOEngien/SVOEngine/build-release/shaders/raytrace.rmiss.spv
 
 CMakeFiles/Shaders.dir/codegen:
 .PHONY : CMakeFiles/Shaders.dir/codegen
 
 Shaders: CMakeFiles/Shaders
 Shaders: shaders/raytrace.comp.spv
+Shaders: shaders/raytrace.rchit.spv
+Shaders: shaders/raytrace.rgen.spv
+Shaders: shaders/raytrace.rint.spv
+Shaders: shaders/raytrace.rmiss.spv
 Shaders: CMakeFiles/Shaders.dir/build.make
 .PHONY : Shaders
 
@@ -89,6 +113,6 @@ CMakeFiles/Shaders.dir/clean:
 .PHONY : CMakeFiles/Shaders.dir/clean
 
 CMakeFiles/Shaders.dir/depend:
-	cd /home/ben/Documents/vox/build-release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ben/Documents/vox /home/ben/Documents/vox /home/ben/Documents/vox/build-release /home/ben/Documents/vox/build-release /home/ben/Documents/vox/build-release/CMakeFiles/Shaders.dir/DependInfo.cmake "--color=$(COLOR)" Shaders
+	cd /home/ben/Documents/SVOEngien/SVOEngine/build-release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ben/Documents/SVOEngien/SVOEngine /home/ben/Documents/SVOEngien/SVOEngine /home/ben/Documents/SVOEngien/SVOEngine/build-release /home/ben/Documents/SVOEngien/SVOEngine/build-release /home/ben/Documents/SVOEngien/SVOEngine/build-release/CMakeFiles/Shaders.dir/DependInfo.cmake "--color=$(COLOR)" Shaders
 .PHONY : CMakeFiles/Shaders.dir/depend
 
