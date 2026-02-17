@@ -48,14 +48,14 @@ private:
     VkFormat m_surfaceFormat = VK_FORMAT_UNDEFINED;
     VkExtent2D m_extent{};
 
-    VkRenderPass m_renderPass = VK_NULL_HANDLE;
-    std::vector<VkFramebuffer> m_framebuffers;
-
     VkCommandPool m_cmdPool = VK_NULL_HANDLE;
     std::vector<VkCommandBuffer> m_cmdBuffers;
 
     VkSemaphore m_imgAvail = VK_NULL_HANDLE;
     VkSemaphore m_renderDone = VK_NULL_HANDLE;
+    VkSemaphore m_frameTimeline = VK_NULL_HANDLE;
+    uint64_t m_frameValue = 0;
+    std::vector<uint64_t> m_cmdBufferValues;
 
     // Compute shader ray tracing (fallback for non-RTX hardware)
     std::unique_ptr<SparseVoxelOctree> m_octree;

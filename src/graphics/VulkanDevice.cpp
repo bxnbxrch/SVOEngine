@@ -56,7 +56,7 @@ bool VulkanDevice::createInstance() {
     appInfo.pApplicationName = "vox";
     appInfo.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
     appInfo.engineVersion = VK_MAKE_VERSION(0, 1, 0);
-    appInfo.apiVersion = VK_API_VERSION_1_2;
+    appInfo.apiVersion = VK_API_VERSION_1_4;
 
     // Query available extensions
     uint32_t extensionCount = 0;
@@ -150,9 +150,20 @@ bool VulkanDevice::createLogicalDevice() {
         enabledExts.push_back("VK_KHR_shader_float_controls");
     }
 
+    VkPhysicalDeviceVulkan12Features vulkan12Features{};
+    vulkan12Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES;
+    vulkan12Features.timelineSemaphore = VK_TRUE;
+
+    VkPhysicalDeviceVulkan13Features vulkan13Features{};
+    vulkan13Features.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES;
+    vulkan13Features.dynamicRendering = VK_TRUE;
+    vulkan13Features.synchronization2 = VK_TRUE;
+    vulkan13Features.pNext = &vulkan12Features;
+
     VkPhysicalDeviceBufferDeviceAddressFeatures bufAddrFeatures{};
     bufAddrFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES;
     bufAddrFeatures.bufferDeviceAddress = VK_TRUE;
+    bufAddrFeatures.pNext = &vulkan13Features;
 
     VkPhysicalDeviceRayTracingPipelineFeaturesKHR rtFeatures{};
     rtFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PIPELINE_FEATURES_KHR;
@@ -171,6 +182,7 @@ bool VulkanDevice::createLogicalDevice() {
     deviceInfo.enabledExtensionCount = enabledExts.size();
     deviceInfo.ppEnabledExtensionNames = enabledExts.data();
     if (hasRTX) deviceInfo.pNext = &accelFeatures;
+    else deviceInfo.pNext = &vulkan13Features;
 
     if (vkCreateDevice(m_physicalDevice, &deviceInfo, nullptr, &m_device) != VK_SUCCESS) {
         std::cerr << "Failed to create logical device\n";

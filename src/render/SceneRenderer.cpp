@@ -22,6 +22,9 @@ SceneRenderer::~SceneRenderer() {
     if (m_imgAvailSemaphore != VK_NULL_HANDLE) {
         vkDestroySemaphore(m_device->device(), m_imgAvailSemaphore, nullptr);
     }
+    if (m_frameTimeline != VK_NULL_HANDLE) {
+        vkDestroySemaphore(m_device->device(), m_frameTimeline, nullptr);
+    }
     if (m_cmdPool != VK_NULL_HANDLE) {
         vkDestroyCommandPool(m_device->device(), m_cmdPool, nullptr);
     }
@@ -45,6 +48,18 @@ void SceneRenderer::drawFrame(const Camera& camera, VkImage swapImage, const VkE
     vkAcquireNextImageKHR(m_device->device(),  VK_NULL_HANDLE, UINT64_MAX,
                           m_imgAvailSemaphore, VK_NULL_HANDLE, &imageIndex);
 
+    if (m_frameTimeline != VK_NULL_HANDLE && imageIndex < m_cmdBufferValues.size()) {
+        uint64_t waitValue = m_cmdBufferValues[imageIndex];
+        if (waitValue > 0) {
+            VkSemaphoreWaitInfo waitInfo{};
+            waitInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_WAIT_INFO;
+            waitInfo.semaphoreCount = 1;
+            waitInfo.pSemaphores = &m_frameTimeline;
+            waitInfo.pValues = &waitValue;
+            vkWaitSemaphores(m_device->device(), &waitInfo, UINT64_MAX);
+        }
+    }
+
     VkCommandBufferBeginInfo beginInfo{};
     beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
     beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
@@ -55,18 +70,45 @@ void SceneRenderer::drawFrame(const Camera& camera, VkImage swapImage, const VkE
 
     vkEndCommandBuffer(m_cmdBuffers[imageIndex]);
 
-    VkSubmitInfo submitInfo{};
-    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    submitInfo.commandBufferCount = 1;
-    submitInfo.pCommandBuffers = &m_cmdBuffers[imageIndex];
-    submitInfo.waitSemaphoreCount = 1;
-    submitInfo.pWaitSemaphores = &m_imgAvailSemaphore;
-    VkPipelineStageFlags waitStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-    submitInfo.pWaitDstStageMask = &waitStage;
-    submitInfo.signalSemaphoreCount = 1;
-    submitInfo.pSignalSemaphores = &m_renderDoneSemaphore;
+    VkSemaphoreSubmitInfo waitInfo{};
+    waitInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO;
+    waitInfo.semaphore = m_imgAvailSemaphore;
+    waitInfo.stageMask = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT;
+    waitInfo.deviceIndex = 0;
 
-    vkQueueSubmit(m_device->graphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+    VkCommandBufferSubmitInfo cmdInfo{};
+    cmdInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_SUBMIT_INFO;
+    cmdInfo.commandBuffer = m_cmdBuffers[imageIndex];
+
+    VkSemaphoreSubmitInfo signalInfo{};
+    signalInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO;
+    signalInfo.semaphore = m_renderDoneSemaphore;
+    signalInfo.stageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT;
+    signalInfo.deviceIndex = 0;
+
+    VkSemaphoreSubmitInfo timelineSignal{};
+    timelineSignal.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SUBMIT_INFO;
+    timelineSignal.semaphore = m_frameTimeline;
+    timelineSignal.stageMask = VK_PIPELINE_STAGE_2_ALL_COMMANDS_BIT;
+    timelineSignal.deviceIndex = 0;
+    timelineSignal.value = ++m_frameValue;
+
+    VkSemaphoreSubmitInfo signalInfos[] = { signalInfo, timelineSignal };
+
+    VkSubmitInfo2 submitInfo{};
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO_2;
+    submitInfo.waitSemaphoreInfoCount = 1;
+    submitInfo.pWaitSemaphoreInfos = &waitInfo;
+    submitInfo.commandBufferInfoCount = 1;
+    submitInfo.pCommandBufferInfos = &cmdInfo;
+    submitInfo.signalSemaphoreInfoCount = 2;
+    submitInfo.pSignalSemaphoreInfos = signalInfos;
+
+    vkQueueSubmit2(m_device->graphicsQueue(), 1, &submitInfo, VK_NULL_HANDLE);
+
+    if (imageIndex < m_cmdBufferValues.size()) {
+        m_cmdBufferValues[imageIndex] = m_frameValue;
+    }
 
     VkPresentInfoKHR presentInfo{};
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -136,6 +178,20 @@ bool SceneRenderer::createSyncResources() {
         std::cerr << "Failed to create semaphores\n";
         return false;
     }
+
+    VkSemaphoreTypeCreateInfo timelineInfo{};
+    timelineInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO;
+    timelineInfo.semaphoreType = VK_SEMAPHORE_TYPE_TIMELINE;
+    timelineInfo.initialValue = 0;
+
+    semInfo.pNext = &timelineInfo;
+    if (vkCreateSemaphore(m_device->device(), &semInfo, nullptr, &m_frameTimeline) != VK_SUCCESS) {
+        std::cerr << "Failed to create timeline semaphore\n";
+        return false;
+    }
+    semInfo.pNext = nullptr;
+
+    m_cmdBufferValues.assign(m_cmdBuffers.size(), 0);
 
     return true;
 }

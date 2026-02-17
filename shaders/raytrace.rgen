@@ -53,6 +53,6 @@ void main() {
                 10000.0,                   // ray max range
                 0);                        // payload location
     
-    imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(hitColor, 1.0));
+    imageStore(image, ivec2(gl_LaunchIDEXT.xy), vec4(hitColor.bgr, 1.0));
 }
 

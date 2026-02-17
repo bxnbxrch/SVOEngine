@@ -26,7 +26,10 @@ add_executable(vox
   src/main.cpp
   src/Application.cpp
   src/Window.cpp
-  src/VulkanRenderer.cpp
+  src/VulkanRendererCore.cpp
+  src/VulkanRendererInit.cpp
+  src/VulkanRendererSwapchain.cpp
+  src/VulkanRendererDraw.cpp
   src/Shader.cpp
   src/SparseVoxelOctree.cpp
   src/graphics/VulkanDevice.cpp

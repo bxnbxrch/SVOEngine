@@ -239,9 +239,8 @@ void main() {
         
         color = vec4(hit.color.rgb * lighting, 1.0);
     } else {
-        // Sky gradient on miss
-        float sky = max(rayDir.y, 0.0);
-        color = vec4(mix(vec3(0.15, 0.15, 0.2), vec3(0.4, 0.6, 0.9), sky), 1.0);
+        // Background color on miss to match swapchain clear
+        color = vec4(0.05, 0.05, 0.08, 1.0);
     }
 
     // --- SVO bounds / subgrid overlay (debugMask.bit0 = subgrids, bit1 = root bounds) ---
